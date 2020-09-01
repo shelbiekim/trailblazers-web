@@ -63,7 +63,6 @@
             position: relative;
             width:500px;
             height:300px;
-          display: none;
           padding: 25px;
           text-align: center;
         }
