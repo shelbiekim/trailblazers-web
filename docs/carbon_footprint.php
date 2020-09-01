@@ -27,7 +27,7 @@
 -->
 <html>
 	<head>
-		<title>Trailblazers</title>
+		<title>Carbon Footprint - Trailblazers</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <!-- Slideshow -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -44,6 +44,10 @@
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-xlarge.css" />
 		</noscript>
+        <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
+        <link rel="manifest" href="/favicon_io/site.webmanifest">
         <!-- Style for Slideshow -->
         <style>
         * {box-sizing: border-box}
@@ -148,7 +152,7 @@
 				<div class="container">
 					<section>
 						<h2>Carbon footprint across supply chains</h2>
-						<a href="#" class="image fit"><img src="images/supplychain.png" alt="" /></a>
+						<a class="image fit"><img src="images/supplychain.png" alt="" /></a>
 
 						<div class="slideshow-container">
                         <div class="mySlides">
@@ -345,9 +349,9 @@
 			<footer id="footer">
 				<div class="container">
 					<ul class="copyright">
-						<li>&copy; Untitled. All rights reserved.</li>
+						<li>Copyright &copy; 2020 Trailblazers.</li>
 						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
-						<li>Images: <a href="http://unsplash.com">Unsplash</a></li>
+                        <li>Images: <a href="https://www.pexels.com/">Pexels</a></li>
 					</ul>
 				</div>
 			</footer>
