@@ -1197,3 +1197,66 @@
 		line-height: 1.75em;
 		text-align: left;
 	}
+
+	.mySlides.slide1 {
+		background-image: url("../images/landuse.jpg");
+		background-size: cover;
+		background-repeat: no-repeat;
+		padding: 0 0;
+		text-align: center;
+		position: relative;
+	}
+
+	.mySlides.slide2 {
+		background-image: url("../images/farm.jpg");
+		background-size: cover;
+		background-repeat: no-repeat;
+		padding: 0 0;
+		text-align: center;
+		position: relative;
+	}
+
+	.mySlides.slide3 {
+		background-image: url("../images/crop.jpg");
+		background-size: cover;
+		background-repeat: no-repeat;
+		padding: 0 0;
+		text-align: center;
+		position: relative;
+	}
+
+	.mySlides.slide4 {
+		background-image: url("../images/processing.jpg");
+		background-size: cover;
+		background-repeat: no-repeat;
+		padding: 0 0;
+		text-align: center;
+		position: relative;
+	}
+
+	.mySlides.slide5 {
+		background-image: url("../images/transporting.jpg");
+		background-size: cover;
+		background-repeat: no-repeat;
+		padding: 0 0;
+		text-align: center;
+		position: relative;
+	}
+
+.mySlides.slide6 {
+	background-image: url("../images/woolworths.png");
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding: 0 0;
+	text-align: center;
+	position: relative;
+}
+
+.mySlides.slide7 {
+	background-image: url("../images/packaging.jpg");
+	background-size: cover;
+	background-repeat: no-repeat;
+	padding: 0 0;
+	text-align: center;
+	position: relative;
+}
