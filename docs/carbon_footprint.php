@@ -44,10 +44,13 @@
 			<link rel="stylesheet" href="css/style.css" />
 			<link rel="stylesheet" href="css/style-xlarge.css" />
 		</noscript>
-        <link rel="apple-touch-icon" sizes="180x180" href="/favicon_io/apple-touch-icon.png">
-        <link rel="icon" type="image/png" sizes="32x32" href="/favicon_io/favicon-32x32.png">
-        <link rel="icon" type="image/png" sizes="16x16" href="/favicon_io/favicon-16x16.png">
-        <link rel="manifest" href="/favicon_io/site.webmanifest">
+        <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+        <link rel="manifest" href="/site.webmanifest">
+        <link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5">
+        <meta name="msapplication-TileColor" content="#da532c">
+        <meta name="theme-color" content="#ffffff">
         <!-- Style for Slideshow -->
         <style>
         * {box-sizing: border-box}
@@ -131,7 +134,7 @@
 
 		<!-- Header -->
 			<header id="header" class="skel-layers-fixed">
-				<h1><a href="about_us.html">Trailblazers</a></h1>
+                <h1>Trailblazers</h1>
 				<nav id="nav">
 					<ul>
 						<li><a href="index.html">Home</a></li>
@@ -350,8 +353,8 @@
 				<div class="container">
 					<ul class="copyright">
 						<li>Copyright &copy; 2020 Trailblazers.</li>
-						<li>Design: <a href="http://templated.co">TEMPLATED</a></li>
-                        <li>Images: <a href="https://www.pexels.com/">Pexels</a></li>
+                        <li>Design: TEMPLATED</li>
+                        <li>Images: Pexels</li>
 					</ul>
 				</div>
 			</footer>
