@@ -60,5 +60,14 @@
 /* Banner */
 
     #banner {
-        padding: 1em 2em 1em 2em;
+		padding: 1em 2em 3em 2em;
 	}
+
+		#banner h2 {
+			font-size: 2em;
+		}
+
+		#banner p {
+			font-size: 1.25em;
+            margin-top: 0em;
+		}
