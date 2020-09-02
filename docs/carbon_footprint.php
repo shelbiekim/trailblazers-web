@@ -140,7 +140,7 @@
 
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
-				<header class="minor">
+				<header class="major">
 					<h3>Carbon Footprint</h3>
 					<p>Where do emissions from food come from?</p>
 				</header>
