@@ -257,6 +257,16 @@
                                         backgroundColor: 'rgba(0,150,136,0.7)',
                                         hoverBackgroundColor: 'rgba(255,152,0,0.7)'
                                     }]
+                                },
+                                options: {
+                                    scales: {
+                                        yAxes: [{
+                                            ticks : {
+                                            min: -5, //actual min is -2.1
+                                            max: 40 //actual max is 39.4
+                                            }
+                                        }]
+                                    }
                                 }
                             }
                             Chart.defaults.global.defaultFontSize = 18;
@@ -267,9 +277,8 @@
                         }
                     </script>
                      <div class="6u">
-                         <br><br>
                         <div class="row">
-                            <canvas id="myChart" width="100" height="50"></canvas>
+                            <canvas id="myChart" width="100" height="80"></canvas>
                         </div>
                     </div> <!-- 2nd 6u -->
                 </div> <!-- 1st row -->
