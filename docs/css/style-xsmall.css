@@ -60,10 +60,5 @@
 /* Banner */
 
     #banner {
-        height: auto;
+        padding: 1em 2em 1em 2em;
 	}
-
-    #banner h2 {
-        padding: 1.3em 0em 1.3em 0em;
-    }
-
