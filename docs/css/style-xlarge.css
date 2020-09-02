@@ -13,5 +13,16 @@
 /* Banner */
 
 	#banner {
-		padding: 9em 0;
+
 	}
+
+    #banner h2 {
+        font-size: 2.5em;
+        margin: 0em 0em 0em 0em;
+        line-height: 0em;
+        padding: 2em;
+    }
+
+		#banner p {
+			font-size: 1.5em;
+		}

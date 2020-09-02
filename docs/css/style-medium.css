@@ -31,13 +31,17 @@
 /* Banner */
 
 	#banner {
-		padding: 6em 1em;
+		padding: 0em;
 	}
 
 		#banner .button {
 			min-width: 0;
 		}
 
+		#banner h2 {
+			font-size: 2.5em;
+            margin: 0em 0 -0.5em 0em;
+		}
 /* Layers */
 
 	#navButton .toggle {

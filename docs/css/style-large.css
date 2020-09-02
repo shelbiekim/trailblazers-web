@@ -13,11 +13,18 @@
 /* Banner */
 
 	#banner {
-		padding: 8em 0;
+        height: 300px;
 	}
 
-		#banner h2 {
-			font-size: 2.5em;
+    #banner h2 {
+        font-size: 2.5em;
+        margin: 0em 0em 0em 0em;
+        line-height: 1em;
+        padding: 1.3em 0em 1.3em 0em;
+    }
+
+		#banner p {
+			font-size: 1.5em;
 		}
 
 /* Footer */
