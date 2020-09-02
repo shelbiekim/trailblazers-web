@@ -53,74 +53,7 @@
         <link rel="mask-icon" href="/favicon_io/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
-        <!-- Style for Slideshow -->
-        <style>
-        * {box-sizing: border-box}
 
-
-        /* Slides */
-        .mySlides {
-            position: relative;
-            width:500px;
-            height:300px;
-          padding: 25px;
-          text-align: center;
-        }
-
-        /* Next & previous buttons */
-        .prev, .next {
-          cursor: pointer;
-          position: relative;
-          width: auto;
-          margin-top: 0px;
-          padding: 16px;
-          color: #555f66;
-          font-weight: 300;
-          font-size: 20px;
-          border-radius: 0 3px 3px 0;
-          user-select: none;
-        }
-
-        /* Position the "next button" to the right */
-        .next {
-          position: relative;
-          right: -410px;
-          border-radius: 3px 0 0 3px;
-        }
-
-        /* On hover, add a black background color with a little bit see-through */
-        .prev:hover, .next:hover {
-          background-color: rgba(0,0,0,0.8);
-          color: white;
-        }
-
-        /* The dot/bullet/indicator container */
-        .dot-container {
-            text-align: center;
-            padding: 15px;
-            background: #ddd;
-            width: 500px;
-        }
-
-        /* The dots/bullets/indicators */
-        .dot {
-          cursor: pointer;
-          height: 15px;
-          width: 15px;
-          margin: 0 2px;
-          background-color: #bbb;
-          border-radius: 50%;
-          display: inline-block;
-          transition: background-color 0.6s ease;
-        }
-
-        /* Add a background color to the active dot/circle */
-        .active, .dot:hover {
-          background-color: #555f66;
-        }
-
-            
-        </style>
 	</head>
 	<body id="top">
 
@@ -284,38 +217,72 @@
                 </div> <!-- 1st row -->
                     <hr class="major" />
                 <div class="row">
-                    <div class="6u">
+                <div class="12u">
+                    <header class="major">
                         <h3>Carbon footprint across supply chains</h3>
-                        <!-- <a class="image"><img src="images/supplychain.png" alt="" /></a> -->
-                            <div class="mySlides slide1">
-                                <br>
-                                <q>Above ground changes in biomass from deforestation,<br />and below ground changes in soil carbon<br /><br /><strong>Land Use Change</strong></q><br />
-                            </div>
-                            <div class="mySlides slide2">
-                                <q>Methane emissions from cows, methane from rice,<br />emissions from fertilizers, manure, and farm machinery.<br /><br /><strong>Farm</strong></q>
-                            </div>
-                            <div class="mySlides slide3">
-                                <q>On-farm emissions from crop production and<br />its processing into feed for livestock.<br /><br /><strong>Animal Feed</strong></q>
-                            </div>
-                            <div class="mySlides slide4">
-                                <q>Emissions from energy use in the process of<br />converting raw agricultural products into final food items.<br /><br /><strong>Processing</strong></q>
-                            </div>
-                            <div class="mySlides slide5">
-                                <q>Emissions from energy use in the transport of<br />food items in-country and internationally.<br /><br /><strong>Transport</strong></q>
-                            </div>
-                            <div class="mySlides slide6">
-                                <q>Emissions from energy use in refrigeration<br />and other retail processes.<br /><br /><strong>Retail</strong></q>
-                            </div>
-                            <div class="mySlides slide7">
-                                <q>Emissions from the production of packaging materials,<br />material transport and end-of-life disposal.<br /><br /><strong>Packaging</strong></q>
+                    </header>
+                        <!-- Slideshow container -->
+                        <div class="slideshow-container">
+                            <!-- Full-width images with number and caption text -->
+                            <div class="mySlides fade">
+                                <div class="numbertext">1 / 7</div>
+                                <img src="images/landuse.jpg" style="width:100%">
+                                <div class="text">Above ground changes in biomass from deforestation,
+                                    <br />and below ground changes in soil carbon<br><br>Land Use Change
+                                </div>
                             </div>
 
-                            <a class="prev" onclick="plusSlides(-1)">❮</a>
-                            <a class="next" onclick="plusSlides(1)">❯</a>
+                            <div class="mySlides fade">
+                                <div class="numbertext">2 / 7</div>
+                                <img src="images/animal.jpg" style="width:100%">
+                                <div class="text">Methane emissions from cows, methane from rice,<br>
+                                    emissions from fertilizers, manure, and farm machinery.<br><br>Farm</div>
+                            </div>
 
-                        <!-- slideshow-container -->
+                            <div class="mySlides fade">
+                                <div class="numbertext">3 / 7</div>
+                                <img src="images/green.jpg" style="width:100%">
+                                <div class="text">On-farm emissions from crop production and<br>its processing into feed for livestock.
+                                    <br><br>Animal Feed</div>
+                            </div>
 
-                        <div class="dot-container">
+                            <div class="mySlides fade">
+                                <div class="numbertext">4 / 7</div>
+                                <img src="images/processing.jpg" style="width:100%">
+                                <div class="text">Emissions from energy use in the process of<br>
+                                    converting raw agricultural products into final food items.<br><br>Processing</div>
+                            </div>
+
+                            <div class="mySlides fade">
+                                <div class="numbertext">5 / 7</div>
+                                <img src="images/transport.jpg" style="width:100%">
+                                <div class="text">Emissions from energy use in the transport of<br>
+                                    food items in-country and internationally.<br><br>Transport</div>
+                            </div>
+
+                            <div class="mySlides fade">
+                                <div class="numbertext">6 / 7</div>
+                                <img src="images/retailslide.jpg" style="width:100%">
+                                <div class="text">Emissions from energy use in refrigeration<br>and other retail processes.
+                                    <br><br>Retail</div>
+                            </div>
+
+                            <div class="mySlides fade">
+                                <div class="numbertext">7 / 7</div>
+                                <img src="images/package.jpg" style="width:100%">
+                                <div class="text">Emissions from the production of packaging materials,<br>
+                                    material transport and end-of-life disposal.<br><br>Packaging</div>
+                            </div>
+
+                            <!-- Next and previous buttons -->
+                            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
+                            <a class="next" onclick="plusSlides(1)">&#10095;</a>
+
+                        <br>
+
+                        </div><!-- end of "slideshow-container" -->
+                    <!-- The dots/circles -->
+                        <div style="text-align:center">
                             <span class="dot" onclick="currentSlide(1)"></span>
                             <span class="dot" onclick="currentSlide(2)"></span>
                             <span class="dot" onclick="currentSlide(3)"></span>
@@ -324,41 +291,42 @@
                             <span class="dot" onclick="currentSlide(6)"></span>
                             <span class="dot" onclick="currentSlide(7)"></span>
                         </div>
-
-                        <script>
-                            var slideIndex = 1;
-                            showSlides(slideIndex);
-
-                            function plusSlides(n) {
-                                showSlides(slideIndex += n);
-                            }
-
-                            function currentSlide(n) {
-                                showSlides(slideIndex = n);
-                            }
-
-                            function showSlides(n) {
-                                var i;
-                                var slides = document.getElementsByClassName("mySlides");
-                                var dots = document.getElementsByClassName("dot");
-                                if (n > slides.length) {slideIndex = 1}
-                                if (n < 1) {slideIndex = slides.length}
-                                for (i = 0; i < slides.length; i++) {
-                                    slides[i].style.display = "none";
-                                }
-                                for (i = 0; i < dots.length; i++) {
-                                    dots[i].className = dots[i].className.replace(" active", "");
-                                }
-                                slides[slideIndex-1].style.display = "block";
-                                dots[slideIndex-1].className += " active";
-                            }
-                        </script>
-                        <br>
-                    </div>
                 </div>
+                </div> <!-- end of second row-->
+
             </div> 	<!-- 1st Container -->
             </div> 	<!-- main wrapper -->
         </section>
+        <script>
+            var slideIndex = 1;
+            showSlides(slideIndex);
+
+            // Next/previous controls
+            function plusSlides(n) {
+                showSlides(slideIndex += n);
+            }
+
+            // Thumbnail image controls
+            function currentSlide(n) {
+                showSlides(slideIndex = n);
+            }
+
+            function showSlides(n) {
+                var i;
+                var slides = document.getElementsByClassName("mySlides");
+                var dots = document.getElementsByClassName("dot");
+                if (n > slides.length) {slideIndex = 1}
+                if (n < 1) {slideIndex = slides.length}
+                for (i = 0; i < slides.length; i++) {
+                    slides[i].style.display = "none";
+                }
+                for (i = 0; i < dots.length; i++) {
+                    dots[i].className = dots[i].className.replace(" active", "");
+                }
+                slides[slideIndex-1].style.display = "block";
+                dots[slideIndex-1].className += " active";
+            }
+        </script>
         
 		<!-- Footer -->
 			<footer id="footer">
