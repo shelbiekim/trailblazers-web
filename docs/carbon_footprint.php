@@ -185,7 +185,7 @@
                                 data:{
                                     labels:chart_x,
                                     datasets:[{
-                                        label:"Emissions (Kg CO2 - equivalents per kg product)",
+                                        label:"Emissions<br>(Kg CO2 - equivalents per kg product)",
                                         data:chart_y,
                                         backgroundColor: 'rgba(0,150,136,0.7)',
                                         hoverBackgroundColor: 'rgba(255,152,0,0.7)'
