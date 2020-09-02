@@ -77,7 +77,7 @@
 		<!-- Main -->
 			<section id="main" class="wrapper style1">
 				<header class="minor">
-					<h2>Nutrient</h2>
+					<h3>Nutrient</h3>
 					<p>Find out nutrition information</p>
 				</header>
 				<div class="container">

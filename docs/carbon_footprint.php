@@ -141,7 +141,7 @@
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
 				<header class="minor">
-					<h2>Carbon Footprint</h2>
+					<h3>Carbon Footprint</h3>
 					<p>Where do emissions from food come from?</p>
 				</header>
                 <div class="container">
