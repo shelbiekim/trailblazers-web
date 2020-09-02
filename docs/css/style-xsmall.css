@@ -60,14 +60,15 @@
 /* Banner */
 
     #banner {
-		padding: 1em 2em 3em 2em;
+		padding: 5em 2em 4em 2em;
+        height: 200px;
 	}
 
 		#banner h2 {
-			font-size: 2em;
+			font-size: 1.5em;
 		}
 
 		#banner p {
-			font-size: 1.25em;
+			font-size: 1em;
             margin-top: 0em;
 		}
