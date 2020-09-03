@@ -10,7 +10,7 @@
         die("Error: Could not connect. " . mysqli_connect_error());
     }
     //query to get data from the table "combined_data"
-    $query = "SELECT * FROM Food_nutrition";
+    $query = "SELECT * FROM combined_data";
     //execute query
     $result = mysqli_query($link, $query);
     //create an empty array
@@ -66,13 +66,17 @@
 				<nav id="nav">
 					<ul>
 						<li><a href="index.html">Home</a></li>
-						<li><a href="facts.html">Facts</a></li>
 						<li><a href="carbon_footprint.php">Carbon Footprint</a></li>
 						<li><a href="nutrient.php" class="active-page">Nutrient</a></li>
+                        <li><a href="facts.html">Facts</a></li>
                         <li><a href="about_us.html">About Us</a></li>
 					</ul>
 				</nav>
-			</header>
+			</header><br>
+            <div class="breadcrumb align-center">
+                <a href="index.html">Home</a>&nbsp; >&nbsp;
+                <span>Nutrient</span>
+            </div>
 
 		<!-- Main -->
 			<section id="main" class="wrapper style1">
@@ -102,20 +106,6 @@
                             </div>
                         <br>
 
-                            <h4>Choose food group</h4>
-                            <div>
-                                <select id="foodgroup" onchange="filterGroup()">
-                                    <option>Select</option>
-                                    <option value="Dairy and Egg Products">Dairy and Egg Products</option>
-                                    <option value="Fruits">Fruits</option>
-                                    <option value="Legumes and Nuts">Legumes and Nuts</option>
-                                    <option value="Red meat">Red meat</option>
-                                    <option value="Seafood">Seafood</option>
-                                    <option value="Vegetables">Vegetables</option>
-                                    <option value="White meat">White meat</option>
-                                </select>
-                            </div>
-
                         <br>
                         <ul class="actions">
                             <li><a class="button alt" onclick="validateInput()">Submit</a></li>
@@ -132,7 +122,6 @@
                     var food_data = original_data;
                     var data_filter = "";
                     var select_nutrient = "";
-                    var select_group = "";
                     var myChart;
                     var chartExist = false;
                     var topLimit;
@@ -141,19 +130,16 @@
                         select_nutrient = document.getElementById("nutrient").value;
                     }
 
-                    function filterGroup() {
-                        select_group = document.getElementById("foodgroup").value;
-                    }
 
                     function validateInput() {
-                        if (select_nutrient.length > 0 && select_group.length > 0 && chartExist === true)  {
+                        if (select_nutrient.length > 0 && chartExist === true)  {
                             myChart.destroy();
-                            food_data = food_data.filter(d => d.nutrient_type === select_nutrient);
-                            food_data = food_data.filter(d => d.food_group === select_group);
+                            food_data = food_data.filter(d => d.nutrient === select_nutrient);
+
                             showFood();
-                        } else if (select_nutrient.length > 0 && select_group.length > 0) {
-                            food_data = food_data.filter(d => d.nutrient_type === select_nutrient);
-                            food_data = food_data.filter(d => d.food_group === select_group);
+                        } else if (select_nutrient.length > 0) {
+                            food_data = food_data.filter(d => d.nutrient === select_nutrient);
+
                             showFood();
                         }
                     }
@@ -179,8 +165,8 @@
                         var chart_y = [];
                         for(var i in top_ten) {
                             description_x.push(top_ten[i].descrip);
-                            var splitString = top_ten[i].descrip.split(',');
-                            chart_x.push(splitString[0]); // get the first word
+                            var splitString = top_ten[i].food_name;
+                            chart_x.push(splitString); // get the first word
                             chart_y.push(top_ten[i].value);
                         }
 

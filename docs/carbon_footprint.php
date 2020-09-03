@@ -63,14 +63,17 @@
 				<nav id="nav">
 					<ul>
 						<li><a href="index.html">Home</a></li>
-						<li><a href="facts.html" >Facts</a></li>
 						<li><a href="carbon_footprint.php" class="active-page">Carbon Footprint</a></li>
 						<li><a href="nutrient.php">Nutrient</a></li>
+                        <li><a href="facts.html" >Facts</a></li>
                         <li><a href="about_us.html">About Us</a></li>
 					</ul>
 				</nav>
-			</header>
-
+			</header><br>
+            <div class="breadcrumb align-center">
+                <a href="index.html">Home</a>&nbsp; >&nbsp;
+                <span>Carbon Footprint</span>
+            </div>
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
 				<header class="major">
@@ -81,14 +84,12 @@
                 <div class="row">
                     <div class="6u">
 
-                        <h3>Greenhouse gas emissions<br>across different stages<br/>in the food production lifecycle</h3>
+                        <h3>Greenhouse gas emissions<br>in the food production lifecycle</h3>
                         <p>Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
-                            generated across the supply chain of the product. It requires energy to grow, process, package, transport,
-                            and warehouse the food we consume. Knowing how carbon footprint is emitted across this chain helps<br>
+                            generated across the supply chain of the product. Knowing how carbon footprint is emitted across this chain helps<br>
                             you plan a nutritious diet in a sustainable way.<br><br>
                             Select the food and hover over the bar chart to see details.<br>* Negative value can be observed when the carbon dioxide
                             absorbed by the plant’s photosynthesis is more than that released by its respiration.<br>
-                            * e.g. the carbon emissions value of nuts in the land use change stage is - 2.0.
                         </p>
                         <div class="row">
                             <h4>Choose a type of food</h4>
@@ -223,110 +224,15 @@
                     </header>
                         <!-- Slideshow container -->
                         <div class="slideshow-container">
-                            <!-- Full-width images with number and caption text -->
-                            <div class="mySlides fade">
-                                <div class="numbertext">1 / 7</div>
-                                <img src="images/landuse.jpg" style="width:100%">
-                                <div class="text">Above ground changes in biomass from deforestation,
-                                    <br />and below ground changes in soil carbon<br><br>Land Use Change
-                                </div>
-                            </div>
-
-                            <div class="mySlides fade">
-                                <div class="numbertext">2 / 7</div>
-                                <img src="images/animal.jpg" style="width:100%">
-                                <div class="text">Methane emissions from cows, methane from rice,<br>
-                                    emissions from fertilizers, manure, and farm machinery.<br><br>Farm</div>
-                            </div>
-
-                            <div class="mySlides fade">
-                                <div class="numbertext">3 / 7</div>
-                                <img src="images/green.jpg" style="width:100%">
-                                <div class="text">On-farm emissions from crop production and<br>its processing into feed for livestock.
-                                    <br><br>Animal Feed</div>
-                            </div>
-
-                            <div class="mySlides fade">
-                                <div class="numbertext">4 / 7</div>
-                                <img src="images/processing.jpg" style="width:100%">
-                                <div class="text">Emissions from energy use in the process of<br>
-                                    converting raw agricultural products into final food items.<br><br>Processing</div>
-                            </div>
-
-                            <div class="mySlides fade">
-                                <div class="numbertext">5 / 7</div>
-                                <img src="images/transport.jpg" style="width:100%">
-                                <div class="text">Emissions from energy use in the transport of<br>
-                                    food items in-country and internationally.<br><br>Transport</div>
-                            </div>
-
-                            <div class="mySlides fade">
-                                <div class="numbertext">6 / 7</div>
-                                <img src="images/retailslide.jpg" style="width:100%">
-                                <div class="text">Emissions from energy use in refrigeration<br>and other retail processes.
-                                    <br><br>Retail</div>
-                            </div>
-
-                            <div class="mySlides fade">
-                                <div class="numbertext">7 / 7</div>
-                                <img src="images/package.jpg" style="width:100%">
-                                <div class="text">Emissions from the production of packaging materials,<br>
-                                    material transport and end-of-life disposal.<br><br>Packaging</div>
-                            </div>
-
-                            <!-- Next and previous buttons -->
-                            <a class="prev" onclick="plusSlides(-1)">&#10094;</a>
-                            <a class="next" onclick="plusSlides(1)">&#10095;</a>
-
-                        <br>
 
                         </div><!-- end of "slideshow-container" -->
-                    <!-- The dots/circles -->
-                        <div style="text-align:center">
-                            <span class="dot" onclick="currentSlide(1)"></span>
-                            <span class="dot" onclick="currentSlide(2)"></span>
-                            <span class="dot" onclick="currentSlide(3)"></span>
-                            <span class="dot" onclick="currentSlide(4)"></span>
-                            <span class="dot" onclick="currentSlide(5)"></span>
-                            <span class="dot" onclick="currentSlide(6)"></span>
-                            <span class="dot" onclick="currentSlide(7)"></span>
-                        </div>
                 </div>
                 </div> <!-- end of second row-->
 
             </div> 	<!-- 1st Container -->
             </div> 	<!-- main wrapper -->
         </section>
-        <script>
-            var slideIndex = 1;
-            showSlides(slideIndex);
 
-            // Next/previous controls
-            function plusSlides(n) {
-                showSlides(slideIndex += n);
-            }
-
-            // Thumbnail image controls
-            function currentSlide(n) {
-                showSlides(slideIndex = n);
-            }
-
-            function showSlides(n) {
-                var i;
-                var slides = document.getElementsByClassName("mySlides");
-                var dots = document.getElementsByClassName("dot");
-                if (n > slides.length) {slideIndex = 1}
-                if (n < 1) {slideIndex = slides.length}
-                for (i = 0; i < slides.length; i++) {
-                    slides[i].style.display = "none";
-                }
-                for (i = 0; i < dots.length; i++) {
-                    dots[i].className = dots[i].className.replace(" active", "");
-                }
-                slides[slideIndex-1].style.display = "block";
-                dots[slideIndex-1].className += " active";
-            }
-        </script>
         
 		<!-- Footer -->
 			<footer id="footer">
