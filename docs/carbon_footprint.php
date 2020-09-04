@@ -118,8 +118,8 @@
                         <div class="row">
                             <h4>Choose food</h4>
                                 <div>
-                                    <select id="Food_name1">
-                                        <option>Select</option>
+                                    <select id="Food_name1" onchange="filterFood()">
+                                        <option value="Select">Select</option>
                                         <?php
                                             foreach($distinctArr as $row) {
                                             $food_name = $row['Food_product'];
@@ -132,8 +132,8 @@
                         <div class="row">
                             <h4>Choose food</h4>
                             <div>
-                                <select id="Food_name2">
-                                    <option>Select</option>
+                                <select id="Food_name2" onchange="filterFood2()">
+                                    <option value="Select">Select</option>
                                     <?php
                                         foreach($distinctArr as $row) {
                                             $food_name = $row['Food_product'];
@@ -153,22 +153,30 @@
                         var dataset = <?php echo json_encode($emparray);?>;
                         var select_data1=dataset;
                         var select_data2=dataset;
-                        var select_food1;
-                        var select_food2;
+                        var select_food1="";
+                        var select_food2="";
                         var myChart;
                         var chartExist = false;
 
-
+                        function filterFood() {
+                            select_food1=document.getElementById("Food_name1").value;
+                        }
+                        function filterFood2() {
+                            select_food2=document.getElementById("Food_name2").value;
+                        }
                         function validateInput(){
-                            if (chartExist === true)  {
+                            if (select_food1.length > 0 && select_food2.length > 0 &&
+                                document.getElementById("Food_name1").value != "Select" &&
+                                document.getElementById("Food_name2").value != "Select" && chartExist === true)  {
                                 myChart.destroy();
                                 select_food1=document.getElementById("Food_name1").value;
                                 select_food2=document.getElementById("Food_name2").value;
                                 select_data1 = select_data1.filter(d => d.Food_product === select_food1);
                                 select_data2 = select_data2.filter(d => d.Food_product === select_food2);
                                 showfood();
-
-                            } else if (chartExist === false) {
+                            } else if (select_food1.length > 0 && select_food2.length > 0 &&
+                                document.getElementById("Food_name1").value != "Select" &&
+                                document.getElementById("Food_name2").value != "Select" ) {
                                 select_food1=document.getElementById("Food_name1").value;
                                 select_food2=document.getElementById("Food_name2").value;
                                 select_data1 = select_data1.filter(d => d.Food_product === select_food1);
@@ -246,7 +254,7 @@
                         <h4>Choose nutrient&nbsp;&nbsp;&nbsp;&nbsp;</h4>
                         <div>
                             <select id="nutrient" onchange="filterNutrient()">
-                                <option>Select</option>
+                                <option value="Select">Select</option>
                                 <option value="Calcium_mg">Calcium</option>
                                 <option value="Carb_g">Carb</option>
                                 <option value="Fat_g">Fat</option>
@@ -284,12 +292,13 @@
                         }
 
                         function validateInput2() {
-                            if (select_nutrient.length > 0 && chartExist2 === true)  {
+                            if (select_nutrient.length > 0 && document.getElementById("nutrient").value != "Select" &&
+                                chartExist2 === true)  {
                                 myChart2.destroy();
                                 food_data = food_data.filter(d => d.nutrient === select_nutrient);
 
                                 showFood2();
-                            } else if (select_nutrient.length > 0) {
+                            } else if (select_nutrient.length > 0 && document.getElementById("nutrient").value != "Select") {
                                 food_data = food_data.filter(d => d.nutrient === select_nutrient);
 
                                 showFood2();
