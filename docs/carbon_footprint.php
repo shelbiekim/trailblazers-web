@@ -89,7 +89,7 @@
 					<ul>
 						<li><a href="index.html">Home</a></li>
 						<li><a href="carbon_footprint.php" class="active-page">Carbon Footprint</a></li>
-						<li><a href="nutrient.php">Nutrient</a></li>
+						<li><a href="meal_plan.php">Meal Planning</a></li>
                         <li><a href="facts.html" >Facts</a></li>
                         <li><a href="about_us.html">About Us</a></li>
 					</ul>
@@ -416,6 +416,5 @@
 					</ul>
 				</div>
 			</footer>
-
 	</body>
 </html>
