@@ -84,9 +84,8 @@ $db -> close();
         <div class="row">
             <div class="6u">
                 <h3>Calculate ingredients</h3>
-                <p>Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent.
+                <p>With this application, calculate carbon footprint of your diet.
                 </p>
-
             </div> <!-- first 6u -->
 
             <div class="6u">
@@ -95,10 +94,12 @@ $db -> close();
                 </div>
             </div> <!-- 2nd 6u -->
         </div> <!-- 1st row -->
-        <hr class="major" />
-        <h3>Recipes</h3><br>
+        <!-- <hr class="major" /> -->
+        <h3> <!-- Recipes --> </h3><br>
         <div class="row"> <!--div class for the second chart-->
             <div class ="6u">
+                <br>
+                <br>
                 <br>
                 <br>
                 <br>
