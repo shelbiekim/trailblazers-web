@@ -27,7 +27,7 @@ $db -> close();
 -->
 <html>
 <head>
-    <title>Carbon Footprint - Trailblazers</title>
+    <title>Meal Planning - Trailblazers</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <!-- Slideshow -->
     <meta name="viewport" content="width=device-width, initial-scale=1">
