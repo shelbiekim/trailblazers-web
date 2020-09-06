@@ -15,7 +15,7 @@
         $distinctArr[] = $row;
     }
 
-    $query = "SELECT Food_product,Stage,Emission FROM Food_emission";
+    $query = "SELECT Food_product,Total_emission,Stage,Emission FROM Food_emission";
     $result = mysqli_query($db,$query);
 
     $emparray = array();
@@ -110,7 +110,7 @@
                     <div class="6u">
                         <h3>Greenhouse gas emissions<br>in the food production lifecycle</h3>
                         <p>Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
-                            generated across the supply chain of the product. Knowing how carbon footprint is emitted across this chain helps<br>
+                            generated across the supply chain of the product. Knowing how carbon footprint is emitted across this chain helps
                             you plan a nutritious diet in a sustainable way.<br><br>
                             Select the food and hover over the bar chart to see details.<!--* Negative value can be observed when the carbon dioxide
                             absorbed by the plant’s photosynthesis is more than that released by its respiration.-->
@@ -143,7 +143,7 @@
                                 </select>
                             </div>
                         </div>
-
+                        <br>
                         <ul class="actions">
                             <li><a class="button alt" onclick="validateInput()">Submit</a></li>
                         </ul> <br />
@@ -208,13 +208,13 @@
                                 data:{
                                     labels:chart_x1,
                                     datasets:[{
-                                        label:select_food1 + " - CO2 Emissions per kg product",
+                                        label:select_food1 + " - CO2 Emissions per 100g",
                                         data:chart_y1,
                                         backgroundColor: 'rgba(0,150,136,0.7)',
                                         //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
                                         },
                                         {
-                                        label:select_food2 + " - CO2 Emissions per kg product",
+                                        label:select_food2 + " - CO2 Emissions per 100g",
                                         data:chart_y2,
                                         backgroundColor: 'rgba(156,39,176,0.7)',
                                         //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
@@ -226,8 +226,8 @@
                                     scales: {
                                         yAxes: [{
                                             ticks : {
-                                            min: -5, //actual min is -2.1
-                                            max: 40 //actual max is 39.4
+                                            min: -0.5, //actual min is -0.21
+                                            max: 4 //actual max is 3.94
                                             }
                                         }]
                                     }
@@ -312,7 +312,6 @@
                             });
 
                             topLimit = 10;
-
                             for (var i=0; i<10;i++){
                                 if (food_data[i].value === '0') {
                                     topLimit = i;
@@ -321,12 +320,26 @@
                             }
 
                             var top_ten = food_data.slice(0,topLimit);
+                            var top_emission = [];
+                            for (var i in top_ten) {
+                                for(var j=0; j<original_data.length;j++) {
+                                    //console.log(dataset[j]);
+                                    if(top_ten[i].food_name === original_data[j].food_name &&
+                                    original_data[j].nutrient === "sum_emission") {
+                                        top_emission.push(original_data[j].value);
+                                    } else {continue;}
+                                }
+                            }
+                            //console.log(top_emission);
                             var chart_x = [];
                             var description_x = [];
                             var chart_y = [];
+                            var splitNutrient = select_nutrient.substr(0,select_nutrient.indexOf('_'));
+                            var splitUnit = select_nutrient.split("_").pop();
+
                             for(var i in top_ten) {
                                 description_x.push(top_ten[i].descrip);
-                                var splitString = top_ten[i].food_name;
+                                var splitString = top_ten[i].food_name
                                 chart_x.push(splitString); // get food name
                                 chart_y.push(top_ten[i].value);
                             }
@@ -338,7 +351,7 @@
                                     labels: chart_x,
                                     tooltipText: description_x,
                                     datasets: [{
-                                        label:  select_nutrient + ' per 100g of Food',
+                                        label:  splitNutrient + ' per 100g of Food',
                                         data: chart_y,
                                         // bootstrap colors
                                         // https://i.pinimg.com/originals/b8/70/f6/b870f6c3cf2f275906616de26cffaa52.png
@@ -352,6 +365,9 @@
                                             ticks: {
                                                 //min: 0, //actual 0
                                                 //max: 800 //actual is 707
+                                                callback: function(value, index, values){
+                                                    return value + splitUnit ;
+                                                }
                                             }
                                         }]
                                     },
@@ -361,6 +377,10 @@
                                             title: function(tooltipItem, data) {
                                                 var title = data.tooltipText[tooltipItem[0].index];
                                                 return title;
+                                            },
+                                            afterLabel: function(tooltipItem, data) {
+                                                var top = "CO2 per 100g: " + top_emission[tooltipItem.index];
+                                                return top;
                                             }
                                         }
                                     }
@@ -372,10 +392,11 @@
                             chartExist2 = true;
                             // reset data
                             console.log(chart_x);
-                            showTable(food_data);
+                            //showTable(food_data);
                             food_data = original_data;
                         }
 
+                        /*
                         function showTable(fdata){
                             var table = document.getElementById("myTable");
                             table.innerHTML = "";
@@ -383,24 +404,27 @@
                                 var j = i+1;
                                 var row = `<tr>
                                                         <td>${j}</td>
+                                                        <td>${fdata[i].food_name}</td>
                                                         <td>${fdata[i].descrip}</td>
-                                                        <td>${fdata[i].nutrient}</td>
-                                                        <td>${fdata[i].value}</td>
+                                                        <td>${fdata[i].nutrient.substring(0,fdata[i].nutrient.indexOf('_'))}</td>
+                                                        <td>${fdata[i].value}${fdata[i].nutrient.split("_").pop()}</td>
                                                     </tr>`
                                 table.innerHTML += row;
                             }
-                        }
+                        }*/
                     </script>
+                    <!--
                     <table id="table">
                         <tr>
                             <th>Ranking</th>
+                            <th>Food Name</th>
                             <th>Description</th>
                             <th>Nutrient</th>
                             <th>Value</th>
                         </tr>
                         <tbody id="myTable">
                         </tbody>
-                    </table>
+                    </table> -->
             </div> 	<!-- 1st Container -->
             </div> 	<!-- main wrapper -->
         </section>
