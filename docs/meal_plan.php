@@ -83,9 +83,15 @@ $db -> close();
     <div class="container">
         <div class="row">
             <div class="6u">
-                <h3>Calculate ingredients</h3>
-                <p>With this application, calculate carbon footprint of your diet.
-                </p>
+                <h3>What is your carbon footprint of food?</h3>
+                <p>Add and calculate carbon footprint of ingredients in your recipe.</p>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
+                <br>
             </div> <!-- first 6u -->
 
             <div class="6u">
@@ -94,8 +100,9 @@ $db -> close();
                 </div>
             </div> <!-- 2nd 6u -->
         </div> <!-- 1st row -->
-        <!-- <hr class="major" /> -->
-        <h3> <!-- Recipes --> </h3><br>
+        <hr class="major" />
+        <h3> What is your daily nutrient requirements? </h3>
+        <p>Find it out by clicking on each nutrient.</p>
         <div class="row"> <!--div class for the second chart-->
             <div class ="6u">
                 <br>
