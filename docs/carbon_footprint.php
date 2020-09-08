@@ -110,9 +110,9 @@
                     <div class="6u">
                         <h3>Greenhouse gas emissions<br>in the food production lifecycle</h3>
                         <p>Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
-                            generated across the supply chain of the product. Knowing how carbon footprint is emitted across this chain helps
-                            you plan a nutritious diet in a sustainable way.<br><br>
-                            Select the food and hover over the bar chart to see details.<!--* Negative value can be observed when the carbon dioxide
+                            generated across the supply chain of the product. <br><br>
+                            Select the food and see the carbon footprint along different
+                            stages of the food production life cycle.<!--* Negative value can be observed when the carbon dioxide
                             absorbed by the plant’s photosynthesis is more than that released by its respiration.-->
                         </p>
                         <div class="row">
@@ -146,7 +146,7 @@
                         <br>
                         <ul class="actions">
                             <li><a class="button alt" onclick="validateInput()">Submit</a></li>
-                        </ul> <br />
+                        </ul>
 
                     </div> <!-- first 6u -->
                     <script type ="text/javascript">
@@ -248,9 +248,13 @@
                     </div> <!-- 2nd 6u -->
                 </div> <!-- 1st row -->
                     <hr class="major" />
-                    <h3>TOP FOODS HIGHEST IN SELECTED NUTRIENT</h3><br>
                 <div class="row"> <!--div class for the second chart-->
                     <div class ="6u">
+                        <h3>TOP FOODS HIGHEST IN SELECTED NUTRIENT</h3>
+                        <p>Research suggests that some packaged foods generate lower carbon footprint than
+                            organic foods across the food supply chain. Hence, it is important to know the nutrient
+                            density of the selected foods to reduce the individual carbon footprint
+                            as well as eat the right nutrients. </p>
                         <h4>Choose nutrient&nbsp;&nbsp;&nbsp;&nbsp;</h4>
                         <div>
                             <select id="nutrient" onchange="filterNutrient()">
