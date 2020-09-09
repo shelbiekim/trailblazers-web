@@ -8,8 +8,27 @@ function db_connect(){
     return $connection;
 };
 $db = db_connect();
-$query = "SELECT Food_product,Stage,Emission FROM Food_emission";
+$query = "SELECT * FROM combined_data";
 $result = mysqli_query($db,$query);
+$data = array();
+//loop through the returned data
+foreach ($result as $row) {
+    $data[] = $row;
+}
+
+$distinctResult = "SELECT Distinct(food_group) FROM combined_data ORDER BY food_group ASC";
+$distinctGroup = mysqli_query($db,$distinctResult);
+$distinctArr = array();
+foreach ($distinctGroup as $row) {
+    $distinctArr[] = $row;
+}
+
+$distinctResult2 = "SELECT Distinct(food_name) FROM combined_data ORDER BY food_name ASC";
+$distinctFood = mysqli_query($db,$distinctResult2);
+$distinctArr2 = array();
+foreach ($distinctFood as $row) {
+    $distinctArr2[] = $row;
+}
 
 //free memory associated with result
 $result -> close();
@@ -69,55 +88,37 @@ $db -> close();
             <li><a href="about_us.html">About Us</a></li>
         </ul>
     </nav>
-</header><br>
-<div class="breadcrumb align-center">
-    <a href="index.html">Home</a>&nbsp; >&nbsp;
-    <span>Meal Planning</span>
-</div>
-<!-- Main -->
-<div id="main" class="wrapper style1">
-    <header class="major">
-        <h3>Meal Planning</h3>
-        <p>Eat healthy with eco-friendly meals</p>
-    </header>
+</header>
+<!-- Banner -->
+<div class="mealBanner">
+    <div class="breadcrumb align-center">
+        <br>
+        <a href="index.html" style="color:#ffffff;">Home</a>&nbsp; >&nbsp;
+        <span>Meal Planning</span>
+    </div>
+    <br><br><br><br>
+        <header class="major">
+            <h3>Meal Planning</h3>
+            <p>Eat healthy with eco-friendly meals</p>
+        </header>
+</div><br>
+
     <div class="container">
         <div class="row">
-            <div class="6u">
-                <h3>What is your carbon footprint of food?</h3>
-                <p>Add and calculate carbon footprint of ingredients in your recipe.</p>
+            <div class="12u align-center">
+                <br>
+                <h3>UNDER CONSTRUCTION</h3>
+                <p>We're making lots of improvements and will be back soon.</p>
                 <br>
                 <br>
                 <br>
                 <br>
                 <br>
                 <br>
-                <br>
+                <br> <br>
             </div> <!-- first 6u -->
-
-            <div class="6u">
-                <div class="row">
-                    <canvas id="myChart" width="100" height="80"></canvas>
-                </div>
-            </div> <!-- 2nd 6u -->
         </div> <!-- 1st row -->
-        <hr class="major" />
-        <h3> What is your daily nutrient requirements? </h3>
-        <p>Find it out by clicking on each nutrient.</p>
-        <div class="row"> <!--div class for the second chart-->
-            <div class ="6u">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-            </div> <!-- end of first 6u-->
-            <div class="6u">
-                <canvas id="myChart2" width="100" height="60"></canvas>
-            </div>
-            <br><br>
-        </div> <!-- end of second row-->
+
     </div> 	<!-- 1st Container -->
 </div> 	<!-- main wrapper -->
 </section>
