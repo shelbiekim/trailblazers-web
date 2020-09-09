@@ -1227,3 +1227,44 @@
 	.iframe-text {
 		vertical-align: middle;
 	}
+
+	.mealBanner {
+		background-image: url("../images/meal2.jpg");
+		width:auto;
+		max-height: 300px;
+		min-height:250px;
+		height:auto;
+		background-position: center center;
+		background-repeat: no-repeat;
+		padding: 0 0;
+		text-align: center;
+		position: relative;
+	}
+
+	.mealBanner:before {
+		content: '';
+		position: absolute;
+		left: 0;
+		top: 0;
+		width: 100%;
+		height: 100%;
+		max-height: 300px;
+
+	}
+
+	.mealBanner .inner {
+		position: relative;
+		z-index: 1;
+	}
+
+	.mealBanner .inner :last-child {
+		margin-bottom: 0;
+	}
+
+	.mealBanner h2, .mealBanner h3,.mealBanner h4, .mealBanner h5 {
+		color: #000000;
+	}
+
+	.mealBanner p {
+		color: #666f77;
+	}
