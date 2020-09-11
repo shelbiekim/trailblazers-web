@@ -745,18 +745,15 @@
 			margin-left:10px;
 		}
 
-
 			input[type="button"].alt:hover,
 			.button.alt:hover {
 				background-color: rgba(144, 144, 144, 0.075);
 			}
 
-
 			input[type="button"].alt:active,
 			.button.alt:active {
 				background-color: rgba(144, 144, 144, 0.2);
 			}
-
 
 			input[type="button"].alt.icon:before,
 			.button.alt.icon:before {
@@ -1332,4 +1329,9 @@
 	.tooltip:hover .tooltiptext {
 		visibility: visible;
 		opacity: 1;
+	}
+
+	.validation-error {
+		color:#D3143C;
+		margin-left: 220px;
 	}
