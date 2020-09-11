@@ -129,14 +129,12 @@ $result=mysqli_query($db,$sql);
                                     <?php } ?>
                                 </select>
                                 <div class="validation-error" style="visibility:hidden;" id="groupValidationError">This field is required</div>
-                                <br>
 
                                 <label for="food_name">INGREDIENT</label>
                                 <select name ="food_name" id="food_name" onchange=onSelected("ingredientValidationError")>
                                     <option value="" disabled selected>Select</option>
                                 </select>
                                 <div class="validation-error" style="visibility:hidden;" id="ingredientValidationError">This field is required</div>
-                                <br>
 
                                 <label for="amount">AMOUNT</label>
                                 <!--validation for user input to be only numeric-->
@@ -156,7 +154,6 @@ $result=mysqli_query($db,$sql);
                                     }
                                 </script>
                                 <div class="validation-error" style="visibility:hidden;" id="amountValidationError">Please enter between 1 and 999</div>
-                                <br>
 
                                 <label for="unit">UNIT</label>
                                 <select name ="unit" id="unit" onchange=onSelected("unitValidationError")>
@@ -168,7 +165,7 @@ $result=mysqli_query($db,$sql);
                                     <span class="tooltiptext">g (gram)<br>kg (kilogram)</span>
                                 </div>
                                 <div class="validation-error" style="visibility:hidden;" id="unitValidationError">This field is required</div>
-                                <br>
+                            <br>
 
                             <ul class="actions">
                                 <li><a id="add_button" class="button alt add" onclick="add()">ADD</a></li>
@@ -216,9 +213,12 @@ $result=mysqli_query($db,$sql);
                                     if (rowExists)
                                     {
                                         document.getElementById("calculate_button").style.visibility = "visible";
+
                                     }
-                                    else
+                                    else {
                                         document.getElementById("calculate_button").style.visibility = "hidden";
+                                        document.getElementById("total_result").style.visibility = "hidden";
+                                    }
                                 }
 
                                 function validateInput() {
@@ -273,7 +273,7 @@ $result=mysqli_query($db,$sql);
                                     if (unit === "g") {
                                         finalValue = amount / 100 * emissionValue;
                                         finalValue = Number(finalValue).toFixed(2);
-                                        finalValue += " kg of greenhouse gases <br>(CO2 equivalents)";
+                                        finalValue += " kg";
                                         finalCalorie = amount / 100 * calorie;
                                         finalCalorie = Number(finalCalorie).toFixed(2);
                                         //amount = amount/1000;
@@ -282,7 +282,7 @@ $result=mysqli_query($db,$sql);
                                     } else {
                                         finalValue = amount * emissionValue * 10;
                                         finalValue = Number(finalValue).toFixed(2);
-                                        finalValue += " kg of greenhouse gases <br>(CO2 equivalents)";
+                                        finalValue += " kg";
                                         finalCalorie = amount * calorie * 10;
                                         finalCalorie = Number(finalCalorie).toFixed(2);
                                         metric = "kg";
@@ -377,7 +377,7 @@ $result=mysqli_query($db,$sql);
                                 function calculate(){
                                     var greenHouse = "";
                                     var kcal = "";
-                                    var myTable = document.getElementById("table"), sumVal1 = 0, sumVal2 = 0;
+                                    var myTable = document.getElementById("table"), sumGas = 0, sumCal = 0;
                                     for (var i = 1; i < myTable.rows.length; i++) {
                                         console.log(i);
 
@@ -388,9 +388,8 @@ $result=mysqli_query($db,$sql);
                                             else break;
                                         }
 
-                                        sumVal1 += parseFloat(greenHouse);
+                                        sumGas += parseFloat(greenHouse);
                                         greenHouse = "";
-                                        console.log(sumVal1);
 
                                         for (var j = 0; j < myTable.rows[i].cells[4].innerHTML.length; j++){
                                             if (myTable.rows[i].cells[4].innerHTML.charAt(j) != "k") {
@@ -399,11 +398,16 @@ $result=mysqli_query($db,$sql);
                                             else break;
                                         }
 
-                                        sumVal2 += parseFloat(kcal);
+                                        sumCal += parseFloat(kcal);
                                         kcal = "";
                                     }
 
-                                    console.log(sumVal1 + " " + sumVal2);
+                                    sumGas = Number(sumGas).toFixed(2);
+                                    sumCal = Number(sumCal).toFixed(2);
+                                    console.log(sumGas + " " + sumCal);
+                                    document.getElementById("carbon_footprint").innerHTML = sumGas + " kg of greenhouse gases (CO2 equivalents)";
+                                    document.getElementById("total_calories").innerHTML = sumCal + " kcal";
+                                    document.getElementById("total_result").style.visibility="visible";
                                 }
 
                                 function show_hide() {
@@ -432,7 +436,7 @@ $result=mysqli_query($db,$sql);
                                 <th>Amount</th>
                                 <th>Greenhouse Gases
                                     <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                                        <span class="tooltiptext">greenhouse gases emitted by producing a kilogram of ingredient</span>
+                                        <span class="tooltiptext">Greenhouse gases emitted by producing a kilogram of ingredient</span>
                                     </div>
                                 </th>
                                 <th>Calories
@@ -451,13 +455,17 @@ $result=mysqli_query($db,$sql);
                                 <li><a id="calculate_button" class="button alt calculate" style="visibility:hidden;" onclick="calculate()">CALCULATE</a></li>
                             </ul>
                         </div>
+                        <div class="result align-left" id="total_result" style="visibility:hidden;" >
+                            <h4>Total Carbon Footprint :&nbsp;</h4><h4 id="carbon_footprint"></h4>
+                            <h4>Total Calories of Your Recipe :&nbsp;</h4><h4 id="total_calories"></h4>
+                        </div>
                     </div>
 
         </div><br> <!-- row-->
 
         <hr class="major" />
-        <h3> What is your daily nutrient requirements? </h3>
-        <p>Find it out by clicking on each nutrient.</p>
+        <h3 class="align-center"> How much calories should you eat per day? </h3>
+        <p class="align-center">Find it out by entering your information.</p>
         <div class="row"> <!--div class for the second chart-->
             <div class ="6u">
                 <br>
