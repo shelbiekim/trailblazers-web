@@ -115,55 +115,63 @@ $result=mysqli_query($db,$sql);
         <div class="row">
                 <div class="12u align-center">
                     <h3>Let's calculate your carbon footprint</h3>
-                    <p>Add and calculate carbon footprint of ingredients in your recipe.</p>
+                    <p>Add and calculate carbon footprint of ingredients in your recipe.</p><br>
                 </div>
                     <div class="5u">
                         <div id="form-group" class="form-group">
-                            <label for="food_group">INGREDIENT GROUP</label>
-                            <select name ="food_group" id="food_group">
-                                <option value="" disabled selected>Select</option>
-                                <?php
-                                    while($row=mysqli_fetch_array($result)){
-                                ?>
-                                <option value="<?= $row['food_group']; ?>"><?= $row['food_group']; ?></option>
-                                <?php } ?>
+                                <label for="food_group">INGREDIENT GROUP</label>
+                                <select name ="food_group" id="food_group" onchange=onSelected("groupValidationError")>
+                                    <option value="" disabled selected>Select</option>
+                                    <?php
+                                        while($row=mysqli_fetch_array($result)){
+                                    ?>
+                                    <option value="<?= $row['food_group']; ?>"><?= $row['food_group']; ?></option>
+                                    <?php } ?>
+                                </select>
+                                <div class="validation-error" style="visibility:hidden;" id="groupValidationError">This field is required</div>
+                                <br>
 
-                            </select><br><br>
+                                <label for="food_name">INGREDIENT</label>
+                                <select name ="food_name" id="food_name" onchange=onSelected("ingredientValidationError")>
+                                    <option value="" disabled selected>Select</option>
+                                </select>
+                                <div class="validation-error" style="visibility:hidden;" id="ingredientValidationError">This field is required</div>
+                                <br>
 
-                            <label for="food_name">INGREDIENT</label>
-                            <select name ="food_name" id="food_name">
-                                <option value="" disabled selected>Select</option>
-                            </select><br><br>
+                                <label for="amount">AMOUNT</label>
+                                <!--validation for user input to be only numeric-->
+                                <input id="amountInput" placeholder="Enter weight" type="text"  maxlength="3" onkeypress="isInputNumber(event);">
 
-                            <label for="amount">AMOUNT</label>
-                            <!--validation for user input to be only numeric-->
-                            <input id="amountInput" type="text" onkeypress="isInputNumber(event)" maxlength="3">
+                                <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                                    <span class="tooltiptext">Max. 999</span>
+                                </div>
 
-                            <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                                <span class="tooltiptext">Max. 999</span>
-                            </div>
-
-                            <script>
-                                function isInputNumber(evt){
-                                    var ch = String.fromCharCode(evt.which);
-                                    if(!(/[0-9]/.test(ch))) {
-                                        evt.preventDefault();
+                                <script>
+                                    function isInputNumber(evt){
+                                        onSelected("amountValidationError");
+                                        var ch = String.fromCharCode(evt.which);
+                                        if(!(/[0-9]/.test(ch))) {
+                                            evt.preventDefault();
+                                        }
                                     }
-                                }
-                            </script><br><br>
+                                </script>
+                                <div class="validation-error" style="visibility:hidden;" id="amountValidationError">Please enter between 1 and 999</div>
+                                <br>
 
-                            <label for="unit">UNIT</label>
-                            <select name ="unit" id="unit">
-                                <option value="" disabled selected>Select</option>
-                                <option value="g">g</option>
-                                <option value="kg">kg</option>
-                            </select>
-                            <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                                <span class="tooltiptext">g (gram)<br>kg (kilogram)</span>
-                            </div><br><br>
+                                <label for="unit">UNIT</label>
+                                <select name ="unit" id="unit" onchange=onSelected("unitValidationError")>
+                                    <option value="" disabled selected>Select</option>
+                                    <option value="g">g</option>
+                                    <option value="kg">kg</option>
+                                </select>
+                                <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                                    <span class="tooltiptext">g (gram)<br>kg (kilogram)</span>
+                                </div>
+                                <div class="validation-error" style="visibility:hidden;" id="unitValidationError">This field is required</div>
+                                <br>
 
                             <ul class="actions">
-                                <li><a class="button alt add" onclick="add()">ADD</a></li>
+                                <li><a id="add_button" class="button alt add" onclick="add()">ADD</a></li>
                                 <li><a id="save_button" class="button alt save" style="visibility:hidden;" onclick="save()">SAVE</a></li>
                             </ul>
 
@@ -179,18 +187,38 @@ $result=mysqli_query($db,$sql);
                                 var finalCalorie = "";
                                 var appear = false;
                                 var valid = false;
+                                var isValid = true;
+                                var rowExists = false;
                                 var emissionData = <?php echo json_encode($emissionArray);?>;
                                 var calorieData =  <?php echo json_encode($calorieArray);?>;
                                 var selectedRow = null;
 
+
+                                function onSelected(id){
+                                    document.getElementById(id).style.visibility ="hidden";
+                                }
+
                                 function add(){
                                     valid = validateInput();
                                     if (valid === true) {
-                                        insertRecord(ingGroup,ingredient, amount, metric, finalValue, finalCalorie);
+                                        addIngredient();
+                                        insertRecord(ingGroup, ingredient, amount, metric, finalValue, finalCalorie);
                                         valid = false;
                                         resetForm();
-                                        selectedRow=null;
+                                        selectedRow = null;
+                                        rowExists = true;
+                                        checkRow();
                                     }
+
+                                }
+
+                                function checkRow () {
+                                    if (rowExists)
+                                    {
+                                        document.getElementById("calculate_button").style.visibility = "visible";
+                                    }
+                                    else
+                                        document.getElementById("calculate_button").style.visibility = "hidden";
                                 }
 
                                 function validateInput() {
@@ -198,15 +226,36 @@ $result=mysqli_query($db,$sql);
                                     ingredient = document.getElementById("food_name").value;
                                     amount = parseInt(document.getElementById("amountInput").value);
                                     unit = document.getElementById("unit").value;
-                                    if (ingredient.length > 0 && amount > 0 && unit.length > 0) {
-                                        addIngredient();
-                                        return true;
-                                    } //else show error message/validation
+
+                                    // validate and show error message
+                                    if (ingGroup==""){
+                                        isValid=false;
+                                        document.getElementById("groupValidationError").style.visibility ="visible";
+                                    } else if (ingredient==""){
+                                        isValid=false;
+                                        document.getElementById("ingredientValidationError").style.visibility ="visible";
+                                    } else if (!(amount>0)) {
+                                        isValid=false;
+                                        document.getElementById("amountValidationError").style.visibility ="visible";
+                                    } else if (unit=="") {
+                                        isValid=false;
+                                        document.getElementById("unitValidationError").style.visibility ="visible";
+                                    } else  {
+                                        isValid = true;
+                                        if (document.getElementById("groupValidationError").style.visibility === "visible")
+                                            document.getElementById("groupValidationError").style.visibility ="hidden";
+                                        else if (document.getElementById("ingredientValidationError").style.visibility === "visible")
+                                            document.getElementById("ingredientValidationError").style.visibility ="hidden";
+                                        else if (document.getElementById("amountValidationError").style.visibility === "visible")
+                                            document.getElementById("amountValidationError").style.visibility ="hidden";
+                                        else if (document.getElementById("unitValidationError").style.visibility === "visible")
+                                            document.getElementById("unitValidationError").style.visibility ="hidden";
+                                    }
+                                    return isValid;
                                 }
 
 
                                 function addIngredient() {
-
                                     for(var i=0; i<emissionData.length;i++) {
                                         //console.log(dataset[i]);
                                         if(ingredient === emissionData[i].food_name) {
@@ -244,18 +293,20 @@ $result=mysqli_query($db,$sql);
 
                                 function save(){
                                     valid = validateInput();
-                                    if (valid===true) {
+                                    if (valid === true) {
+                                        addIngredient();
                                         selectedRow.cells[0].innerHTML = ingGroup;
                                         selectedRow.cells[1].innerHTML = ingredient;
                                         selectedRow.cells[2].innerHTML = amount + metric;
                                         selectedRow.cells[3].innerHTML = finalValue;
                                         selectedRow.cells[4].innerHTML = finalCalorie;
-                                        selectedRow=null;
+                                        valid = false;
                                         resetForm();
-                                        valid=false;
-                                        document.getElementById("save_button").style.visibility ="hidden";
+                                        selectedRow = null;
+                                        document.getElementById("save_button").style.visibility = "hidden";
                                     }
                                 }
+
 
                                 function insertRecord(grp,ing,amt,met,val,cal){
                                     // get the table by id, create a new rows and cell and set values into cell
@@ -272,10 +323,8 @@ $result=mysqli_query($db,$sql);
                                     cell5 = newRow.insertCell(4);
                                     cell5.innerHTML = cal; //calories
                                     cell6 = newRow.insertCell(5);
-                                    cell6.innerHTML = '<a onClick="onEdit(this)">Edit</a> &nbsp; <a>Delete</a>';
-                                    console.log(this);
-
-
+                                    cell6.innerHTML = '<a onClick="onEdit(this)">Edit</a>&nbsp;&nbsp;' +
+                                        '<a onClick="onDelete(this)">Delete</a>';
                                 }
 
                                 // when Edit is clicked on
@@ -283,18 +332,15 @@ $result=mysqli_query($db,$sql);
                                     appear=true;
                                     show_hide();
                                     selectedRow = td.parentElement.parentElement; //return corresponding row
-                                    console.log(selectedRow);
 
                                     document.getElementById("food_group").value = selectedRow.cells[0].innerHTML;
                                     // force an onchange event
                                     $("#food_group").trigger("change");
 
-                                    console.log("food group " +  document.getElementById("food_group").value);
-                                    //$("#food_name").val(selectedRow.cells[1].innerHTML);
 
                                     document.getElementById("food_name").value = selectedRow.cells[1].innerHTML;
                                     //document.getElementById("food_name").setAttribute('value',selectedRow.cells[1].innerHTML);
-                                    console.log("food_name " + selectedRow.cells[1].innerHTML);
+
                                     var cellAmount = selectedRow.cells[2].innerHTML;
                                     var returnAmount = "";
                                     var returnUnit = "";
@@ -314,6 +360,50 @@ $result=mysqli_query($db,$sql);
                                     }
                                     document.getElementById("amountInput").value = returnAmount;
                                     document.getElementById("unit").value = returnUnit;
+                                }
+
+                                // delete row
+                                function onDelete(td){
+                                    row = td.parentElement.parentElement;
+                                    document.getElementById("table").deleteRow(row.rowIndex);
+                                    resetForm();
+                                    var x = document.getElementById("table").rows.length;
+                                    if (x < 2) {
+                                        rowExists = false;
+                                    }
+                                    checkRow();
+                                }
+                                // calculate greenhouse gases and calories
+                                function calculate(){
+                                    var greenHouse = "";
+                                    var kcal = "";
+                                    var myTable = document.getElementById("table"), sumVal1 = 0, sumVal2 = 0;
+                                    for (var i = 1; i < myTable.rows.length; i++) {
+                                        console.log(i);
+
+                                        for (var j = 0; j < myTable.rows[i].cells[3].innerHTML.length; j++){
+                                            if (myTable.rows[i].cells[3].innerHTML.charAt(j) != "k") {
+                                                greenHouse += myTable.rows[i].cells[3].innerHTML.charAt(j);
+                                            }
+                                            else break;
+                                        }
+
+                                        sumVal1 += parseFloat(greenHouse);
+                                        greenHouse = "";
+                                        console.log(sumVal1);
+
+                                        for (var j = 0; j < myTable.rows[i].cells[4].innerHTML.length; j++){
+                                            if (myTable.rows[i].cells[4].innerHTML.charAt(j) != "k") {
+                                                kcal += myTable.rows[i].cells[4].innerHTML.charAt(j);
+                                            }
+                                            else break;
+                                        }
+
+                                        sumVal2 += parseFloat(kcal);
+                                        kcal = "";
+                                    }
+
+                                    console.log(sumVal1 + " " + sumVal2);
                                 }
 
                                 function show_hide() {
@@ -351,11 +441,16 @@ $result=mysqli_query($db,$sql);
                                     </div>
                                 </th>
 
-                                <th>Remove</th>
+                                <th>Action</th>
                             </tr>
                             <tbody id="myTable">
                             </tbody>
                         </table>
+                        <div class="align-right">
+                            <ul class="actions">
+                                <li><a id="calculate_button" class="button alt calculate" style="visibility:hidden;" onclick="calculate()">CALCULATE</a></li>
+                            </ul>
+                        </div>
                     </div>
 
         </div><br> <!-- row-->
