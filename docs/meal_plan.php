@@ -50,6 +50,17 @@ $result=mysqli_query($db,$sql);
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
+        $(function(){
+            $("#calculate_button").click(function(){
+                $('html,body').animate(
+                    {
+                        scrollTop:$('#total_result').offset().top
+                    },
+                    'slow'
+                    )
+            });
+        });
+
         $(document).ready(function(){
            $("#food_group").change(function(){
               var group = $(this).val();
@@ -189,6 +200,8 @@ $result=mysqli_query($db,$sql);
                                 var emissionData = <?php echo json_encode($emissionArray);?>;
                                 var calorieData =  <?php echo json_encode($calorieArray);?>;
                                 var selectedRow = null;
+                                var imgExists = false;
+                                var imgName = "";
 
 
                                 function onSelected(id){
@@ -218,6 +231,8 @@ $result=mysqli_query($db,$sql);
                                     else {
                                         document.getElementById("calculate_button").style.visibility = "hidden";
                                         document.getElementById("total_result").style.visibility = "hidden";
+                                        document.getElementById("footprint_image").style.display = "none";
+                                        imgExists = false;
                                     }
                                 }
 
@@ -387,7 +402,6 @@ $result=mysqli_query($db,$sql);
                                             }
                                             else break;
                                         }
-
                                         sumGas += parseFloat(greenHouse);
                                         greenHouse = "";
 
@@ -408,6 +422,49 @@ $result=mysqli_query($db,$sql);
                                     document.getElementById("carbon_footprint").innerHTML = sumGas + " kg of greenhouse gases (CO2 equivalents)";
                                     document.getElementById("total_calories").innerHTML = sumCal + " kcal";
                                     document.getElementById("total_result").style.visibility="visible";
+                                    show_footprint(sumGas);
+                                }
+
+                                function show_footprint(totalGas){
+                                    if (imgExists===true) {
+                                        document.getElementById("footprint_image").style.display="none";
+                                        document.getElementById(imgName).style.display="none";
+                                        imgExists = false;
+                                    }
+
+                                    if (imgExists ===false) {
+                                        if (totalGas <= 3){
+                                            document.getElementById("footprint_image").style.display="block";
+                                            document.getElementById("img_verylow").style.display="block";
+                                            imgExists = true;
+                                            imgName = "img_verylow";
+                                        } else if (totalGas <=6){
+                                            document.getElementById("footprint_image").style.display="block";
+                                            document.getElementById("img_low").style.display="block";
+                                            imgExists = true;
+                                            imgName = "img_low";
+                                        } else if (totalGas <=9){
+                                            document.getElementById("footprint_image").style.display="block";
+                                            document.getElementById("img_average").style.display="block";
+                                            imgExists = true;
+                                            imgName = "img_average";
+                                        } else if (totalGas <=12){
+                                            document.getElementById("footprint_image").style.display="block";
+                                            document.getElementById("img_littlehigh").style.display="block";
+                                            imgExists = true;
+                                            imgName = "img_littlehigh";
+                                        } else if (totalGas <= 15){
+                                            document.getElementById("footprint_image").style.display="block";
+                                            document.getElementById("img_high").style.display="block";
+                                            imgExists = true;
+                                            imgName = "img_high";
+                                        } else if (totalGas > 15){
+                                            document.getElementById("footprint_image").style.display="block";
+                                            document.getElementById("img_veryhigh").style.display="block";
+                                            imgExists = true;
+                                            imgName = "img_veryhigh";
+                                        }
+                                    }
                                 }
 
                                 function show_hide() {
@@ -450,19 +507,36 @@ $result=mysqli_query($db,$sql);
                             <tbody id="myTable">
                             </tbody>
                         </table>
-                        <div class="align-right">
+                        <div class="align-center">
                             <ul class="actions">
                                 <li><a id="calculate_button" class="button alt calculate" style="visibility:hidden;" onclick="calculate()">CALCULATE</a></li>
                             </ul>
                         </div>
-                        <div class="result align-left" id="total_result" style="visibility:hidden;" >
-                            <h4>Total Carbon Footprint :&nbsp;</h4><h4 id="carbon_footprint"></h4>
-                            <h4>Total Calories of Your Recipe :&nbsp;</h4><h4 id="total_calories"></h4>
-                        </div>
+
                     </div>
-
-        </div><br> <!-- row-->
-
+        </div> <!-- row-->
+        <div class="row">
+            <div class="12u align-center">
+                <div class="result" id="total_result" style="visibility:hidden; padding-top: 100px;" >
+                    <h4>Total Carbon Footprint :&nbsp;</h4><h4 id="carbon_footprint"></h4><br>
+                    <h4>Total Calories of Your Recipe :&nbsp;</h4><h4 id="total_calories"></h4>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="12u">
+                <div id="footprint_image" style="display:none; text-align: center;"><!--http://www.globalstewards.org/reduce-carbon-footprint.htm-->
+                    <img id="img_verylow" style="display: none; text-align: center" src="images/verylow.png" class="image" width="400">
+                    <img id="img_low" style="display: none; text-align: center" src="images/low.png" class="image" width="400">
+                    <img id="img_average" style="display: none; text-align: center" src="images/average.png" class="image" width="400">
+                    <img id="img_littlehigh" style="display: none; text-align: center" src="images/littlehigh.png" class="image" width="400">
+                    <img id="img_high" style="display: none; text-align: center" src="images/high.png" class="image" width="400">
+                    <img id="img_veryhigh" style="display: none; text-align: center" src="images/veryhigh.png" class="image" width="400">
+                    <br>
+                    <h3>Carbon Footprint of Your Recipe</h3><br>
+                </div>
+            </div>
+        </div>
         <hr class="major" />
         <h3 class="align-center"> How much calories should you eat per day? </h3>
         <p class="align-center">Find it out by entering your information.</p>
