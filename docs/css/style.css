@@ -71,14 +71,15 @@
 	}
 
 	h4 {
-		color: #666f77;
-		font-weight: 300;
+		color: #000000;
+		font-weight: 500;
 		line-height: 1em;
 		margin: 0 0 1em 0;
 		letter-spacing: 0.125em;
 		font-size: 1em;
 		display: inline-block;
 	}
+
 
 	h5 {
 		font-size: 0.9em;
@@ -1221,15 +1222,17 @@
 		line-height: 2.85em;
 		padding: 0 1.75em;
     }
-	/*
-	table th {
+
+	table caption {
 		color: #555f66;
 		font-family: "Roboto", Helvetica, sans-serif;
 		font-size: 14pt;
 		font-weight: 300;
-		line-height: 1.75em;
-		text-align: left;
-	}*/
+		line-height: 1em;
+		margin-bottom: 1em;
+		text-align: center;
+		text-transform: uppercase;
+	}
 
 	.iframe-container {
 		position: relative;
