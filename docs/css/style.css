@@ -418,6 +418,8 @@
 		border: 0;
 		display: inline-block;
 		position: relative;
+		margin-left:auto;
+		margin-right:auto;
 	}
 
 		.image img {
