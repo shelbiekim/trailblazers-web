@@ -124,8 +124,9 @@ $result=mysqli_query($db,$sql);
             }
             else {
                 document.getElementById("calculate_button").style.visibility = "hidden";
-                document.getElementById("total_result").style.visibility = "hidden";
+                document.getElementById("total_result").style.display = "none";
                 document.getElementById("footprint_image").style.display = "none";
+                document.getElementById(imgName).style.display = "none";
                 imgExists = false;
             }
         }
