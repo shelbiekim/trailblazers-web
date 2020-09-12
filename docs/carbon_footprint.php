@@ -116,7 +116,7 @@
                             absorbed by the plant’s photosynthesis is more than that released by its respiration.-->
                         </p>
                         <div class="row">
-                            <h4>Choose food</h4>
+                            <h5>Choose food</h5>
                                 <div>
                                     <select id="Food_name1" onchange="filterFood()">
                                         <option value="Select">Select</option>
@@ -130,7 +130,7 @@
                                 </div>
                         </div><br /> <!-- row for CHOOSE A TYPE OF FOOD-->
                         <div class="row">
-                            <h4>Choose food</h4>
+                            <h5>Choose food</h5>
                             <div>
                                 <select id="Food_name2" onchange="filterFood2()">
                                     <option value="Select">Select</option>
@@ -255,7 +255,7 @@
                             organic foods across the food supply chain. Hence, it is important to know the nutrient
                             density of the selected foods to reduce the individual carbon footprint
                             as well as eat the right nutrients. </p>
-                        <h4>Choose nutrient&nbsp;&nbsp;&nbsp;&nbsp;</h4>
+                        <h5>Choose nutrient&nbsp;&nbsp;&nbsp;&nbsp;</h5>
                         <div>
                             <select id="nutrient" onchange="filterNutrient()">
                                 <option value="Select">Select</option>
@@ -431,9 +431,7 @@
                     </table> -->
             </div> 	<!-- 1st Container -->
             </div> 	<!-- main wrapper -->
-        </section>
 
-        
 		<!-- Footer -->
 			<footer id="footer">
 				<div class="container">
