@@ -9,6 +9,11 @@
 */
 
 /* Basic */
+    /*avoid scrolling horizontally*/
+	html, body {
+		max-width: 100%;
+		overflow-x: hidden;
+	}
 
 	body {
 		background: #fff;
@@ -84,6 +89,11 @@
 	h5 {
 		font-size: 0.9em;
 		line-height: 1.5em;
+	}
+
+	.team_logo {
+		padding: 1em;
+		font-weight: 500;
 	}
 
 	h6 {
@@ -819,7 +829,7 @@
 /* Wrapper */
 
 	.wrapper {
-		padding: 6em 0 4em 0;
+		padding: 4em 0 4em 0;
 	}
 
 		.wrapper.style1 {
@@ -1280,8 +1290,8 @@
 	#mealBanner {
 		background-image: url("../images/meal2.jpg");
 		width:auto;
-		max-height: 300px;
-		min-height:250px;
+		max-height: 200px;
+		min-height: 150px;
 		height:auto;
 		background-position: center center;
 		background-repeat: no-repeat;
@@ -1343,6 +1353,10 @@
 	.input_height, .input_weight, .input_age, .input_activity{
 		width: 80px;
 		margin-left: 6em;
+	}
+
+	.input_amount{
+		width: 80px;
 	}
 
 	.input_activity{
@@ -1413,4 +1427,9 @@
 	.validation-error {
 		color:#D3143C;
 		margin-left: 220px;
+	}
+
+	.extra_info {
+		margin-left: 220px;
+		font-size:10pt;
 	}
