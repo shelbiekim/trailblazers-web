@@ -638,6 +638,7 @@ $result=mysqli_query($db,$sql);
         <div class="row">
             <div class="12u align-center">
                 <div class="result" id="total_result" style="display:none; padding-top: 60px;" >
+                    <br><br>
                     <h4 class="meal_planning">YOUR CARBON FOOTPRINT :&nbsp;</h4><h4 id="carbon_footprint"></h4><br>
                     <h4 class="meal_planning">CALORIES OF YOUR RECIPE :&nbsp;</h4><h4 id="total_calories"></h4><br>
                 </div>
