@@ -753,6 +753,27 @@
 			margin-left:10px;
 		}
 
+		input[type="button"].alt.bmr,
+		.button.alt.bmr {
+			background-color: #44af92;
+			box-shadow: inset 0 0 0 1px rgba(144, 144, 144, 0.25);
+			color: #ffffff !important;
+			margin-left:10px;
+		}
+
+		input[type="button"].alt.calories,
+		.button.alt.calories {
+			background-color: transparent;
+			box-shadow: inset 0 0 0 1px rgba(144, 144, 144, 0.25);
+			color: #666f77 !important;
+			margin-left:214px;
+		}
+
+		input[type="button"].alt.bmr:hover,
+		.button.alt.bmr:hover {
+			background-color: #63c5bc;
+		}
+
 			input[type="button"].alt:hover,
 			.button.alt:hover {
 				background-color: rgba(144, 144, 144, 0.075);
@@ -1256,7 +1277,7 @@
 		vertical-align: middle;
 	}
 
-	.mealBanner {
+	#mealBanner {
 		background-image: url("../images/meal2.jpg");
 		width:auto;
 		max-height: 300px;
@@ -1267,33 +1288,39 @@
 		padding: 0 0;
 		text-align: center;
 		position: relative;
+		z-index: -1;
 	}
 
-	.mealBanner:before {
-		content: '';
+	.breadcrumb {
+		z-index:99999;
+	}
+
+	#mealBanner:before {
+		content: none;
 		position: absolute;
 		left: 0;
 		top: 0;
-		width: 100%;
-		height: 100%;
+		width: auto;
+		height: auto;
 		max-height: 300px;
+		z-index: -1;
 
 	}
 
-	.mealBanner .inner {
+	#mealBanner .inner {
 		position: relative;
-		z-index: 1;
+		z-index: -1;
 	}
 
-	.mealBanner .inner :last-child {
+	#mealBanner .inner :last-child {
 		margin-bottom: 0;
 	}
 
-	.mealBanner h2, .mealBanner h3,.mealBanner h4, .mealBanner h5 {
+	#mealBanner h2, #mealBanner h3, #mealBanner h4, #mealBanner h5 {
 		color: #000000;
 	}
 
-	.mealBanner p {
+	#mealBanner p {
 		color: #666f77;
 	}
 
@@ -1301,6 +1328,33 @@
 		width: 200px;
 		display: inline-block;
 		margin-left: 1em;
+	}
+
+	.form-group2 > label .first_label {
+		width: 100px;
+		display: inline-block;
+	}
+
+	.first_label {
+		margin-left: 6em;
+		margin-right: 2em;
+	}
+
+	.input_height, .input_weight, .input_age, .input_activity{
+		width: 80px;
+		margin-left: 6em;
+	}
+
+	.input_activity{
+		width: 120px;
+		margin-left: 6em;
+	}
+
+	.bmr_form {
+		width: 100px;
+		display: inline-block;
+		margin-left: 1em;
+		margin-bottom: 0;
 	}
 
 	.tooltip {
@@ -1311,29 +1365,44 @@
 	.tooltip .tooltiptext {
 		visibility: hidden;
 		width: 120px;
-		background-color: #555;
-		color: #fff;
+		background-color: #ffffff; /*#555*/
+		color: #555f66; /*#fff*/
 		text-align: left;
 		border-radius: 6px;
-		padding: 5px 0;
+		box-shadow: 2px 2px 2px rgba(144, 144, 144, 0.25); /*box-shadow: ;inset 0 0 0 1px rgba(144, 144, 144, 0.25);*/
+		border: 1px solid #666f77;
 		position: absolute;
 		z-index: 1;
 		bottom: 125%;
-		left: 50%;
+		left: 100%;
 		padding: 0.5em;
 		opacity: 0;
 		transition: opacity 0.3s;
+		margin-left: -65px;
+		font-family: "Roboto", Helvetica, sans-serif;
+		font-weight: 300;
+		line-height: 1.75em;
+
+	}
+
+	.tooltip.long .tooltiptext.long {
+		width: 200px;
+		margin-left: -110px;
 	}
 
 	.tooltip .tooltiptext::after {
 		content: "";
 		position: absolute;
 		top: 100%;
-		left: 50%;
-		margin-left: -5px;
+		left: 100%;
+		margin-left: -65px;
 		border-width: 5px;
 		border-style: solid;
 		border-color: #555 transparent transparent transparent;
+	}
+
+	.tooltip.long .tooltiptext.long::after {
+		margin-left: -100px;
 	}
 
 	.tooltip:hover .tooltiptext {
