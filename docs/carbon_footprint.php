@@ -84,7 +84,7 @@
 
 		<!-- Header -->
 			<header id="header" class="skel-layers-fixed">
-                <h1>Trailblazers</h1>
+                <h5 class="team_logo"><a href="index.html">Trailblazers</a></h5>
 				<nav id="nav">
 					<ul>
 						<li><a href="index.html">Home</a></li>
@@ -95,10 +95,12 @@
 					</ul>
 				</nav>
 			</header>
-            <div class="breadcrumb align-center">
+
+            <div class="breadcrumb container">
                 <a href="index.html">Home</a>&nbsp; >&nbsp;
                 <span>Carbon Footprint</span>
             </div>
+
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
 				<header class="major">

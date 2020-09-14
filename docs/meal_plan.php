@@ -125,13 +125,6 @@ $result=mysqli_query($db,$sql);
         var selectedRow = null;
         var imgExists = false;
         var imgName = "";
-        var carbDict = {};
-        var fatDict = {};
-        var proteinDict = {};
-        var vitADict = {};
-        var vitCDict = {};
-        var vitEDict = {};
-        var calciumDict = {};
 
         // hide validation error message
         function onSelected(id){
@@ -181,12 +174,9 @@ $result=mysqli_query($db,$sql);
             } else if (ingredient==""){
                 isValid=false;
                 document.getElementById("ingredientValidationError").style.visibility ="visible";
-            } else if (!(amount>0)) {
+            } else if ((!(amount>0)) || unit=="") {
                 isValid=false;
                 document.getElementById("amountValidationError").style.visibility ="visible";
-            } else if (unit=="") {
-                isValid=false;
-                document.getElementById("unitValidationError").style.visibility ="visible";
             } else  {
                 isValid = true;
                 if (document.getElementById("groupValidationError").style.visibility === "visible")
@@ -195,8 +185,6 @@ $result=mysqli_query($db,$sql);
                     document.getElementById("ingredientValidationError").style.visibility ="hidden";
                 else if (document.getElementById("amountValidationError").style.visibility === "visible")
                     document.getElementById("amountValidationError").style.visibility ="hidden";
-                else if (document.getElementById("unitValidationError").style.visibility === "visible")
-                    document.getElementById("unitValidationError").style.visibility ="hidden";
             }
             return isValid;
         }
@@ -292,14 +280,6 @@ $result=mysqli_query($db,$sql);
                     calorie = calorieData[i].value;
                 } else {continue;}
             }
-
-            /*for(var i=0; i<nutrientData.length;i++) {
-                //console.log(dataset[i]);
-                if((ingredient === nutrientData[i].food_name) && (nutrientData[i].nutrient === "Carb_g")) {
-                    carbDict[ingredient]
-                    calorie = calorieData[i].value;
-                } else {continue;}
-            }*/
 
             if (unit === "g") {
                 finalValue = amount / 100 * emissionValue;
@@ -405,9 +385,80 @@ $result=mysqli_query($db,$sql);
         }
         // calculate greenhouse gases and calories
         function calculate(){
+            var carbDict = {};
+            var fatDict = {};
+            var proteinDict = {};
+            var vitADict = {};
+            var vitCDict = {};
+            var vitEDict = {};
+            var calciumDict = {};
+            var totalNutrient = []; // Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
             var greenHouse = "";
             var kcal = "";
+            var amountTable = "";
+            var nutrientDict = {};
             var myTable = document.getElementById("table"), sumGas = 0, sumCal = 0;
+            // go through table and save ingredient as key, amount as value
+            for (var i = 1; i < myTable.rows.length; i++) {
+                if (myTable.rows[i].cells[2].innerHTML.includes("k")){
+                    amountTable = myTable.rows[i].cells[2].innerHTML.replace(/[^0-9]/g, '');
+                    amountTable *= 1000; // convert from kg to gram
+                }
+                else {
+                    amountTable = parseInt(myTable.rows[i].cells[2].innerHTML.replace(/[^0-9]/g, '')); // extract numeric values
+                }
+
+                if (myTable.rows[i].cells[1].innerHTML in nutrientDict) {
+                    var existingAmount = parseInt(nutrientDict[myTable.rows[i].cells[1].innerHTML]);
+                    amountTable = existingAmount + amountTable;
+                    nutrientDict[myTable.rows[i].cells[1].innerHTML] = amountTable;
+                }
+                else {
+                    nutrientDict[myTable.rows[i].cells[1].innerHTML] = amountTable;
+                }
+                console.log(nutrientDict);
+            }
+            // once we have a dictionary of Ingredient: amount (gram), go through nutrientData to get nutrient value
+            for (var item in nutrientDict) {
+                for (var k = 0; k < nutrientData.length; k++) {
+                    //console.log(dataset[i]);
+                    if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Carb_g")) {
+                        carbDict[item] = Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Fat_g")) {
+                        fatDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Protein_g")) {
+                        proteinDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitA_mcg")) {
+                        vitADict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitC_mg")) {
+                        vitCDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitE_mg")) {
+                        vitEDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Calcium_mg")) {
+                        calciumDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    }
+                }
+            }
+            // totalNutrient; Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
+            var carbSum = 0;
+            var fatSum = 0;
+            var proteinSum = 0;
+            var vitASum = 0;
+            var vitCSum = 0;
+            var vitESum = 0;
+            var calciumSum = 0;
+            for (var item in carbDict){ carbSum += parseFloat(carbDict[item])};
+            for (var item in fatDict){ fatSum += parseFloat(fatDict[item])};
+            for (var item in proteinDict){ proteinSum += parseFloat(proteinDict[item])};
+            for (var item in vitADict){ vitASum += parseFloat(vitADict[item])};
+            for (var item in vitCDict){ vitCSum += parseFloat(vitCDict[item])};
+            for (var item in vitEDict){ vitESum += parseFloat(vitEDict[item])};
+            for (var item in calciumDict){ calciumSum += parseFloat(calciumDict[item])};
+
+            totalNutrient.push(Number(carbSum).toFixed(2), Number(fatSum).toFixed(2), Number(proteinSum).toFixed(2),
+                Number(vitASum).toFixed(2), Number(vitCSum).toFixed(2),Number(vitESum).toFixed(2), Number(calciumSum).toFixed(2));
+            console.log(totalNutrient);
+
             for (var i = 1; i < myTable.rows.length; i++) {
                 console.log(i);
 
@@ -436,6 +487,7 @@ $result=mysqli_query($db,$sql);
             console.log(sumGas + " " + sumCal);
             document.getElementById("carbon_footprint").innerHTML = sumGas + " kg"; // (CO2 equivalents)
             document.getElementById("total_calories").innerHTML = sumCal + " kcal";
+            document.getElementById("total_nutrient").innerHTML = "Carbohydrates " + totalNutrient[0] +"g";
             document.getElementById("total_result").style.display="block";
             show_footprint(sumGas);
         }
@@ -517,7 +569,7 @@ $result=mysqli_query($db,$sql);
 <body id="top">
     <!-- Header -->
     <header id="header" class="skel-layers-fixed">
-        <h1>Trailblazers</h1>
+        <h5 class="team_logo"><a href="index.html">Trailblazers</a></h5>
         <nav id="nav">
             <ul>
                 <li><a href="index.html">Home</a></li>
@@ -528,13 +580,13 @@ $result=mysqli_query($db,$sql);
             </ul>
         </nav>
     </header>
-    <div class="breadcrumb align-center">
+    <div class="breadcrumb container">
         <a href="index.html">Home</a>&nbsp; >&nbsp;
         <span>Meal Planning</span>
     </div>
     <!-- Banner -->
     <div id="mealBanner">
-            <br><br><br><br><br>
+            <br><br><br><br>
             <header class="major">
                 <h3>Meal Planning</h3>
                 <p>Eat healthy with eco-friendly meals</p>
@@ -547,7 +599,7 @@ $result=mysqli_query($db,$sql);
     <div class="container">
         <div class="row">
             <div class="12u align-center">
-                <h3>Let's calculate your carbon footprint</h3>
+                <!-- <h3>Let's calculate your carbon footprint</h3> -->
                 <p>Add and calculate carbon footprint of ingredients in your recipe.</p><br>
             </div>
         </div>
@@ -563,21 +615,29 @@ $result=mysqli_query($db,$sql);
                         <option value="<?= $row['food_group']; ?>"><?= $row['food_group']; ?></option>
                         <?php } ?>
                     </select>
-                    <div class="validation-error" style="visibility:hidden;" id="groupValidationError">This field is required</div>
+                    <div class="validation-error" style="visibility:hidden;" id="groupValidationError">Please select the ingredient group</div>
 
                     <label for="food_name">INGREDIENT</label>
                     <select name ="food_name" id="food_name" onchange=onSelected("ingredientValidationError")>
                         <option value="" disabled selected>Select</option>
                     </select>
-                    <div class="validation-error" style="visibility:hidden;" id="ingredientValidationError">This field is required</div>
+                    <div class="validation-error" style="visibility:hidden;" id="ingredientValidationError">Please select the ingredient</div>
 
                     <label for="amount">AMOUNT</label>
                     <!--validation for user input to be only numeric-->
-                    <input id="amountInput" placeholder="Enter weight" type="text"  maxlength="3" onkeypress="isInputNumber(event);">
-
+                    <input class="input_amount" id="amountInput" placeholder="Weight" type="text"  maxlength="3" onkeypress="isInputNumber(event);">
                     <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
                         <span class="tooltiptext">Max. 999</span>
                     </div>
+                    <select name ="unit" id="unit" onchange=onSelected("amountValidationError")>
+                        <option value="" disabled selected>Select</option>
+                        <option value="g">g</option>
+                        <option value="kg">kg</option>
+                    </select>
+                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                        <span class="tooltiptext">g (gram)<br>kg (kilogram)</span>
+                    </div>
+                    <div class="validation-error" style="visibility:hidden;" id="amountValidationError">This field is required</div>
 
                     <script>
                         // validate user input for Amount
@@ -589,19 +649,6 @@ $result=mysqli_query($db,$sql);
                             }
                         }
                     </script>
-                    <div class="validation-error" style="visibility:hidden;" id="amountValidationError">Please enter between 1 and 999</div>
-
-                    <label for="unit">UNIT</label>
-                    <select name ="unit" id="unit" onchange=onSelected("unitValidationError")>
-                        <option value="" disabled selected>Select</option>
-                        <option value="g">g</option>
-                        <option value="kg">kg</option>
-                    </select>
-                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                        <span class="tooltiptext">g (gram)<br>kg (kilogram)</span>
-                    </div>
-                    <div class="validation-error" style="visibility:hidden;" id="unitValidationError">This field is required</div>
-                    <br>
 
                     <ul class="actions">
                         <li><a id="add_button" class="button alt add" onclick="add()">ADD</a></li>
@@ -644,6 +691,7 @@ $result=mysqli_query($db,$sql);
                     <br><br>
                     <h4 class="meal_planning">YOUR CARBON FOOTPRINT :&nbsp;</h4><h4 id="carbon_footprint"></h4><br>
                     <h4 class="meal_planning">CALORIES OF YOUR RECIPE :&nbsp;</h4><h4 id="total_calories"></h4><br>
+                    <h4 class="meal_planning">AMOUNT OF NUTRIENT :&nbsp;</h4><h4 id="total_nutrient"></h4><br>
                 </div>
             </div>
         </div>
@@ -706,11 +754,14 @@ $result=mysqli_query($db,$sql);
                     <select class="input_activity" name="activity" id="activity" onchange=onSelected("activityValidationError")>
                         <option class="input_activity" value="" disabled selected>Select activity level</option>
                         <option class="input_activity" value="sedentary">Sedentary: little to no exercise</option>
-                        <option class="input_activity" value="light">Light exercise: 1-3 days per week</option>
-                        <option class="input_activity" value="moderate">Moderate exercise: 3-5 days per week</option>
-                        <option class="input_activity" value="veryActive">Heavy exercise: 5-7 days per week </option>
-                        <option class="input_activity" value="extraActive">Very heavy exercise: twice per day</option>
+                        <option class="input_activity" value="light">Light: exercise 1-3 times per week</option>
+                        <option class="input_activity" value="moderate">Moderate: exercise 4-5 times per week</option>
+                        <option class="input_activity" value="veryActive">Very active: intense exercise 6-7 times per week </option>
+                        <option class="input_activity" value="extraActive">Extra active: very intense exercise daily</option>
                     </select>
+                    <div class="extra_info">Exercise: 15-30 mins of elevated heart rate activity<br>
+                        Intense exercise: 45-120 mins of elevated heart rate activity<br>
+                        Very intense exercise: 2+ hrs of elevated heart rate activity</div>
                     <div class="validation-error" style="visibility:hidden;" id="activityValidationError">Please select your activity level</div>
                     <br>
                     <ul class="actions">
