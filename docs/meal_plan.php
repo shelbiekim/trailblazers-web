@@ -22,6 +22,13 @@ foreach ($calorieQuery as $row) {
     $calorieArray[] = $row;
 }
 
+$nutrientData = "SELECT * FROM combined_data WHERE nutrient!='Energy_kcal' and nutrient!= 'sum_emission' ORDER BY food_name ASC";
+$nutrientQuery = mysqli_query($db,$nutrientData);
+$nutrientArray = array();
+foreach ($nutrientQuery as $row) {
+    $nutrientArray[] = $row;
+}
+
 $sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
 $result=mysqli_query($db,$sql);
 
@@ -62,6 +69,17 @@ $result=mysqli_query($db,$sql);
             });
         });
 
+        $(function(){
+            $("#bmr_button").click(function(){
+                $('html,body').animate(
+                    {
+                        scrollTop:$('#check_bmr').offset().top
+                    },
+                    'slow'
+                )
+            });
+        });
+
         $(document).ready(function(){
            $("#food_group").change(function(){
               var group = $(this).val();
@@ -87,21 +105,40 @@ $result=mysqli_query($db,$sql);
         var finalValue = "";
         var calorie = "";
         var finalCalorie = "";
+        var gender = "";
+        var male = "";
+        var female = "";
+        var height = "";
+        var weight = "";
+        var age = "";
+        var activity = "";
+        var bmr = "";
         var appear = false;
         var valid = false;
+        var valid2 = false;
         var isValid = true;
+        var isValid2 = true;
         var rowExists = false;
         var emissionData = <?php echo json_encode($emissionArray);?>;
         var calorieData =  <?php echo json_encode($calorieArray);?>;
+        var nutrientData =  <?php echo json_encode($nutrientArray);?>;
         var selectedRow = null;
         var imgExists = false;
         var imgName = "";
+        var carbDict = {};
+        var fatDict = {};
+        var proteinDict = {};
+        var vitADict = {};
+        var vitCDict = {};
+        var vitEDict = {};
+        var calciumDict = {};
 
-
+        // hide validation error message
         function onSelected(id){
             document.getElementById(id).style.visibility ="hidden";
         }
 
+        // add ingredient
         function add(){
             valid = validateInput();
             if (valid === true) {
@@ -164,7 +201,80 @@ $result=mysqli_query($db,$sql);
             return isValid;
         }
 
+        function calculate_calories() {
+            document.getElementById("total_result2").style.display = "none";
+            valid = validateInput2();
+            activity = checkActivity();
+            if (document.getElementById('male').checked) {
+                gender = "male";
+                bmr = (10*weight) + (6.25*height) -(5*age) + 5;
+                bmr = bmr*activity;
+            } else if (document.getElementById('female').checked){
+                gender = "female";
+                bmr = (10*weight) + (6.25*height) -(5*age) - 161;
+                bmr = bmr*activity;
+            }
+            document.getElementById("total_result2").style.display = "block";
+            document.getElementById("result_bmr").innerHTML = bmr;
 
+
+        }
+
+        function checkActivity(){
+            if (document.getElementById("activity").value=="sedentary"){
+                return 1.2;
+            } else if (document.getElementById("activity").value=="light"){
+                return 1.375;
+            } else if (document.getElementById("activity").value=="moderate") {
+                return 1.55;
+            } else if (document.getElementById("activity").value=="veryActive") {
+                return 1.725;
+            } else { //extra active
+                return 1.9;
+            }
+        }
+
+        function validateInput2() {
+            male = document.getElementById("male").value;
+            female = document.getElementById("female").value;
+            height = parseInt(document.getElementById("height").value);
+            weight = parseInt(document.getElementById("weight").value);
+            age = parseInt(document.getElementById("age").value);
+            activity = document.getElementById("activity").value;
+
+            // validate and show error message
+            if (!(document.getElementById('male').checked || document.getElementById('female').checked)){
+                isValid2=false;
+                document.getElementById("genderValidationError").style.visibility ="visible";
+            } else if (!(height > 0)){
+                isValid2=false;
+                document.getElementById("heightValidationError").style.visibility ="visible";
+            } else if (!(weight > 0)) {
+                isValid2=false;
+                document.getElementById("weightValidationError").style.visibility ="visible";
+            } else if (!(age > 0)) {
+                isValid2=false;
+                document.getElementById("ageValidationError").style.visibility ="visible";
+            } else if (activity=="") {
+                isValid2=false;
+                document.getElementById("activityValidationError").style.visibility ="visible";
+            } else  {
+                isValid2 = true;
+                if (document.getElementById("genderValidationError").style.visibility === "visible")
+                    document.getElementById("genderValidationError").style.visibility ="hidden";
+                else if (document.getElementById("heightValidationError").style.visibility === "visible")
+                    document.getElementById("heightValidationError").style.visibility ="hidden";
+                else if (document.getElementById("weightValidationError").style.visibility === "visible")
+                    document.getElementById("weightValidationError").style.visibility ="hidden";
+                else if (document.getElementById("ageValidationError").style.visibility === "visible")
+                    document.getElementById("ageValidationError").style.visibility ="hidden";
+                else if (document.getElementById("activityValidationError").style.visibility === "visible")
+                    document.getElementById("activityValidationError").style.visibility ="hidden";
+            }
+            return isValid2;
+        }
+
+        // function add() or save() calls addIngredient()
         function addIngredient() {
             for(var i=0; i<emissionData.length;i++) {
                 //console.log(dataset[i]);
@@ -179,6 +289,14 @@ $result=mysqli_query($db,$sql);
                     calorie = calorieData[i].value;
                 } else {continue;}
             }
+
+            /*for(var i=0; i<nutrientData.length;i++) {
+                //console.log(dataset[i]);
+                if((ingredient === nutrientData[i].food_name) && (nutrientData[i].nutrient === "Carb_g")) {
+                    carbDict[ingredient]
+                    calorie = calorieData[i].value;
+                } else {continue;}
+            }*/
 
             if (unit === "g") {
                 finalValue = amount / 100 * emissionValue;
@@ -313,7 +431,7 @@ $result=mysqli_query($db,$sql);
             sumGas = Number(sumGas).toFixed(2);
             sumCal = Number(sumCal).toFixed(2);
             console.log(sumGas + " " + sumCal);
-            document.getElementById("carbon_footprint").innerHTML = sumGas + " kg of Greenhouse Gases"; // (CO2 equivalents)
+            document.getElementById("carbon_footprint").innerHTML = sumGas + " kg"; // (CO2 equivalents)
             document.getElementById("total_calories").innerHTML = sumCal + " kcal";
             document.getElementById("total_result").style.display="block";
             show_footprint(sumGas);
@@ -407,18 +525,21 @@ $result=mysqli_query($db,$sql);
             </ul>
         </nav>
     </header>
+    <div class="breadcrumb align-center">
+        <a href="index.html">Home</a>&nbsp; >&nbsp;
+        <span>Meal Planning</span>
+    </div>
     <!-- Banner -->
-    <div class="mealBanner">
-        <div class="breadcrumb align-center">
-            <br>
-            <a href="index.html" style="color:#ffffff;">Home</a>&nbsp; >&nbsp;
-            <span>Meal Planning</span>
-        </div><br><br><br><br>
-        <header class="major">
-            <h3>Meal Planning</h3>
-            <p>Eat healthy with eco-friendly meals</p>
-        </header>
-    </div><br>
+    <div id="mealBanner">
+            <br><br><br><br><br>
+            <header class="major">
+                <h3>Meal Planning</h3>
+                <p>Eat healthy with eco-friendly meals</p>
+            </header>
+    </div>
+
+    <br>
+
     <!-- main -->
     <div class="container">
         <div class="row">
@@ -493,13 +614,13 @@ $result=mysqli_query($db,$sql);
                         <th>Ingredient</th>
                         <th>Amount</th>
                         <th>Greenhouse Gases
-                            <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                                <span class="tooltiptext">Greenhouse gases emitted by producing a kilogram of ingredient</span>
+                            <div class="tooltip long"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                                <span class="tooltiptext long">Greenhouse gases emitted by producing a kilogram of ingredient</span>
                             </div>
                         </th>
                         <th>Calories
-                            <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                                <span class="tooltiptext">1 kcal is the energy required to raise the temperature of 1kg of water by 1°C.</span>
+                            <div class="tooltip long"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                                <span class="tooltiptext long">1 kcal is the energy required to raise the temperature of 1kg of water by 1°C</span>
                             </div>
                         </th>
                         <th>Action</th>
@@ -517,8 +638,8 @@ $result=mysqli_query($db,$sql);
         <div class="row">
             <div class="12u align-center">
                 <div class="result" id="total_result" style="display:none; padding-top: 60px;" >
-                    <h4 class="meal_planning">TOTAL CARBON FOOTPRINT :&nbsp;</h4><h4 id="carbon_footprint"></h4><br>
-                    <h4 class="meal_planning">TOTAL CALORIES OF YOUR RECIPE :&nbsp;</h4><h4 id="total_calories"></h4>
+                    <h4 class="meal_planning">YOUR CARBON FOOTPRINT :&nbsp;</h4><h4 id="carbon_footprint"></h4><br>
+                    <h4 class="meal_planning">CALORIES OF YOUR RECIPE :&nbsp;</h4><h4 id="total_calories"></h4><br>
                 </div>
             </div>
         </div>
@@ -532,24 +653,73 @@ $result=mysqli_query($db,$sql);
                     <img id="img_high" style="display: none; text-align: center" src="images/high.png" class="image" width="400">
                     <img id="img_veryhigh" style="display: none; text-align: center" src="images/veryhigh.png" class="image" width="400">
                     <br>
-                    <h3><span style="background-color: #44af92;color:#ffffff;"> &nbsp;Carbon Footprint of Your Recipe&nbsp; </span></h3><br>
+                    <h3><span style="text-decoration: none; border-bottom: 2px solid #44af92; color:#000000;"> &nbsp;Carbon Footprint of Your Recipe&nbsp; </span></h3><br>
+                    <ul class="actions">
+                        <li><a id="bmr_button" class="button alt bmr">Check your calorie needs</a></li>
+                    </ul>
                 </div>
             </div>
         </div>
+        <br>
         <hr class="major"/>
-        <h3 class="align-center"> How much calories should you eat per day? </h3>
-        <p class="align-center">Find it out by entering your information.</p>
-        <div class="row"> <!--div class for the second chart-->
-            <div class ="12u">
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-                <br>
-            </div> <!-- end of first 6u-->
-        </div> <!-- end of second row-->
+        <h3 class="align-center" id="check_bmr"> How much calories should you eat per day? </h3>
+        <p class="align-center">Find it out by entering your information.</p><br>
+        <div class="row">
+            <div class="6u">
+                <div id="form-group2" class="form-group2">
+                    <p class="bmr_form">GENDER</p>
+                    <input type="radio" id="male" name="gender" value="male" onchange=onSelected("genderValidationError")>
+                    <label class="first_label" for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="female" onchange=onSelected("genderValidationError")>
+                    <label class="second_label" for="female">Female</label>
+                    <div class="validation-error" style="visibility:hidden;" id="genderValidationError">Please select your gender</div>
+
+                    <p class="bmr_form">HEIGHT</p>
+                    <input class="input_height" type="text" id="height" name="height" maxlength="3" pattern="\d{3}" placeholder="cm" onkeypress="isInputNumber(event)"
+                           onchange=onSelected("heightValidationError")>
+                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                        <span class="tooltiptext">Round to the nearest integer</span>
+                    </div>
+                    <div class="validation-error" style="visibility:hidden;" id="heightValidationError">Please enter between 1 and 999</div>
+
+                    <p class="bmr_form">WEIGHT</p>
+                    <input class="input_weight" type="text" id="weight" name="weight" maxlength="3" pattern="\d{3}" placeholder="kg" onkeypress="isInputNumber(event)"
+                           onchange=onSelected("weightValidationError")>
+                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                        <span class="tooltiptext">Round to the nearest integer</span>
+                    </div>
+                    <div class="validation-error" style="visibility:hidden;" id="weightValidationError">Please enter between 1 and 999</div>
+
+                    <p class="bmr_form">AGE</p>
+                    <input class="input_age" id="age" name="age" type="text" maxlength="2" onkeypress="isInputNumber(event);" placeholder="Enter age"
+                           onchange=onSelected("ageValidationError")>
+                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                        <span class="tooltiptext">Enter between 1 and 99</span>
+                    </div>
+                    <div class="validation-error" style="visibility:hidden;" id="ageValidationError">Please enter between 1 and 99</div>
+
+                    <p class="bmr_form">ACTIVITY</p>
+                    <select class="input_activity" name="activity" id="activity" onchange=onSelected("activityValidationError")>
+                        <option class="input_activity" value="" disabled selected>Select activity level</option>
+                        <option class="input_activity" value="sedentary">Sedentary: little to no exercise</option>
+                        <option class="input_activity" value="light">Light exercise: 1-3 days per week</option>
+                        <option class="input_activity" value="moderate">Moderate exercise: 3-5 days per week</option>
+                        <option class="input_activity" value="veryActive">Heavy exercise: 5-7 days per week </option>
+                        <option class="input_activity" value="extraActive">Very heavy exercise: twice per day</option>
+                    </select>
+                    <div class="validation-error" style="visibility:hidden;" id="activityValidationError">Please select your activity level</div>
+                    <br>
+                    <ul class="actions">
+                        <li><a id="calories_button" class="button alt calories" onclick="calculate_calories()">Calculate Calories</a></li>
+                    </ul>
+                </div> <!--div form-group-->
+            </div> <!--5u-->
+            <div class="6u">
+                <div class="result2" id="total_result2" style="display:none;" >
+                    <h4>RECOMMENDED DAILY CALORIE INTAKE :&nbsp;</h4><h4 id="result_bmr"></h4><h4>&nbsp;kcal</h4>
+                </div>
+            </div>
+        </div> <!--end of row-->
     </div> 	<!-- 1st Container -->
 
         <!-- Footer -->

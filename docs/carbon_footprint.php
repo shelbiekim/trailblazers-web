@@ -94,7 +94,7 @@
                         <li><a href="about_us.html">About Us</a></li>
 					</ul>
 				</nav>
-			</header><br>
+			</header>
             <div class="breadcrumb align-center">
                 <a href="index.html">Home</a>&nbsp; >&nbsp;
                 <span>Carbon Footprint</span>
@@ -102,6 +102,7 @@
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
 				<header class="major">
+                    <br>
 					<h3>Carbon Footprint</h3>
 					<p>Where do emissions from food come from?</p>
 				</header>
