@@ -203,20 +203,23 @@ $result=mysqli_query($db,$sql);
 
         function calculate_calories() {
             document.getElementById("total_result2").style.display = "none";
-            valid = validateInput2();
-            activity = checkActivity();
-            if (document.getElementById('male').checked) {
-                gender = "male";
-                bmr = (10*weight) + (6.25*height) -(5*age) + 5;
-                bmr = bmr*activity;
-            } else if (document.getElementById('female').checked){
-                gender = "female";
-                bmr = (10*weight) + (6.25*height) -(5*age) - 161;
-                bmr = bmr*activity;
+            valid2 = validateInput2();
+            if(valid2==true) {
+                activity = checkActivity();
+                if (document.getElementById('male').checked) {
+                    gender = "male";
+                    bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+                    bmr = bmr * activity;
+                    bmr = Number(bmr).toFixed(2);
+                } else if (document.getElementById('female').checked) {
+                    gender = "female";
+                    bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+                    bmr = bmr * activity;
+                    bmr = Number(bmr).toFixed(2);
+                }
+                document.getElementById("total_result2").style.display = "block";
+                document.getElementById("result_bmr").innerHTML = bmr;
             }
-            document.getElementById("total_result2").style.display = "block";
-            document.getElementById("result_bmr").innerHTML = bmr;
-
 
         }
 
