@@ -1287,6 +1287,21 @@
 		vertical-align: middle;
 	}
 
+	.carbonBanner {
+		position: relative;
+		text-align: center;
+		color: white;
+		font-weight: bold;
+	}
+
+	.centered {
+		position: absolute;
+		top: 50%;
+		left: 50%;
+		transform: translate(-50%, -50%);
+	}
+
+
 	#mealBanner {
 		background-image: url("../images/meal1.png");
 		width:auto;
@@ -1331,12 +1346,12 @@
 
 	}
 
-	#mealBanner .inner, #mealBanner2 .inner {
+	#mealBanner .inner, #mealBanner2 .inner, #carbonBanner .inner {
 		position: relative;
 		z-index: -1;
 	}
 
-	#mealBanner .inner :last-child, #mealBanner2 .inner :last-child  {
+	#mealBanner .inner :last-child, #mealBanner2 .inner :last-child, #carbonBanner .inner :last-child  {
 		margin-bottom: 0;
 	}
 
