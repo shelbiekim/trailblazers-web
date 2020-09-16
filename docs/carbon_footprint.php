@@ -130,73 +130,56 @@
             function showfood(){
                 var chart_x1=["Breakfast","Lunch","Dinner"];
                 var breakfastName=[];
-                var bName=[];
-                var breakfastTotal=[];
-                var bTotal=[];
-                var lunchTotal=[];
-                var lName=[];
                 var lunchName=[];
-                var lTotal=[];
-                var dinnerTotal=[];
-                var dName=[];
                 var dinnerName=[];
-                var dTotal=[];
+                var breakfastSum = 0;
+                var lunchSum = 0;
+                var dinnerSum = 0;
+                var mealTotal = [];
 
                 for(var item in breakfast) {
                     breakfastName.push(item);
-                    breakfastTotal.push(breakfast[item]);
+                    breakfastSum += parseFloat(breakfast[item]);
                 }
 
 
                 for(var item in lunch) {
                     lunchName.push(item);
-                    lunchTotal.push(lunch[item]);
+                    lunchSum += parseFloat(lunch[item]);
                 }
 
                 for(var item in dinner) {
                     dinnerName.push(item);
-                    dinnerTotal.push(dinner[item]);
+                    dinnerSum += parseFloat(dinner[item]);
                 }
 
-                bName.push(breakfastName[0],lunchName[0],dinnerName[0]);
-                lName.push(breakfastName[1],lunchName[1],dinnerName[1]);
-                dName.push(breakfastName[2],lunchName[2],dinnerName[2]);
 
-                bTotal.push(breakfastTotal[0],lunchTotal[0],dinnerTotal[0]);
-                lTotal.push(breakfastTotal[1],lunchTotal[1],dinnerTotal[1]);
-                dTotal.push(breakfastTotal[2],lunchTotal[2],dinnerTotal[2]);
-
-                //console.log(breakfastTotal);
+                mealTotal.push(breakfastSum,lunchSum, dinnerSum);
+                for(var item in mealTotal){
+                    item = Number(item).toFixed(2);
+                }
 
 
-
+                console.log(mealTotal);
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var config={
                     type:'bar',
                     data:{
                         labels:chart_x1,
+                        tooltipText: [breakfastName,lunchName,dinnerName],
                         datasets:[{
-                                //label:"Breakfast",
-                                data:bTotal,
-                                backgroundColor: 'rgba(0,150,136,0.7)',
-                                //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
-                            },
-                            {
-                                //label:"Lunch",
-                                data:lTotal,
-                                backgroundColor: 'rgba(0,150,136,0.7)', //'rgba(156,39,176,0.7)'
-                                //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
-                            },
-                            {
-                                //label:"Dinner",
-                                data:dTotal,
-                                backgroundColor: 'rgba(0,150,136,0.7)',
+                                data:mealTotal,
+                                backgroundColor: ['rgba(63,81,181,0.7)','rgba(76,175,80,0.7)','rgba(255,152,0,0.7)']
                                 //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
                             }
 
                         ]
                     },
                     options: {
+                        title: {
+                          display: true,
+                          text: "Greenhouse Gas Emissions Produced by Meal"
+                        },
                         legend: {
                             display: false
                         },
@@ -205,10 +188,29 @@
                             yAxes: [{
                                 //stacked: true,
                                 ticks : {
-                                    //min: ,
+                                    min: 0,
+                                    callback: function(value, index, values){
+                                        return value + "kg";
+                                    }
                                     //max:
                                 }
+                                //scaleLabel: {
+                                //    display: true,
+                                //    labelString: '' Y axis title
+                                //}
                             }]
+                        },
+                        responsive: true,
+                        tooltips: {
+                            callbacks: {
+                                title: function(tooltipItem, data) {
+                                    var title = data.tooltipText[tooltipItem[0].index];
+                                    return title;
+                                },
+                                label: function(tooltipItem, data){
+                                    return tooltipItem.yLabel +'kg';
+                                }
+                            }
                         }
                     }
                 }
@@ -369,22 +371,30 @@
                         </ul>
 
                     </div> <!-- first 6u -->
-
                      <div class="6u">
                         <div class="row">
                             <canvas id="myChart" width="100" height="80"></canvas>
                         </div>
                     </div> <!-- 2nd 6u -->
-
                 </div> <!-- 1st row -->
 
                 <hr class="major" />
-                    <div class="row">
-                        <div class ="12u align-center">
-                            <a href="meal_plan.php" class="image effect"><img src="images/nutrient.png" height="200" alt="Meal Planning" /></a>
-                            <p>Build your low carbon footprint recipes</p>
+                    <div class ="12u align-center carbonBanner">
+                        <a href="meal_plan.php" class="image effect"><img src="images/carbon_banner.png" width="500" alt="Meal Planning" /></a>
+                        <div class="centered">
+                            <a style="color: #ffffff" href="meal_plan.php">Build your low carbon footprint recipes</a>
                         </div>
                     </div>
+                </div> 	<!-- 1st Container -->
+
+            </div> 	<!-- main wrapper -->
+
+        <!-- Banner <div class ="12u align-center">
+                <a href="meal_plan.php" class="image effect"><img src="images/nutrient.png" height="200" alt="Meal Planning" /></a>
+                <p>Build your low carbon footprint recipes</p>
+            </div>-->
+
+
                 <!--
                 <div class="row">
                     <div class ="6u">
@@ -541,8 +551,6 @@
 
                     </script> -->
 
-            </div> 	<!-- 1st Container -->
-            </div> 	<!-- main wrapper -->
 
 		<!-- Footer -->
 			<footer id="footer">

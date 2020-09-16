@@ -767,7 +767,7 @@ $result=mysqli_query($db,$sql);
                     <!--validation for user input to be only numeric-->
                     <input class="input_amount" id="amountInput" placeholder="Weight" type="text"  maxlength="3" onkeypress="isInputNumber(event);">
                     <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                        <span class="tooltiptext">Max. 999</span>
+                        <span class="tooltiptext">Round to the nearest integer<br>(max. 999)</span>
                     </div>
                     <select name ="unit" id="unit" onchange=onSelected("amountValidationError")>
                         <option value="" disabled selected>Select</option>
