@@ -904,7 +904,7 @@ $result=mysqli_query($db,$sql);
                     </ul>
                 </div> <!--div form-group-->
             </div> <!--5u-->
-            <div class="7u">
+            <div class="6u">
                 <div class="result2" id="total_result2" style="display:none;"><br>
                     <h4>RECOMMENDED DAILY CALORIE INTAKE :&nbsp;</h4><h4 id="result_bmr"></h4><h4>&nbsp;kcal</h4><br>
                     <h4>RECOMMENDED DAILY NUTRIENT INTAKE :&nbsp;</h4><h4 id="result_nutrient"></h4><br><h4 id="result_nutrient2"></h4>
