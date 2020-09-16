@@ -24,13 +24,13 @@
 23,Grapes,Fruits,"Grapes, american type (slip skin), raw",Energy_kcal,67.0
 24,Pomegranate,Fruits,"Pomegranates, raw",Energy_kcal,83.0
 25,Watermelon,Fruits,"Watermelon, raw",Energy_kcal,30.0
-26,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",Energy_kcal,54.0
-27,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",Energy_kcal,63.0
-28,Cheese,Dariy and Eggs,"Cheese, brick",Energy_kcal,371.0
-29,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",Energy_kcal,108.0
-30,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Energy_kcal,230.0
-31,Cream,Dariy and Eggs,"Cheese, cream",Energy_kcal,342.0
-32,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Energy_kcal,61.0
+26,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",Energy_kcal,54.0
+27,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",Energy_kcal,63.0
+28,Cheese,Dairy and Eggs,"Cheese, brick",Energy_kcal,371.0
+29,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",Energy_kcal,108.0
+30,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Energy_kcal,230.0
+31,Cream,Dairy and Eggs,"Cheese, cream",Energy_kcal,342.0
+32,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Energy_kcal,61.0
 33,Beer,Beverages,"Alcoholic beverage, beer, regular, all",Energy_kcal,43.0
 34,Wine,Beverages,"Alcoholic beverage, wine, table, all",Energy_kcal,83.0
 35,Coffee(instant),Beverages,"Coffee, instant, regular, powder",Energy_kcal,353.0
@@ -51,7 +51,7 @@
 50,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",Energy_kcal,553.0
 51,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",Energy_kcal,55.0
 52,Chocolate,Chocolate,Chocolate syrup,Energy_kcal,279.0
-53,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",Energy_kcal,143.0
+53,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",Energy_kcal,143.0
 54,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",Energy_kcal,345.0
 55,Palm oil,Oil,"Oil, palm",Energy_kcal,884.0
 56,Canola oil,Oil,"Oil, grapeseed",Energy_kcal,884.0
@@ -93,13 +93,13 @@
 92,Grapes,Fruits,"Grapes, american type (slip skin), raw",Protein_g,0.63
 93,Pomegranate,Fruits,"Pomegranates, raw",Protein_g,1.67
 94,Watermelon,Fruits,"Watermelon, raw",Protein_g,0.61
-95,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",Protein_g,3.27
-96,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",Protein_g,3.33
-97,Cheese,Dariy and Eggs,"Cheese, brick",Protein_g,23.24
-98,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",Protein_g,5.98
-99,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Protein_g,2.29
-100,Cream,Dariy and Eggs,"Cheese, cream",Protein_g,5.93
-101,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Protein_g,3.47
+95,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",Protein_g,3.27
+96,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",Protein_g,3.33
+97,Cheese,Dairy and Eggs,"Cheese, brick",Protein_g,23.24
+98,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",Protein_g,5.98
+99,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Protein_g,2.29
+100,Cream,Dairy and Eggs,"Cheese, cream",Protein_g,5.93
+101,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Protein_g,3.47
 102,Beer,Beverages,"Alcoholic beverage, beer, regular, all",Protein_g,0.46
 103,Wine,Beverages,"Alcoholic beverage, wine, table, all",Protein_g,0.07
 104,Coffee(instant),Beverages,"Coffee, instant, regular, powder",Protein_g,12.2
@@ -120,7 +120,7 @@
 119,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",Protein_g,18.22
 120,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",Protein_g,4.8
 121,Chocolate,Chocolate,Chocolate syrup,Protein_g,2.1
-122,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",Protein_g,12.56
+122,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",Protein_g,12.56
 123,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",Protein_g,22.0
 124,Palm oil,Oil,"Oil, palm",Protein_g,0.0
 125,Canola oil,Oil,"Oil, grapeseed",Protein_g,0.0
@@ -162,13 +162,13 @@
 161,Grapes,Fruits,"Grapes, american type (slip skin), raw",Fat_g,0.35
 162,Pomegranate,Fruits,"Pomegranates, raw",Fat_g,1.17
 163,Watermelon,Fruits,"Watermelon, raw",Fat_g,0.15
-164,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",Fat_g,1.75
-165,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",Fat_g,3.4
-166,Cheese,Dariy and Eggs,"Cheese, brick",Fat_g,29.68
-167,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",Fat_g,7.0
-168,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Fat_g,23.84
-169,Cream,Dariy and Eggs,"Cheese, cream",Fat_g,34.24
-170,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Fat_g,3.25
+164,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",Fat_g,1.75
+165,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",Fat_g,3.4
+166,Cheese,Dairy and Eggs,"Cheese, brick",Fat_g,29.68
+167,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",Fat_g,7.0
+168,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Fat_g,23.84
+169,Cream,Dairy and Eggs,"Cheese, cream",Fat_g,34.24
+170,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Fat_g,3.25
 171,Beer,Beverages,"Alcoholic beverage, beer, regular, all",Fat_g,0.0
 172,Wine,Beverages,"Alcoholic beverage, wine, table, all",Fat_g,0.0
 173,Coffee(instant),Beverages,"Coffee, instant, regular, powder",Fat_g,0.5
@@ -189,7 +189,7 @@
 188,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",Fat_g,43.85
 189,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",Fat_g,2.7
 190,Chocolate,Chocolate,Chocolate syrup,Fat_g,1.13
-191,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",Fat_g,9.51
+191,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",Fat_g,9.51
 192,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",Fat_g,2.6
 193,Palm oil,Oil,"Oil, palm",Fat_g,100.0
 194,Canola oil,Oil,"Oil, grapeseed",Fat_g,100.0
@@ -231,13 +231,13 @@
 230,Grapes,Fruits,"Grapes, american type (slip skin), raw",Carb_g,17.15
 231,Pomegranate,Fruits,"Pomegranates, raw",Carb_g,18.7
 232,Watermelon,Fruits,"Watermelon, raw",Carb_g,7.55
-233,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",Carb_g,6.28
-234,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",Carb_g,4.74
-235,Cheese,Dariy and Eggs,"Cheese, brick",Carb_g,2.79
-236,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",Carb_g,5.36
-237,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Carb_g,5.54
-238,Cream,Dariy and Eggs,"Cheese, cream",Carb_g,4.07
-239,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Carb_g,4.66
+233,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",Carb_g,6.28
+234,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",Carb_g,4.74
+235,Cheese,Dairy and Eggs,"Cheese, brick",Carb_g,2.79
+236,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",Carb_g,5.36
+237,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Carb_g,5.54
+238,Cream,Dairy and Eggs,"Cheese, cream",Carb_g,4.07
+239,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Carb_g,4.66
 240,Beer,Beverages,"Alcoholic beverage, beer, regular, all",Carb_g,3.55
 241,Wine,Beverages,"Alcoholic beverage, wine, table, all",Carb_g,2.72
 242,Coffee(instant),Beverages,"Coffee, instant, regular, powder",Carb_g,75.4
@@ -258,7 +258,7 @@
 257,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",Carb_g,30.19
 258,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",Carb_g,2.9
 259,Chocolate,Chocolate,Chocolate syrup,Carb_g,65.1
-260,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",Carb_g,0.72
+260,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",Carb_g,0.72
 261,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",Carb_g,60.7
 262,Palm oil,Oil,"Oil, palm",Carb_g,0.0
 263,Canola oil,Oil,"Oil, grapeseed",Carb_g,0.0
@@ -300,13 +300,13 @@
 299,Grapes,Fruits,"Grapes, american type (slip skin), raw",Sugar_g,16.25
 300,Pomegranate,Fruits,"Pomegranates, raw",Sugar_g,13.67
 301,Watermelon,Fruits,"Watermelon, raw",Sugar_g,6.2
-302,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",Sugar_g,3.99
-303,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",Sugar_g,4.74
-304,Cheese,Dariy and Eggs,"Cheese, brick",Sugar_g,0.51
-305,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",Sugar_g,0.0
-306,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Sugar_g,3.34
-307,Cream,Dariy and Eggs,"Cheese, cream",Sugar_g,3.21
-308,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Sugar_g,4.66
+302,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",Sugar_g,3.99
+303,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",Sugar_g,4.74
+304,Cheese,Dairy and Eggs,"Cheese, brick",Sugar_g,0.51
+305,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",Sugar_g,0.0
+306,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Sugar_g,3.34
+307,Cream,Dairy and Eggs,"Cheese, cream",Sugar_g,3.21
+308,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Sugar_g,4.66
 309,Beer,Beverages,"Alcoholic beverage, beer, regular, all",Sugar_g,0.0
 310,Wine,Beverages,"Alcoholic beverage, wine, table, all",Sugar_g,0.79
 311,Coffee(instant),Beverages,"Coffee, instant, regular, powder",Sugar_g,0.0
@@ -327,7 +327,7 @@
 326,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",Sugar_g,5.91
 327,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",Sugar_g,1.31
 328,Chocolate,Chocolate,Chocolate syrup,Sugar_g,49.65
-329,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",Sugar_g,0.37
+329,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",Sugar_g,0.37
 330,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",Sugar_g,0.0
 331,Palm oil,Oil,"Oil, palm",Sugar_g,0.0
 332,Canola oil,Oil,"Oil, grapeseed",Sugar_g,0.0
@@ -369,13 +369,13 @@
 368,Grapes,Fruits,"Grapes, american type (slip skin), raw",Fiber_g,0.9
 369,Pomegranate,Fruits,"Pomegranates, raw",Fiber_g,4.0
 370,Watermelon,Fruits,"Watermelon, raw",Fiber_g,0.4
-371,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",Fiber_g,0.6
-372,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",Fiber_g,0.0
-373,Cheese,Dariy and Eggs,"Cheese, brick",Fiber_g,0.0
-374,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",Fiber_g,0.0
-375,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Fiber_g,2.2
-376,Cream,Dariy and Eggs,"Cheese, cream",Fiber_g,0.0
-377,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Fiber_g,0.0
+371,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",Fiber_g,0.6
+372,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",Fiber_g,0.0
+373,Cheese,Dairy and Eggs,"Cheese, brick",Fiber_g,0.0
+374,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",Fiber_g,0.0
+375,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Fiber_g,2.2
+376,Cream,Dairy and Eggs,"Cheese, cream",Fiber_g,0.0
+377,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Fiber_g,0.0
 378,Beer,Beverages,"Alcoholic beverage, beer, regular, all",Fiber_g,0.0
 379,Wine,Beverages,"Alcoholic beverage, wine, table, all",Fiber_g,0.0
 380,Coffee(instant),Beverages,"Coffee, instant, regular, powder",Fiber_g,0.0
@@ -396,7 +396,7 @@
 395,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",Fiber_g,3.3
 396,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",Fiber_g,0.1
 397,Chocolate,Chocolate,Chocolate syrup,Fiber_g,2.6
-398,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",Fiber_g,0.0
+398,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",Fiber_g,0.0
 399,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",Fiber_g,25.1
 400,Palm oil,Oil,"Oil, palm",Fiber_g,0.0
 401,Canola oil,Oil,"Oil, grapeseed",Fiber_g,0.0
@@ -438,13 +438,13 @@
 437,Grapes,Fruits,"Grapes, american type (slip skin), raw",VitA_mcg,5.0
 438,Pomegranate,Fruits,"Pomegranates, raw",VitA_mcg,0.0
 439,Watermelon,Fruits,"Watermelon, raw",VitA_mcg,28.0
-440,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",VitA_mcg,0.0
-441,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",VitA_mcg,2.0
-442,Cheese,Dariy and Eggs,"Cheese, brick",VitA_mcg,292.0
-443,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",VitA_mcg,44.0
-444,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",VitA_mcg,0.0
-445,Cream,Dariy and Eggs,"Cheese, cream",VitA_mcg,366.0
-446,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",VitA_mcg,27.0
+440,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",VitA_mcg,0.0
+441,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",VitA_mcg,2.0
+442,Cheese,Dairy and Eggs,"Cheese, brick",VitA_mcg,292.0
+443,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",VitA_mcg,44.0
+444,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",VitA_mcg,0.0
+445,Cream,Dairy and Eggs,"Cheese, cream",VitA_mcg,366.0
+446,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",VitA_mcg,27.0
 447,Beer,Beverages,"Alcoholic beverage, beer, regular, all",VitA_mcg,0.0
 448,Wine,Beverages,"Alcoholic beverage, wine, table, all",VitA_mcg,0.0
 449,Coffee(instant),Beverages,"Coffee, instant, regular, powder",VitA_mcg,0.0
@@ -465,7 +465,7 @@
 464,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",VitA_mcg,0.0
 465,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",VitA_mcg,0.0
 466,Chocolate,Chocolate,Chocolate syrup,VitA_mcg,0.0
-467,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",VitA_mcg,160.0
+467,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",VitA_mcg,160.0
 468,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",VitA_mcg,0.0
 469,Palm oil,Oil,"Oil, palm",VitA_mcg,0.0
 470,Canola oil,Oil,"Oil, grapeseed",VitA_mcg,0.0
@@ -507,13 +507,13 @@
 506,Grapes,Fruits,"Grapes, american type (slip skin), raw",VitC_mg,4.0
 507,Pomegranate,Fruits,"Pomegranates, raw",VitC_mg,10.2
 508,Watermelon,Fruits,"Watermelon, raw",VitC_mg,8.1
-509,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",VitC_mg,0.0
-510,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",VitC_mg,0.9
-511,Cheese,Dariy and Eggs,"Cheese, brick",VitC_mg,0.0
-512,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",VitC_mg,4.2
-513,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",VitC_mg,2.8
-514,Cream,Dariy and Eggs,"Cheese, cream",VitC_mg,0.0
-515,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",VitC_mg,0.5
+509,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",VitC_mg,0.0
+510,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",VitC_mg,0.9
+511,Cheese,Dairy and Eggs,"Cheese, brick",VitC_mg,0.0
+512,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",VitC_mg,4.2
+513,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",VitC_mg,2.8
+514,Cream,Dairy and Eggs,"Cheese, cream",VitC_mg,0.0
+515,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",VitC_mg,0.5
 516,Beer,Beverages,"Alcoholic beverage, beer, regular, all",VitC_mg,0.0
 517,Wine,Beverages,"Alcoholic beverage, wine, table, all",VitC_mg,0.0
 518,Coffee(instant),Beverages,"Coffee, instant, regular, powder",VitC_mg,0.0
@@ -534,7 +534,7 @@
 533,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",VitC_mg,0.5
 534,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",VitC_mg,0.0
 535,Chocolate,Chocolate,Chocolate syrup,VitC_mg,0.2
-536,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",VitC_mg,0.0
+536,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",VitC_mg,0.0
 537,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",VitC_mg,0.0
 538,Palm oil,Oil,"Oil, palm",VitC_mg,0.0
 539,Canola oil,Oil,"Oil, grapeseed",VitC_mg,0.0
@@ -576,13 +576,13 @@
 575,Grapes,Fruits,"Grapes, american type (slip skin), raw",VitE_mg,0.19
 576,Pomegranate,Fruits,"Pomegranates, raw",VitE_mg,0.6
 577,Watermelon,Fruits,"Watermelon, raw",VitE_mg,0.05
-578,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",VitE_mg,0.11
-579,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",VitE_mg,0.13
-580,Cheese,Dariy and Eggs,"Cheese, brick",VitE_mg,0.26
-581,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",VitE_mg,0.0
-582,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",VitE_mg,0.15
-583,Cream,Dariy and Eggs,"Cheese, cream",VitE_mg,0.29
-584,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",VitE_mg,0.06
+578,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",VitE_mg,0.11
+579,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",VitE_mg,0.13
+580,Cheese,Dairy and Eggs,"Cheese, brick",VitE_mg,0.26
+581,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",VitE_mg,0.0
+582,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",VitE_mg,0.15
+583,Cream,Dairy and Eggs,"Cheese, cream",VitE_mg,0.29
+584,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",VitE_mg,0.06
 585,Beer,Beverages,"Alcoholic beverage, beer, regular, all",VitE_mg,0.0
 586,Wine,Beverages,"Alcoholic beverage, wine, table, all",VitE_mg,0.0
 587,Coffee(instant),Beverages,"Coffee, instant, regular, powder",VitE_mg,0.0
@@ -603,7 +603,7 @@
 602,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",VitE_mg,0.9
 603,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",VitE_mg,0.0
 604,Chocolate,Chocolate,Chocolate syrup,VitE_mg,0.02
-605,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",VitE_mg,1.05
+605,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",VitE_mg,1.05
 606,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",VitE_mg,0.0
 607,Palm oil,Oil,"Oil, palm",VitE_mg,15.94
 608,Canola oil,Oil,"Oil, grapeseed",VitE_mg,28.8
@@ -645,13 +645,13 @@
 644,Grapes,Fruits,"Grapes, american type (slip skin), raw",Calcium_mg,14.0
 645,Pomegranate,Fruits,"Pomegranates, raw",Calcium_mg,10.0
 646,Watermelon,Fruits,"Watermelon, raw",Calcium_mg,7.0
-647,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",Calcium_mg,25.0
-648,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",Calcium_mg,128.0
-649,Cheese,Dariy and Eggs,"Cheese, brick",Calcium_mg,674.0
-650,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",Calcium_mg,193.0
-651,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Calcium_mg,16.0
-652,Cream,Dariy and Eggs,"Cheese, cream",Calcium_mg,98.0
-653,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Calcium_mg,121.0
+647,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",Calcium_mg,25.0
+648,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",Calcium_mg,128.0
+649,Cheese,Dairy and Eggs,"Cheese, brick",Calcium_mg,674.0
+650,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",Calcium_mg,193.0
+651,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",Calcium_mg,16.0
+652,Cream,Dairy and Eggs,"Cheese, cream",Calcium_mg,98.0
+653,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",Calcium_mg,121.0
 654,Beer,Beverages,"Alcoholic beverage, beer, regular, all",Calcium_mg,4.0
 655,Wine,Beverages,"Alcoholic beverage, wine, table, all",Calcium_mg,8.0
 656,Coffee(instant),Beverages,"Coffee, instant, regular, powder",Calcium_mg,141.0
@@ -672,7 +672,7 @@
 671,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",Calcium_mg,37.0
 672,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",Calcium_mg,31.0
 673,Chocolate,Chocolate,Chocolate syrup,Calcium_mg,14.0
-674,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",Calcium_mg,56.0
+674,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",Calcium_mg,56.0
 675,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",Calcium_mg,166.0
 676,Palm oil,Oil,"Oil, palm",Calcium_mg,0.0
 677,Canola oil,Oil,"Oil, grapeseed",Calcium_mg,0.0
@@ -714,13 +714,13 @@
 713,Grapes,Fruits,"Grapes, american type (slip skin), raw",sum_emission,0.11
 714,Pomegranate,Fruits,"Pomegranates, raw",sum_emission,0.13
 715,Watermelon,Fruits,"Watermelon, raw",sum_emission,0.13
-716,Soymilk,Dariy and Eggs,"Soymilk, original and vanilla, unfortified",sum_emission,0.1
-717,Milk,Dariy and Eggs,"Milk, filled, fluid, with lauric acid oil",sum_emission,0.28
-718,Cheese,Dariy and Eggs,"Cheese, brick",sum_emission,2.12
-719,Milk(sheep),Dariy and Eggs,"Milk, sheep, fluid",sum_emission,0.13
-720,Milk(nut),Dariy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",sum_emission,0.51
-721,Cream,Dariy and Eggs,"Cheese, cream",sum_emission,0.48
-722,Yogurt,Dariy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",sum_emission,0.48
+716,Soymilk,Dairy and Eggs,"Soymilk, original and vanilla, unfortified",sum_emission,0.1
+717,Milk,Dairy and Eggs,"Milk, filled, fluid, with lauric acid oil",sum_emission,0.28
+718,Cheese,Dairy and Eggs,"Cheese, brick",sum_emission,2.12
+719,Milk(sheep),Dairy and Eggs,"Milk, sheep, fluid",sum_emission,0.13
+720,Milk(nut),Dairy and Eggs,"Nuts, coconut milk, raw (liquid expressed from grated meat and water)",sum_emission,0.51
+721,Cream,Dairy and Eggs,"Cheese, cream",sum_emission,0.48
+722,Yogurt,Dairy and Eggs,"Yogurt, plain, whole milk, 8 grams protein per 8 ounce",sum_emission,0.48
 723,Beer,Beverages,"Alcoholic beverage, beer, regular, all",sum_emission,0.11
 724,Wine,Beverages,"Alcoholic beverage, wine, table, all",sum_emission,0.14
 725,Coffee(instant),Beverages,"Coffee, instant, regular, powder",sum_emission,1.65
@@ -741,7 +741,7 @@
 740,Nuts(cashew),"Pulses, Nuts and Legumes","Nuts, cashew nuts, raw",sum_emission,0.02
 741,Tofu,"Pulses, Nuts and Legumes","Tofu, silken, soft",sum_emission,0.3
 742,Chocolate,Chocolate,Chocolate syrup,sum_emission,1.87
-743,Egg,Dariy and Eggs,"Egg, whole, raw, fresh",sum_emission,0.45
+743,Egg,Dairy and Eggs,"Egg, whole, raw, fresh",sum_emission,0.45
 744,Beans,"Pulses, Nuts and Legumes","Beans, yellow, mature seeds, raw",sum_emission,0.16
 745,Palm oil,Oil,"Oil, palm",sum_emission,0.76
 746,Canola oil,Oil,"Oil, grapeseed",sum_emission,0.37
