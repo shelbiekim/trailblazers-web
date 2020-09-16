@@ -8,40 +8,29 @@
         return $connection;
     };
     $db = db_connect();
-    $distinctSet = "SELECT Distinct(Food_product) FROM Food_emission ORDER BY Food_product ASC";
+    $distinctSet = $sql="SELECT DISTINCT(food_name) FROM combined_data_removed ORDER BY food_name ASC"; //"SELECT Distinct(Food_product) FROM Food_emission ORDER BY Food_product ASC";
     $distinctQuery = mysqli_query($db,$distinctSet);
     $distinctArr = array();
     foreach ($distinctQuery as $row) {
         $distinctArr[] = $row;
     }
 
-    $query = "SELECT Food_product,Total_emission,Stage,Emission FROM Food_emission";
-    $result = mysqli_query($db,$query);
-
-    $emparray = array();
-
-    while($row =mysqli_fetch_assoc($result)){
-        $emparray[]=$row;
-    }
-
     //query to get data from the table "combined_data"
-    $query2 = "SELECT * FROM combined_data";
+    $totalSet = "SELECT * FROM combined_data_removed ORDER BY food_group ASC";
     //execute query
-    $result2 = mysqli_query($db, $query2);
+    $totalQuery = mysqli_query($db, $totalSet);
     //create an empty array
-    $data = array();
+    $totalArr = array();
     //loop through the returned data
-    foreach ($result2 as $row) {
-        $data[] = $row;
+    foreach ($totalQuery as $row) {
+        $totalArr[] = $row;
     }
 
     //free memory associated with result
-    $result -> close();
-    $result2 -> close();
+    $distinctQuery -> close();
+    $totalQuery -> close();
     //close connection
     $db -> close();
-    //print json_encode($data);
-    // echo json_encode($emparray);
 ?>
 
 <!DOCTYPE HTML>
@@ -60,10 +49,173 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
 		<script src="js/jquery.min.js"></script>
-		<script src="js/skel.min.js"></script>
+        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
+        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
+        <script src=https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js></script>
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+        <script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
         <script src="js/Chart.min.js"></script>
+        <script type ="text/javascript">
+            $(document).ready(function(){
+                $(".chosen").chosen();
+            });
+        </script>
+        <script type ="text/javascript">
+            var dataset = <?php echo json_encode($totalArr);?>;
+            var food1, food2, food3, food4, food5, food6, food7, food8, food9;
+            var food1_value, food2_value, food3_value, food4_value, food5_value, food6_value, food7_value, food8_value, food9_value;
+            var food_arr = [];
+            var data1=dataset;
+            var breakfast = {};
+            var lunch = {};
+            var dinner = {};
+
+            var myChart;
+            var chartExist = false;
+
+            function validateInput(){
+                food1 = document.getElementById("food_name1").value;
+                food2 = document.getElementById("food_name2").value;
+                food3 = document.getElementById("food_name3").value;
+                food4 = document.getElementById("food_name4").value;
+                food5 = document.getElementById("food_name5").value;
+                food6 = document.getElementById("food_name6").value;
+                food7 = document.getElementById("food_name7").value;
+                food8 = document.getElementById("food_name8").value;
+                food9 = document.getElementById("food_name9").value;
+                food_arr.push(food1,food2,food3,food4,food5,food6,food7,food8,food9);
+
+                for(var i=0; i<food_arr.length; i++){
+                    for (var j = 0; j < data1.length; j++) {
+                        if(i>-1 && i<3){
+                            if((food_arr[i] === data1[j].food_name) && (data1[j].nutrient === "sum_emission")){
+                                if (!(food_arr[i] in breakfast)) {
+                                    breakfast[food_arr[i]] = data1[j].value;
+                                } else {
+                                    var temp = parseFloat(breakfast[food_arr[i]]);
+                                    breakfast[food_arr[i]] = temp + parseFloat(data1[j].value);
+                                }
+                            } //inner if
+                        } else if (i>2 && i<6) {
+                            if((food_arr[i] === data1[j].food_name) && (data1[j].nutrient === "sum_emission")){
+                                if (!(food_arr[i] in lunch)) {
+                                    lunch[food_arr[i]] = data1[j].value;
+                                } else {
+                                    var temp = parseFloat(lunch[food_arr[i]]);
+                                    lunch[food_arr[i]] = temp + parseFloat(data1[j].value);
+                                }
+                            } //inner if
+                        } else if (i>5 && i<9) {
+                            if((food_arr[i] === data1[j].food_name) && (data1[j].nutrient === "sum_emission")){
+                                if (!(food_arr[i] in dinner)) {
+                                    dinner[food_arr[i]] = data1[j].value;
+                                } else {
+                                    var temp = parseFloat(dinner[food_arr[i]]);
+                                    dinner[food_arr[i]] = temp + parseFloat(data1[j].value);
+                                }
+                            } //inner if
+                        }
+                    } // inner for loop
+                } // end of for loop of food_arr
+                //console.log(breakfast);
+                //console.log(lunch);
+                //console.log(dinner);
+                showfood();
+            }
+
+
+            function showfood(){
+                var chart_x1=["Breakfast","Lunch","Dinner"];
+                var breakfastName=[];
+                var bName=[];
+                var breakfastTotal=[];
+                var bTotal=[];
+                var lunchTotal=[];
+                var lName=[];
+                var lunchName=[];
+                var lTotal=[];
+                var dinnerTotal=[];
+                var dName=[];
+                var dinnerName=[];
+                var dTotal=[];
+
+                for(var item in breakfast) {
+                    breakfastName.push(item);
+                    breakfastTotal.push(breakfast[item]);
+                }
+
+
+                for(var item in lunch) {
+                    lunchName.push(item);
+                    lunchTotal.push(lunch[item]);
+                }
+
+                for(var item in dinner) {
+                    dinnerName.push(item);
+                    dinnerTotal.push(dinner[item]);
+                }
+
+                bName.push(breakfastName[0],lunchName[0],dinnerName[0]);
+                lName.push(breakfastName[1],lunchName[1],dinnerName[1]);
+                dName.push(breakfastName[2],lunchName[2],dinnerName[2]);
+
+                bTotal.push(breakfastTotal[0],lunchTotal[0],dinnerTotal[0]);
+                lTotal.push(breakfastTotal[1],lunchTotal[1],dinnerTotal[1]);
+                dTotal.push(breakfastTotal[2],lunchTotal[2],dinnerTotal[2]);
+
+                //console.log(breakfastTotal);
+
+
+
+                var ctx = document.getElementById('myChart').getContext('2d');
+                var config={
+                    type:'bar',
+                    data:{
+                        labels:chart_x1,
+                        datasets:[{
+                                //label:"Breakfast",
+                                data:bTotal,
+                                backgroundColor: 'rgba(0,150,136,0.7)',
+                                //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
+                            },
+                            {
+                                //label:"Lunch",
+                                data:lTotal,
+                                backgroundColor: 'rgba(0,150,136,0.7)', //'rgba(156,39,176,0.7)'
+                                //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
+                            },
+                            {
+                                //label:"Dinner",
+                                data:dTotal,
+                                backgroundColor: 'rgba(0,150,136,0.7)',
+                                //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
+                            }
+
+                        ]
+                    },
+                    options: {
+                        legend: {
+                            display: false
+                        },
+                        scales: {
+                            xAxes: [{  }],
+                            yAxes: [{
+                                //stacked: true,
+                                ticks : {
+                                    //min: ,
+                                    //max:
+                                }
+                            }]
+                        }
+                    }
+                }
+                Chart.defaults.global.defaultFontSize = 14;
+                myChart = new Chart(ctx, config);
+                chartExist = true;
+            }
+        </script>
 		<noscript>
 			<link rel="stylesheet" href="css/skel.css" />
 			<link rel="stylesheet" href="css/style.css" />
@@ -78,7 +230,6 @@
         <link rel="mask-icon" href="/favicon_io/safari-pinned-tab.svg" color="#5bbad5">
         <meta name="msapplication-TileColor" content="#da532c">
         <meta name="theme-color" content="#ffffff">
-
 	</head>
 	<body id="top">
 
@@ -100,158 +251,137 @@
                 <a href="index.html">Home</a>&nbsp; >&nbsp;
                 <span>Carbon Footprint</span>
             </div>
+        <!-- Banner -->
+        <div class="container">
+            <div id="mealBanner2">
+                <br><br><br><br>
+                <header class="major">
+                    <h3 style="color:#ffffff; font-weight: bold;">Carbon Footprint</h3>
+                    <p style="color: #ffffff">Where do emissions from food come from?</p>
+                </header>
+            </div>
+        </div>
 
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
-				<header class="major">
-                    <br>
-					<h3>Carbon Footprint</h3>
-					<p>Where do emissions from food come from?</p>
-				</header>
                 <div class="container">
                 <div class="row">
                     <div class="6u">
-                        <h3>Greenhouse gas emissions<br>in the food production lifecycle</h3>
-                        <p>Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
+                        <p>What you eat is important to your carbon footprint. Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
                             generated across the supply chain of the product. <br><br>
-                            Select the food and see the carbon footprint along different
-                            stages of the food production life cycle.<!--* Negative value can be observed when the carbon dioxide
-                            absorbed by the plant’s photosynthesis is more than that released by its respiration.-->
+                            Find out the carbon footprint of your food by entering what you eat for a day.
+                            <!--* Negative value can be observed when the carbon dioxide absorbed by the plant’s photosynthesis is more than that released by its respiration.-->
                         </p>
-                        <div class="row">
-                            <h5>Choose food</h5>
-                                <div>
-                                    <select id="Food_name1" onchange="filterFood()">
-                                        <option value="Select">Select</option>
-                                        <?php
-                                            foreach($distinctArr as $row) {
-                                            $food_name = $row['Food_product'];
-                                            echo "<option value='$food_name'>$food_name</option>";
-                                        }
-                                        ?>
-                                    </select>
-                                </div>
-                        </div><br /> <!-- row for CHOOSE A TYPE OF FOOD-->
-                        <div class="row">
-                            <h5>Choose food</h5>
-                            <div>
-                                <select id="Food_name2" onchange="filterFood2()">
-                                    <option value="Select">Select</option>
-                                    <?php
-                                        foreach($distinctArr as $row) {
-                                            $food_name = $row['Food_product'];
-                                            echo "<option value='$food_name'>$food_name</option>";
-                                        }
-                                    ?>
+                            <h5 class="selectMenu">Breakfast</h5>
+                            <select class="chosen" id="food_name1">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
                                 </select>
-                            </div>
-                        </div>
-                        <br>
+                            <select class="chosen" id="food_name2">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <select class="chosen" id="food_name3">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <br><br>
+                            <h5 class="selectMenu">Lunch</h5>
+                            <select class="chosen" id="food_name4">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <select class="chosen" id="food_name5">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <select class="chosen" id="food_name6">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <br><br>
+                            <h5 class="selectMenu">Dinner</h5>
+                            <select class="chosen" id="food_name7">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <select class="chosen" id="food_name8">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <select class="chosen" id="food_name9">
+                                <option value="" disabled selected>Select</option>
+                                <?php
+                                foreach($distinctArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option value='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                        <br><br><br>
                         <ul class="actions">
-                            <li><a class="button alt" onclick="validateInput()">Submit</a></li>
+                            <li><a class="button alt" onclick="validateInput()">Find out your footprint</a></li>
                         </ul>
 
                     </div> <!-- first 6u -->
-                    <script type ="text/javascript">
-                        var dataset = <?php echo json_encode($emparray);?>;
-                        var select_data1=dataset;
-                        var select_data2=dataset;
-                        var select_food1="";
-                        var select_food2="";
-                        var myChart;
-                        var chartExist = false;
 
-                        function filterFood() {
-                            select_food1=document.getElementById("Food_name1").value;
-                        }
-                        function filterFood2() {
-                            select_food2=document.getElementById("Food_name2").value;
-                        }
-                        function validateInput(){
-                            if (select_food1.length > 0 && select_food2.length > 0 &&
-                                document.getElementById("Food_name1").value != "Select" &&
-                                document.getElementById("Food_name2").value != "Select" && chartExist === true)  {
-                                myChart.destroy();
-                                select_food1=document.getElementById("Food_name1").value;
-                                select_food2=document.getElementById("Food_name2").value;
-                                select_data1 = select_data1.filter(d => d.Food_product === select_food1);
-                                select_data2 = select_data2.filter(d => d.Food_product === select_food2);
-                                showfood();
-                            } else if (select_food1.length > 0 && select_food2.length > 0 &&
-                                document.getElementById("Food_name1").value != "Select" &&
-                                document.getElementById("Food_name2").value != "Select" ) {
-                                select_food1=document.getElementById("Food_name1").value;
-                                select_food2=document.getElementById("Food_name2").value;
-                                select_data1 = select_data1.filter(d => d.Food_product === select_food1);
-                                select_data2 = select_data2.filter(d => d.Food_product === select_food2);
-                                chartExist = true;
-                                showfood();
-                            }
-                        }
-
-                        function showfood(){
-                            var chart_x1=[];
-                            var chart_y1=[];
-                            var chart_x2=[];
-                            var chart_y2=[];
-
-                            for(var i in select_data1){
-                                chart_x1.push(select_data1[i].Stage);
-                                chart_y1.push(select_data1[i].Emission);
-                            }
-
-                            for(var i in select_data2){
-                                chart_x2.push(select_data2[i].Stage);
-                                chart_y2.push(select_data2[i].Emission);
-                            }
-
-                            var ctx = document.getElementById('myChart').getContext('2d');
-                            var config={
-                                type:'bar',
-                                data:{
-                                    labels:chart_x1,
-                                    datasets:[{
-                                        label:select_food1 + " - CO2 Emissions per 100g",
-                                        data:chart_y1,
-                                        backgroundColor: 'rgba(0,150,136,0.7)',
-                                        //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
-                                        },
-                                        {
-                                        label:select_food2 + " - CO2 Emissions per 100g",
-                                        data:chart_y2,
-                                        backgroundColor: 'rgba(156,39,176,0.7)',
-                                        //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
-                                        }
-
-                                    ]
-                                },
-                                options: {
-                                    scales: {
-                                        yAxes: [{
-                                            ticks : {
-                                            min: -0.5, //actual min is -0.21
-                                            max: 4 //actual max is 3.94
-                                            }
-                                        }]
-                                    }
-                                }
-                            }
-                            Chart.defaults.global.defaultFontSize = 14;
-                            myChart = new Chart(ctx, config);
-                            chartExist = true;
-                            // reset data
-                            select_data1 = dataset;
-                            select_data2 = dataset;
-                        }
-                    </script>
                      <div class="6u">
                         <div class="row">
                             <canvas id="myChart" width="100" height="80"></canvas>
                         </div>
                     </div> <!-- 2nd 6u -->
+
                 </div> <!-- 1st row -->
-                    <hr class="major" />
-                <div class="row"> <!--div class for the second chart-->
+
+                <hr class="major" />
+                    <div class="row">
+                        <div class ="12u align-center">
+                            <a href="meal_plan.php" class="image effect"><img src="images/nutrient.png" height="200" alt="Meal Planning" /></a>
+                            <p>Build your low carbon footprint recipes</p>
+                        </div>
+                    </div>
+                <!--
+                <div class="row">
                     <div class ="6u">
                         <h3>TOP FOODS HIGHEST IN SELECTED NUTRIENT</h3>
                         <p>Research suggests that some packaged foods generate lower carbon footprint than
@@ -279,14 +409,15 @@
                         <ul class="actions">
                             <li><a class="button alt" onclick="validateInput2()">Submit</a></li>
                         </ul>
-                    </div> <!-- end of first 6u-->
+                    </div>
                     <div class="6u">
                         <canvas id="myChart2" width="100" height="60"></canvas>
                     </div>
                     <br><br>
-                </div> <!-- end of second row-->
+                </div> -->
+                    <!--
                     <script type ="text/javascript">
-                        var original_data = <?php echo json_encode($data); ?>;
+                        var original_data = ;
                         var food_data = original_data;
                         var data_filter = "";
                         var select_nutrient = "";
@@ -403,35 +534,8 @@
                             food_data = original_data;
                         }
 
-                        /*
-                        function showTable(fdata){
-                            var table = document.getElementById("myTable");
-                            table.innerHTML = "";
-                            for (var i=0; i<topLimit;i++){
-                                var j = i+1;
-                                var row = `<tr>
-                                                        <td>${j}</td>
-                                                        <td>${fdata[i].food_name}</td>
-                                                        <td>${fdata[i].descrip}</td>
-                                                        <td>${fdata[i].nutrient.substring(0,fdata[i].nutrient.indexOf('_'))}</td>
-                                                        <td>${fdata[i].value}${fdata[i].nutrient.split("_").pop()}</td>
-                                                    </tr>`
-                                table.innerHTML += row;
-                            }
-                        }*/
-                    </script>
-                    <!--
-                    <table id="table">
-                        <tr>
-                            <th>Ranking</th>
-                            <th>Food Name</th>
-                            <th>Description</th>
-                            <th>Nutrient</th>
-                            <th>Value</th>
-                        </tr>
-                        <tbody id="myTable">
-                        </tbody>
-                    </table> -->
+                    </script> -->
+
             </div> 	<!-- 1st Container -->
             </div> 	<!-- main wrapper -->
 

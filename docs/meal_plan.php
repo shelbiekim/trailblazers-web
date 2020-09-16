@@ -231,7 +231,7 @@ $result=mysqli_query($db,$sql);
                     return x.gender == "male";
                 });
                 userAge = document.getElementById('age').value;
-                console.log(userAge);
+                //console.log(userAge);
                 maleArray = checkAge(userAge,tempArray);
                 nutriArray = checkNutrient(maleArray);
             } else if (document.getElementById('female').checked) {
@@ -243,11 +243,11 @@ $result=mysqli_query($db,$sql);
                 nutriArray = checkNutrient(femaleArray);
             }
 
-            document.getElementById("result_nutrient").innerHTML = "Carbohydrates " + nutriArray[0] +"g, " +
-            "Fats " + nutriArray[1] + "g, " + "Proteins " + nutriArray[2] + "g, ";
-            document.getElementById("result_nutrient2").innerHTML = "Vitamin A " + nutriArray[3] +"mcg, " +
-                "Vitamin C " + nutriArray[4] +"mg, " + "Vitamin E " + nutriArray[5] + "mg, " +
-                "Calcium " + nutriArray[6] +"mg";
+            document.getElementById("result_nutrient").innerHTML = "Carbohydrates " + nutriArray[6] +"g, " +
+            "Fats " + nutriArray[0] + "g, " + "Proteins " + nutriArray[1] + "g, ";
+            document.getElementById("result_nutrient2").innerHTML = "Vitamin A " + nutriArray[2] +"mcg, " +
+                "Vitamin C " + nutriArray[3] +"mg, " + "Vitamin E " + nutriArray[4] + "mg, " +
+                "Calcium " + nutriArray[5] +"mg";
 
         }
 
@@ -292,7 +292,7 @@ $result=mysqli_query($db,$sql);
         }
 
         function checkNutrient(userArray){
-            var nutriArray = []; // Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
+            var nutriArray = []; // Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium, Carbohydrates,
             var nutriCarbo;
             var nutriFat;
             var nutriPro;
@@ -301,9 +301,7 @@ $result=mysqli_query($db,$sql);
             var nutriVE;
             var nutriCal;
             for (var key in userArray){
-                if (userArray[key].nutrient_type == "Carbohydrate(g)"){
-                    nutriCarbo = userArray[key].value;
-                } else if (userArray[key].nutrient_type == "Fat(g)"){
+                if (userArray[key].nutrient_type == "Fat(g)"){
                     nutriFat = userArray[key].value;
                 } else if (userArray[key].nutrient_type == "Protein(g)"){
                     nutriPro = userArray[key].value;
@@ -317,7 +315,8 @@ $result=mysqli_query($db,$sql);
                     nutriCal = userArray[key].value;
                 }
             }
-            nutriArray.push(nutriCarbo,nutriFat,nutriPro, nutriVA, nutriVC, nutriVE, nutriCal);
+
+            nutriArray.push(nutriFat,nutriPro, nutriVA, nutriVC, nutriVE, nutriCal);
 
             //check activity and multiply value
             var nutriFactor;
@@ -332,12 +331,16 @@ $result=mysqli_query($db,$sql);
             } else { //extra active
                 nutriFactor = 2.2;
             }
+            // range of carbs 45% ~ 65%
+            nutriCarbo = (Number(nutriFactor*bmr*0.45/4).toFixed(2)); //https://healthyeating.sfgate.com/recommended-amount-percent-carbohydrates-per-day-7287.html
 
             for (var i=0; i<nutriArray.length; i++) {
                 nutriArray[i] *= nutriFactor; // multiply value times 2
                 nutriArray[i] = Number(nutriArray[i].toFixed(2));
             }
 
+            // the last item of nutriArray is the range of carbs
+            nutriArray.push(nutriCarbo);
 
             return nutriArray;
         }
@@ -588,10 +591,10 @@ $result=mysqli_query($db,$sql);
 
             totalNutrient.push(Number(carbSum).toFixed(2), Number(fatSum).toFixed(2), Number(proteinSum).toFixed(2),
                 Number(vitASum).toFixed(2), Number(vitCSum).toFixed(2),Number(vitESum).toFixed(2), Number(calciumSum).toFixed(2));
-            console.log(totalNutrient);
+            //console.log(totalNutrient);
 
             for (var i = 1; i < myTable.rows.length; i++) {
-                console.log(i);
+                //console.log(i);
 
                 for (var j = 0; j < myTable.rows[i].cells[3].innerHTML.length; j++){
                     if (myTable.rows[i].cells[3].innerHTML.charAt(j) != "k") {
@@ -615,7 +618,7 @@ $result=mysqli_query($db,$sql);
 
             sumGas = Number(sumGas).toFixed(2);
             sumCal = Number(sumCal).toFixed(2);
-            console.log(sumGas + " " + sumCal);
+            //console.log(sumGas + " " + sumCal);
             document.getElementById("carbon_footprint").innerHTML = sumGas + " kg"; // (CO2 equivalents)
             document.getElementById("total_calories").innerHTML = sumCal + " kcal";
             document.getElementById("total_nutrient").innerHTML = "Carbohydrates " + totalNutrient[0] +"g, " +
@@ -720,12 +723,14 @@ $result=mysqli_query($db,$sql);
         <span>Meal Planning</span>
     </div>
     <!-- Banner -->
+    <div class="container">
     <div id="mealBanner">
             <br><br><br><br>
             <header class="major">
-                <h3>Meal Planning</h3>
-                <p>Eat healthy with eco-friendly meals</p>
+                <h3 style="color:#ffffff; font-weight: bold;">Meal Planning</h3>
+                <p style="color: #ffffff">Eat healthy with eco-friendly meals</p>
             </header>
+    </div>
     </div>
 
     <br>
@@ -907,7 +912,7 @@ $result=mysqli_query($db,$sql);
             <div class="6u">
                 <div class="result2" id="total_result2" style="display:none;"><br>
                     <h4>RECOMMENDED DAILY CALORIE INTAKE :&nbsp;</h4><h4 id="result_bmr"></h4><h4>&nbsp;kcal</h4><br>
-                    <h4>RECOMMENDED DAILY NUTRIENT INTAKE :&nbsp;</h4><h4 id="result_nutrient"></h4><br><h4 id="result_nutrient2"></h4>
+                    <h4>ESTIMATED AVERAGE REQUIREMENT FOR NUTRIENTS :&nbsp;</h4><h4 id="result_nutrient"></h4><br><h4 id="result_nutrient2"></h4>
                 </div>
             </div>
         </div> <!--end of row-->
