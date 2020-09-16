@@ -66,16 +66,16 @@
             var dataset = <?php echo json_encode($totalArr);?>;
             var food1, food2, food3, food4, food5, food6, food7, food8, food9;
             var food1_value, food2_value, food3_value, food4_value, food5_value, food6_value, food7_value, food8_value, food9_value;
-            var food_arr = [];
             var data1=dataset;
             var breakfast = {};
             var lunch = {};
             var dinner = {};
-
             var myChart;
             var chartExist = false;
 
             function validateInput(){
+                var food_arr = [];
+
                 food1 = document.getElementById("food_name1").value;
                 food2 = document.getElementById("food_name2").value;
                 food3 = document.getElementById("food_name3").value;
@@ -119,9 +119,10 @@
                         }
                     } // inner for loop
                 } // end of for loop of food_arr
-                //console.log(breakfast);
-                //console.log(lunch);
-                //console.log(dinner);
+                console.log(breakfast);
+                console.log(lunch);
+                console.log(dinner);
+                if (chartExist===true) {myChart.destroy();}
                 showfood();
             }
 
@@ -214,6 +215,10 @@
                 Chart.defaults.global.defaultFontSize = 14;
                 myChart = new Chart(ctx, config);
                 chartExist = true;
+                //reset
+                breakfast = {};
+                lunch = {};
+                dinner = {};
             }
         </script>
 		<noscript>
