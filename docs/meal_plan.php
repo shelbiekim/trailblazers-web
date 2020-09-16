@@ -1,7 +1,7 @@
 <?php
 define("DB_server","localhost");
 define("DB_user","root");
-define("DB_password","toor33"); //toor33
+define("DB_password",""); //toor33
 define("DB_name","phpmyadmin");
 function db_connect(){
     $connection = mysqli_connect(DB_server,DB_user,DB_password,DB_name);
@@ -27,6 +27,13 @@ $nutrientQuery = mysqli_query($db,$nutrientData);
 $nutrientArray = array();
 foreach ($nutrientQuery as $row) {
     $nutrientArray[] = $row;
+}
+
+$recommendData = "SELECT * FROM nutrient_recommender WHERE type='Normal' ORDER BY gender ASC";
+$recommendQuery = mysqli_query($db,$recommendData);
+$recommendArray = array();
+foreach ($recommendQuery as $row) {
+    $recommendArray[] = $row;
 }
 
 $sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
@@ -122,6 +129,7 @@ $result=mysqli_query($db,$sql);
         var emissionData = <?php echo json_encode($emissionArray);?>;
         var calorieData =  <?php echo json_encode($calorieArray);?>;
         var nutrientData =  <?php echo json_encode($nutrientArray);?>;
+        var recommendData = <?php echo json_encode($recommendArray);?>;
         var selectedRow = null;
         var imgExists = false;
         var imgName = "";
@@ -205,10 +213,133 @@ $result=mysqli_query($db,$sql);
                     bmr = bmr * activity;
                     bmr = Number(bmr).toFixed(2);
                 }
+                calculate_nutrient();
                 document.getElementById("total_result2").style.display = "block";
                 document.getElementById("result_bmr").innerHTML = bmr;
             }
 
+        }
+
+        function calculate_nutrient() {
+            var tempArray;
+            var maleArray;
+            var femaleArray;
+            var userAge;
+            var nutriArray; // nutrient
+            if (document.getElementById('male').checked) {
+                tempArray = recommendData.filter(function (x) {
+                    return x.gender == "male";
+                });
+                userAge = document.getElementById('age').value;
+                console.log(userAge);
+                maleArray = checkAge(userAge,tempArray);
+                nutriArray = checkNutrient(maleArray);
+            } else if (document.getElementById('female').checked) {
+                tempArray = recommendData.filter(function (x) {
+                    return x.gender == "female";
+                });
+                userAge = parseInt(document.getElementById('age'));
+                femaleArray = checkAge(userAge,tempArray);
+                nutriArray = checkNutrient(femaleArray);
+            }
+
+            document.getElementById("result_nutrient").innerHTML = "Carbohydrates " + nutriArray[0] +"g, " +
+            "Fats " + nutriArray[1] + "g, " + "Proteins " + nutriArray[2] + "g, ";
+            document.getElementById("result_nutrient2").innerHTML = "Vitamin A " + nutriArray[3] +"mcg, " +
+                "Vitamin C " + nutriArray[4] +"mg, " + "Vitamin E " + nutriArray[5] + "mg, " +
+                "Calcium " + nutriArray[6] +"mg";
+
+        }
+
+        function checkAge(userAge, userArray){
+            var genderArray = userArray;
+
+            if(userAge>0 && userAge <4) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == "1-3";
+                });
+            } else if (userAge>3 && userAge <9) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == "4-8";
+                });
+            } else if (userAge>8 && userAge <14) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == "9-13";
+                });
+            } else if (userAge>13 && userAge <19) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == "14-18";
+                });
+            } else if (userAge>18 && userAge <31) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == "19-30";
+                });
+            } else if (userAge>30 && userAge <51) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == "31-50";
+                });
+            } else if (userAge>50 && userAge <71) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == "51-70";
+                });
+            } else if (userAge > 70) {
+                genderArray = genderArray.filter(function (x) {
+                    return x.age_range == ">70";
+                });
+            }
+            //console.log(genderArray);
+            return genderArray;
+        }
+
+        function checkNutrient(userArray){
+            var nutriArray = []; // Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
+            var nutriCarbo;
+            var nutriFat;
+            var nutriPro;
+            var nutriVA;
+            var nutriVC;
+            var nutriVE;
+            var nutriCal;
+            for (var key in userArray){
+                if (userArray[key].nutrient_type == "Carbohydrate(g)"){
+                    nutriCarbo = userArray[key].value;
+                } else if (userArray[key].nutrient_type == "Fat(g)"){
+                    nutriFat = userArray[key].value;
+                } else if (userArray[key].nutrient_type == "Protein(g)"){
+                    nutriPro = userArray[key].value;
+                } else if (userArray[key].nutrient_type == "Vit_A(μg)"){
+                    nutriVA = userArray[key].value;
+                } else if (userArray[key].nutrient_type == "Vit_C(mg)"){
+                    nutriVC = userArray[key].value;
+                } else if (userArray[key].nutrient_type == "Vit_E(mg)"){
+                    nutriVE = userArray[key].value;
+                } else if (userArray[key].nutrient_type == "Calcium(mg)"){
+                    nutriCal = userArray[key].value;
+                }
+            }
+            nutriArray.push(nutriCarbo,nutriFat,nutriPro, nutriVA, nutriVC, nutriVE, nutriCal);
+
+            //check activity and multiply value
+            var nutriFactor;
+            if (document.getElementById("activity").value=="sedentary"){
+                nutriFactor = 1.4;
+            } else if (document.getElementById("activity").value=="light"){
+                nutriFactor = 1.6;
+            } else if (document.getElementById("activity").value=="moderate") {
+                nutriFactor = 1.8;
+            } else if (document.getElementById("activity").value=="veryActive") {
+                nutriFactor = 2;
+            } else { //extra active
+                nutriFactor = 2.2;
+            }
+
+            for (var i=0; i<nutriArray.length; i++) {
+                nutriArray[i] *= nutriFactor; // multiply value times 2
+                nutriArray[i] = Number(nutriArray[i].toFixed(2));
+            }
+
+
+            return nutriArray;
         }
 
         function checkActivity(){
@@ -487,7 +618,11 @@ $result=mysqli_query($db,$sql);
             console.log(sumGas + " " + sumCal);
             document.getElementById("carbon_footprint").innerHTML = sumGas + " kg"; // (CO2 equivalents)
             document.getElementById("total_calories").innerHTML = sumCal + " kcal";
-            document.getElementById("total_nutrient").innerHTML = "Carbohydrates " + totalNutrient[0] +"g";
+            document.getElementById("total_nutrient").innerHTML = "Carbohydrates " + totalNutrient[0] +"g, " +
+                "Fats " + totalNutrient[1] + "g, " + "Proteins " + totalNutrient[2] + "g, ";
+            document.getElementById("total_nutrient2").innerHTML = "Vitamin A " + totalNutrient[3] +"mcg, " +
+                    "Vitamin C " + totalNutrient[4] +"mg, " + "Vitamin E " + totalNutrient[5] + "mg, " +
+                    "Calcium " + totalNutrient[6] +"mg";
             document.getElementById("total_result").style.display="block";
             show_footprint(sumGas);
         }
@@ -691,7 +826,7 @@ $result=mysqli_query($db,$sql);
                     <br><br>
                     <h4 class="meal_planning">YOUR CARBON FOOTPRINT :&nbsp;</h4><h4 id="carbon_footprint"></h4><br>
                     <h4 class="meal_planning">CALORIES OF YOUR RECIPE :&nbsp;</h4><h4 id="total_calories"></h4><br>
-                    <h4 class="meal_planning">AMOUNT OF NUTRIENT :&nbsp;</h4><h4 id="total_nutrient"></h4><br>
+                    <h4 class="meal_planning">TOTAL AMOUNT OF NUTRIENT :&nbsp;</h4><br><h4 id="total_nutrient"></h4><br><h4 id="total_nutrient2"></h4><br>
                 </div>
             </div>
         </div>
@@ -769,9 +904,10 @@ $result=mysqli_query($db,$sql);
                     </ul>
                 </div> <!--div form-group-->
             </div> <!--5u-->
-            <div class="6u">
-                <div class="result2" id="total_result2" style="display:none;" >
-                    <h4>RECOMMENDED DAILY CALORIE INTAKE :&nbsp;</h4><h4 id="result_bmr"></h4><h4>&nbsp;kcal</h4>
+            <div class="7u">
+                <div class="result2" id="total_result2" style="display:none;"><br>
+                    <h4>RECOMMENDED DAILY CALORIE INTAKE :&nbsp;</h4><h4 id="result_bmr"></h4><h4>&nbsp;kcal</h4><br>
+                    <h4>RECOMMENDED DAILY NUTRIENT INTAKE :&nbsp;</h4><h4 id="result_nutrient"></h4><br><h4 id="result_nutrient2"></h4>
                 </div>
             </div>
         </div> <!--end of row-->
