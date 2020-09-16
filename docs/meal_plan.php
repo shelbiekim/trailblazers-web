@@ -307,7 +307,7 @@ $result=mysqli_query($db,$sql);
                     nutriFat = userArray[key].value;
                 } else if (userArray[key].nutrient_type == "Protein(g)"){
                     nutriPro = userArray[key].value;
-                } else if (userArray[key].nutrient_type == "Vit_A(μg)"){
+                } else if (userArray[key].nutrient_type == "Vit_A(mcg)"){
                     nutriVA = userArray[key].value;
                 } else if (userArray[key].nutrient_type == "Vit_C(mg)"){
                     nutriVC = userArray[key].value;
