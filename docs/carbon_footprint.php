@@ -153,14 +153,24 @@
                     dinnerSum += parseFloat(dinner[item]);
                 }
 
-
+                var totalFoodPrint = 0;
                 mealTotal.push(breakfastSum,lunchSum, dinnerSum);
                 for(var item in mealTotal){
                     item = Number(item).toFixed(2);
                 }
 
+                for(var i=0; i<mealTotal.length; i++){
+                    totalFoodPrint += parseFloat(mealTotal[i]);
+                }
+
+                // make it 110g instead of 100g
+                var totalPetrol = totalFoodPrint *1.1;
+
+                totalPetrol = Number(totalPetrol / 0.118).toFixed(2);
 
                 console.log(mealTotal);
+                console.log(totalFoodPrint);
+                console.log("totalFoodPrint in km " +totalPetrol);
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var config={
                     type:'bar',
@@ -216,6 +226,11 @@
                 }
                 Chart.defaults.global.defaultFontSize = 14;
                 myChart = new Chart(ctx, config);
+                totalFoodPrint += "kg";
+                totalPetrol += "km";
+                document.getElementById("result_petrol").innerHTML = totalFoodPrint;
+                document.getElementById("result_car").innerHTML = totalPetrol;
+                document.getElementById("petrol").style.display = "block";
                 chartExist = true;
                 //reset
                 breakfast = {};
@@ -373,7 +388,12 @@
                     </div> <!-- first 6u -->
                      <div class="6u">
                         <div class="row">
-                            <canvas id="myChart" width="100" height="80"></canvas>
+                            <canvas id="myChart" width="60" height="40"></canvas>
+                            <div id="petrol" style="display: none;"><br>
+                                <p style="display: inline-block">Your daily carbon footprint is &nbsp;</p><p id="result_petrol" style="display: inline-block; font-weight:bold;"></p>
+                                <p style="display: inline-block">This is the equivalent of driving a medium petrol car&nbsp;</p><p id="result_car" style="display: inline-block; font-weight:bold;"></p>
+
+                            </div>
                         </div>
                     </div> <!-- 2nd 6u -->
                 </div> <!-- 1st row -->
