@@ -166,11 +166,9 @@
                 // make it 110g instead of 100g
                 var totalPetrol = totalFoodPrint *1.1;
 
+                totalFoodPrint = Number(totalFoodPrint).toFixed(2);
                 totalPetrol = Number(totalPetrol / 0.118).toFixed(2);
 
-                console.log(mealTotal);
-                console.log(totalFoodPrint);
-                console.log("totalFoodPrint in km " +totalPetrol);
                 var ctx = document.getElementById('myChart').getContext('2d');
                 var config={
                     type:'bar',
