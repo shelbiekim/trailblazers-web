@@ -39,6 +39,16 @@ foreach ($recommendQuery as $row) {
 $sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
 $result=mysqli_query($db,$sql);
 
+function fill_select_box(){
+    $db = db_connect();
+    $sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
+    $result=mysqli_query($db,$sql);
+    $output='';
+    while($row=mysqli_fetch_array($result)){
+        $output .='<option value="'.$row["food_group"].'">'.$row["food_group"].'</option>';
+    }
+    echo $output;
+}
 
 ?>
 
@@ -50,6 +60,7 @@ $result=mysqli_query($db,$sql);
 <!DOCTYPE HTML>
 <html>
 <head>
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <title>Meal Planning - Trailblazers</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
     <!-- Slideshow -->
@@ -65,6 +76,66 @@ $result=mysqli_query($db,$sql);
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script type="text/javascript">
+        $(document).ready(function(){
+            var count = 0;
+
+            $(document).on('click', '.add', function(){
+                count++;
+                var html = '';
+                html += '<tr>';
+                html += '<td><select name="item_category[]" class="form-control item_category" data-sub_category_id="'+count+'" required><option value="">Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
+                html += '<td><select name="item_sub_category[]" class="form-control item_sub_category" id="item_sub_category'+count+'" required><option value="">Select Food</option></select></td>';
+                html += '<td><input name="item_weight" class="form-control item_weight" data-sub_category_id="'+count+'" placeholder="Enter" type="number" min="0.01" step="0.01" id="item_weight'+count+'" required></td>';
+                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit" required><option value="">Select g/kg</option>\n' +
+                    '                        <option value="g">g</option>\n' +
+                    '                        <option value="kg">kg</option></select></td>';
+                html += '<td><output id="item_emissions'+count+'"></output></td>'
+                html += '<td><output id="item_calories'+count+'"></output></td>'
+                html += '<td><button type="button" name="remove" class="align-center btn btn-danger btn-xs remove"><span class="glyphicon glyphicon-minus"></span></button></td>';
+                $('#first_table').append(html);
+            });
+
+
+            $(document).on('click','.remove', function(){
+               $(this).closest('tr').remove();
+            });
+
+            $(document).on('change','.item_category', function(){
+                var food_group = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                $.ajax({
+                    url:"action_group.php",
+                    //send data to server with POST method
+                    method:"POST",
+                    data:{food_group: food_group},
+                    success:function(data){
+                        var html = '<option value = "">Select Food</option>';
+                        html += data;
+                        $('#item_sub_category'+sub_category_id).html(html);
+                    }
+
+                })
+            });
+            //validation
+            $('#insert_form').on('submit',function(event){
+                event.preventDefault();
+                //var form_data = $(this).serialize();
+                //$('#item_table').find("tr:gt(0)").remove();
+
+            });
+
+            $(document).on('input', '.item_weight', function(){
+                var weight = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                weight = Number(parseFloat(weight)).toFixed(2);
+                if (($('#unit'+sub_category_id).val()) != "") {
+                    $('#item_emissions'+sub_category_id).html(weight +"kg");
+                };
+            });
+        });
+
+
+
         $(function(){
             $("#calculate_button").click(function(){
                 $('html,body').animate(
@@ -700,7 +771,7 @@ $result=mysqli_query($db,$sql);
     <link rel="manifest" href="/favicon_io/site.webmanifest">
     <link rel="mask-icon" href="/favicon_io/safari-pinned-tab.svg" color="#5bbad5">
     <link rel="stylesheet" href="css/font-awesome.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 </head>
@@ -732,21 +803,51 @@ $result=mysqli_query($db,$sql);
             </header>
     </div>
     </div>
-
     <br>
 
     <!-- main -->
     <div class="container">
         <div class="row">
-            <div class="12u align-center">
+            <div class="12u align-left">
                 <!-- <h3>Let's calculate your carbon footprint</h3> -->
-                <p>Add and calculate carbon footprint of ingredients in your recipe.</p><br>
+                <p>STEP 1. Add and calculate carbon footprint of ingredients in your recipe.</p><br>
             </div>
         </div>
+        <div class="container mt-5">
+            <h4 class="align-center">RECIPE LISTING</h4>
+            <form method="post" id="insert_form">
+                <div class="table-responsive">
+                    <span id="error"></span>
+                    <table class="table table-bordered table-hover" id="item_table">
+                        <thead>
+                        <tr>
+                            <th>Food Type</th>
+                            <th>Food</th>
+                            <th>Weight</th>
+                            <th>Unit</th>
+                            <th>Greenhouse Gases</th>
+                            <th>Calories</th>
+                            <th class="align-left"><button type="button" name="add" class="btn btn-success btn-xs add">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button></th>
+                        </tr>
+                        </thead>
+                        <tbody id="first_table"></tbody>
+                    </table>
+                    <div class="align-center">
+                        <input type="submit" name="submit" class="button alt" value="CALCULATE FOODPRINT" />
+                    </div>
+                </div>
+
+            </form>
+
+        </div>
+
+        <!--
         <div class="row">
-            <div class="5u">
-                <div id="form-group" class="form-group">
-                    <label for="food_group">INGREDIENT GROUP</label>
+            <div class="12u">
+                <div id="form-group" class="form-group" style="display: inline-block">
+                    <label for="food_group">FOOD TYPE</label>
                     <select name ="food_group" id="food_group" onchange=onSelected("groupValidationError")>
                         <option value="" disabled selected>Select</option>
                         <?php
@@ -757,14 +858,14 @@ $result=mysqli_query($db,$sql);
                     </select>
                     <div class="validation-error" style="visibility:hidden;" id="groupValidationError">Please select the ingredient group</div>
 
-                    <label for="food_name">INGREDIENT</label>
+                    <label for="food_name">FOOD</label>
                     <select name ="food_name" id="food_name" onchange=onSelected("ingredientValidationError")>
                         <option value="" disabled selected>Select</option>
                     </select>
                     <div class="validation-error" style="visibility:hidden;" id="ingredientValidationError">Please select the ingredient</div>
 
                     <label for="amount">AMOUNT</label>
-                    <!--validation for user input to be only numeric-->
+
                     <input class="input_amount" id="amountInput" placeholder="Weight" type="text"  maxlength="3" onkeypress="isInputNumber(event);">
                     <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
                         <span class="tooltiptext">Round to the nearest integer<br>(max. 999)</span>
@@ -794,9 +895,8 @@ $result=mysqli_query($db,$sql);
                         <li><a id="add_button" class="button alt add" onclick="add()">ADD</a></li>
                         <li><a id="save_button" class="button alt save" style="visibility:hidden;" onclick="save()">SAVE</a></li>
                     </ul>
-                </div> <!--div form-group-->
-            </div> <!--5u-->
-            <div class="7u">
+                </div>
+
                 <table class="list" id="table">
                     <caption>Recipe Listing</caption>
                     <tr>
@@ -823,8 +923,8 @@ $result=mysqli_query($db,$sql);
                         <li><a id="calculate_button" class="button alt calculate" style="visibility:hidden;" onclick="calculate()">CALCULATE</a></li>
                     </ul>
                 </div>
-            </div> <!-- 7u -->
-        </div> <!-- 1st row -->
+            </div>
+        </div> -->
         <div class="row">
             <div class="12u align-center">
                 <div class="result" id="total_result" style="display:none; padding-top: 60px;" >
@@ -854,8 +954,7 @@ $result=mysqli_query($db,$sql);
         </div>
         <br>
         <hr class="major"/>
-        <h3 class="align-center" id="check_bmr"> How much calories should you eat per day? </h3>
-        <p class="align-center">Find it out by entering your information.</p><br>
+        <p class="align-left"> STEP 2. Let's find out how much calories you should eat per day.</p>
         <div class="row">
             <div class="6u">
                 <div id="form-group2" class="form-group2">

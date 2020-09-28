@@ -41,6 +41,7 @@
 -->
 <html>
 	<head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
 		<title>Carbon Footprint - Trailblazers</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <!-- Slideshow -->
@@ -53,6 +54,7 @@
         <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
         <script src=https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js></script>
         <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
+
         <script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
@@ -400,7 +402,7 @@
                     <div class ="12u align-center carbonBanner">
                         <a href="meal_plan.php" class="image effect"><img src="images/carbon_banner.png" width="500" alt="Meal Planning" /></a>
                         <div class="centered">
-                            <a style="color: #ffffff" href="meal_plan.php">Build your low carbon footprint recipes</a>
+                            <a style="color: #ffffff" href="meal_plan.php">Let's build low foodprint recipes</a>
                         </div>
                     </div>
                 </div> 	<!-- 1st Container -->
