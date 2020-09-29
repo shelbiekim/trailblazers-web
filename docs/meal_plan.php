@@ -63,10 +63,6 @@ function fill_select_box(){
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <title>Meal Planning - Trailblazers</title>
     <meta http-equiv="content-type" content="text/html; charset=utf-8" />
-    <!-- Slideshow -->
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="description" content="" />
-    <meta name="keywords" content="" />
     <!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
     <script src="js/jquery.min.js"></script>
     <script src="js/skel.min.js"></script>
@@ -75,6 +71,7 @@ function fill_select_box(){
     <script src="js/Chart.min.js"></script>
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
             var count = 0;
@@ -83,14 +80,14 @@ function fill_select_box(){
                 count++;
                 var html = '';
                 html += '<tr>';
-                html += '<td><select name="item_category[]" class="form-control item_category" data-sub_category_id="'+count+'" required><option value="">Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
-                html += '<td><select name="item_sub_category[]" class="form-control item_sub_category" id="item_sub_category'+count+'" required><option value="">Select Food</option></select></td>';
+                html += '<td><select name="item_category[]" class="form-control item_category" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
+                html += '<td><select name="item_sub_category[]" class="form-control item_sub_category" data-sub_category_id="'+count+'" id="item_sub_category'+count+'" required><option value="" selected disabled>Select Food</option></select></td>';
                 html += '<td><input name="item_weight" class="form-control item_weight" data-sub_category_id="'+count+'" placeholder="Enter" type="number" min="0.01" step="0.01" id="item_weight'+count+'" required></td>';
-                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit" required><option value="">Select g/kg</option>\n' +
+                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select g/kg</option>\n' +
                     '                        <option value="g">g</option>\n' +
                     '                        <option value="kg">kg</option></select></td>';
-                html += '<td><output id="item_emissions'+count+'"></output></td>'
-                html += '<td><output id="item_calories'+count+'"></output></td>'
+                html += '<td><output class="item_emissions" id="item_emissions'+count+'"></output></td>'
+                html += '<td><output class="item_calories" id="item_calories'+count+'"></output></td>'
                 html += '<td><button type="button" name="remove" class="align-center btn btn-danger btn-xs remove"><span class="glyphicon glyphicon-minus"></span></button></td>';
                 $('#first_table').append(html);
             });
@@ -98,6 +95,10 @@ function fill_select_box(){
 
             $(document).on('click','.remove', function(){
                $(this).closest('tr').remove();
+                if ( $("#item_table tr").length < 2) {
+                    count = 0;
+                    $('#total_result').css("display","none");
+                }
             });
 
             $(document).on('change','.item_category', function(){
@@ -109,9 +110,13 @@ function fill_select_box(){
                     method:"POST",
                     data:{food_group: food_group},
                     success:function(data){
-                        var html = '<option value = "">Select Food</option>';
+                        var html = '<option value = "" selected disabled>Select Food</option>';
                         html += data;
                         $('#item_sub_category'+sub_category_id).html(html);
+                        $('#item_weight'+sub_category_id).val("");
+                        $('#unit'+sub_category_id)[0].selectedIndex = 0;
+                        $('#item_emissions'+sub_category_id).html("");
+                        $('#item_calories'+sub_category_id).html("");
                     }
 
                 })
@@ -122,28 +127,101 @@ function fill_select_box(){
                 //var form_data = $(this).serialize();
                 //$('#item_table').find("tr:gt(0)").remove();
 
+
             });
 
-            $(document).on('input', '.item_weight', function(){
-                var weight = $(this).val();
+            $(document).on('change', '.item_sub_category', function(){
+                var food_name = $(this).val();
                 var sub_category_id = $(this).data('sub_category_id');
-                weight = Number(parseFloat(weight)).toFixed(2);
-                if (($('#unit'+sub_category_id).val()) != "") {
-                    $('#item_emissions'+sub_category_id).html(weight +"kg");
+                //if unit is chosen
+                if (($('#unit'+sub_category_id).val() != "") && ($('#item_weight'+sub_category_id).val() != "")) {
+                    var finals = [];
+                    var unit = $('#unit'+sub_category_id).val();
+                    var weight = $('#item_weight'+sub_category_id).val();
+                    finals = addIngredient(food_name, unit, weight);
+                    $('#item_emissions'+sub_category_id).html(finals[0]);
+                    $('#item_calories'+sub_category_id).html(finals[1]);
                 };
             });
-        });
 
+            $(document).on('change', '.item_weight', function(){
+                var weight = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                var food_name = $('#item_sub_category'+sub_category_id).val();
+                //if unit is chosen
+                if (($('#unit'+sub_category_id).val() != "") && ($('#item_sub_category'+sub_category_id).val() != "")) {
+                    var finals = [];
+                    var unit = $('#unit'+sub_category_id).val();
+                    finals = addIngredient(food_name, unit, weight);
+                    $('#item_emissions'+sub_category_id).html(finals[0]);
+                    $('#item_calories'+sub_category_id).html(finals[1]);
+                };
+            });
 
+            $(document).on('change', '.input_unit', function(){
+                var unit = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                var food_name = $('#item_sub_category'+sub_category_id).val();
+                //if weight is entered
+                if ($('#item_weight'+sub_category_id).val() != "" && ($('#item_sub_category'+sub_category_id).val() != "")) {
+                    var finals = [];
+                    var weight = $('#item_weight'+sub_category_id).val();
+                    finals = addIngredient(food_name, unit, weight);
+                    $('#item_emissions'+sub_category_id).html(finals[0]);
+                    $('#item_calories'+sub_category_id).html(finals[1]);
+                };
+            });
 
-        $(function(){
-            $("#calculate_button").click(function(){
-                $('html,body').animate(
-                    {
-                        scrollTop:$('#total_result').offset().top
-                    },
-                    'slow'
-                    )
+            $(function(){
+                $("#calculate_button").click(function(){
+                    if(count > 0 && $('#insert_form')[0].checkValidity() === true) {
+                        $('#total_result').css("display","block");
+                        $('html,body').animate(
+                            {
+                                scrollTop:$('#total_result').offset().top
+                            },
+                            'slow'
+                        )
+                        //get the total gas emissions by each class
+                        var sum = 0;
+                        var cal = 0;
+
+                        $('.item_emissions').each(function () {
+                            var text = $(this).text().match(/[0-9.]+/g);  // extract float from string
+                            sum += parseFloat(text);
+                        });
+                        $('#carbon_footprint').html(Number(sum).toFixed(2) + " kg");
+
+                        $('.item_calories').each(function () {
+                            var text = $(this).text().match(/[0-9.]+/g);  // extract float from string
+                            cal += parseFloat(text);
+                        });
+                        $('#total_calories').html(Number(cal).toFixed(2) + " kcal");
+
+                        var nutrientDict = {};
+                        //get the nutrient value
+                        $('.item_weight').each(function () {
+                            var sub_category_id = $(this).data('sub_category_id');
+                            var weight = $(this).val();
+                            var food_name = $('#item_sub_category' + sub_category_id).val();
+                            var metric = $('#unit' + sub_category_id).val();
+                            if (metric == "kg") {
+                                weight *= 1000; // change from kg to g by multiplying 1000
+                            }
+                            // check dictionary if food exists
+                            if (food_name in nutrientDict) {
+                                var existingAmount = parseFloat(nutrientDict[food_name]);
+                                weight = existingAmount + weight;
+                                nutrientDict[food_name] = Number(weight).toFixed(2); // round up to two decimal places
+                            } else {
+                                nutrientDict[food_name] = Number(weight).toFixed(2);
+                            }
+
+                        });
+                        checkNutrientData(nutrientDict);
+                        show_footprint(sum);
+                    };
+                });
             });
         });
 
@@ -157,7 +235,7 @@ function fill_select_box(){
                 )
             });
         });
-
+        /*
         $(document).ready(function(){
            $("#food_group").change(function(){
               var group = $(this).val();
@@ -170,19 +248,12 @@ function fill_select_box(){
                   }
               });
            });
-        });
+        });*/
+
+
 
     </script>
     <script type="text/javascript">
-        var ingGroup = "";
-        var ingredient = "";
-        var amount = "";
-        var unit = "";
-        var metric = "";
-        var emissionValue = "";
-        var finalValue = "";
-        var calorie = "";
-        var finalCalorie = "";
         var gender = "";
         var male = "";
         var female = "";
@@ -205,7 +276,152 @@ function fill_select_box(){
         var imgExists = false;
         var imgName = "";
 
-        // hide validation error message
+        // function add() or save() calls addIngredient()
+        function addIngredient(foodName, unitChosen, weight) {
+            var ingredient = foodName;
+            var unit = unitChosen;
+            var amount = weight;
+            var metric = "";
+            var emissionValue = "";
+            var calorie = "";
+            var finalValue = "";
+            var finalCalorie = "";
+
+            for(var i=0; i<emissionData.length;i++) {
+                //console.log(dataset[i]);
+                if(ingredient === emissionData[i].food_name) {
+                    emissionValue = emissionData[i].value;
+                } else {continue;}
+            }
+
+            for(var i=0; i<calorieData.length;i++) {
+                //console.log(dataset[i]);
+                if(ingredient === calorieData[i].food_name) {
+                    calorie = calorieData[i].value;
+                } else {continue;}
+            }
+
+            if (unit === "g") {
+                finalValue = amount / 100 * emissionValue;
+                finalValue = Number(finalValue).toFixed(2);
+                finalValue += " kg"; // greenhouse gases
+
+                finalCalorie = amount / 100 * calorie;
+                finalCalorie = Number(finalCalorie).toFixed(2);
+                metric = "g";
+                finalCalorie += " kcal"; // calories
+            } else if (unit === "kg") {
+                finalValue = amount * emissionValue * 10;
+                finalValue = Number(finalValue).toFixed(2);
+                finalValue += " kg"; // greenhouse gases
+
+                finalCalorie = amount * calorie * 10;
+                finalCalorie = Number(finalCalorie).toFixed(2);
+                metric = "kg";
+                finalCalorie += " kcal"; // calories
+            }
+            return [finalValue, finalCalorie];
+        }
+
+        function checkNutrientData(nutrientDict){
+            var carbDict = {};
+            var fatDict = {};
+            var proteinDict = {};
+            var vitADict = {};
+            var vitCDict = {};
+            var vitEDict = {};
+            var calciumDict = {};
+            var totalNutrient = []; // Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
+            // once we have a dictionary of Ingredient: amount (gram), go through nutrientData to get nutrient value
+            for (var item in nutrientDict) {
+                for (var k = 0; k < nutrientData.length; k++) {
+                    if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Carb_g")) {
+                        carbDict[item] = Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Fat_g")) {
+                        fatDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Protein_g")) {
+                        proteinDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitA_mcg")) {
+                        vitADict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitC_mg")) {
+                        vitCDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitE_mg")) {
+                        vitEDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Calcium_mg")) {
+                        calciumDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
+                    }
+                }
+            }
+            // totalNutrient; Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
+            var carbSum = 0;
+            var fatSum = 0;
+            var proteinSum = 0;
+            var vitASum = 0;
+            var vitCSum = 0;
+            var vitESum = 0;
+            var calciumSum = 0;
+            for (var item in carbDict){ carbSum += parseFloat(carbDict[item])};
+            for (var item in fatDict){ fatSum += parseFloat(fatDict[item])};
+            for (var item in proteinDict){ proteinSum += parseFloat(proteinDict[item])};
+            for (var item in vitADict){ vitASum += parseFloat(vitADict[item])};
+            for (var item in vitCDict){ vitCSum += parseFloat(vitCDict[item])};
+            for (var item in vitEDict){ vitESum += parseFloat(vitEDict[item])};
+            for (var item in calciumDict){ calciumSum += parseFloat(calciumDict[item])};
+
+            totalNutrient.push(Number(carbSum).toFixed(2), Number(fatSum).toFixed(2), Number(proteinSum).toFixed(2),
+                Number(vitASum).toFixed(2), Number(vitCSum).toFixed(2),Number(vitESum).toFixed(2), Number(calciumSum).toFixed(2));
+
+            document.getElementById("total_nutrient").innerHTML = "Carbohydrates " + totalNutrient[0] +"g, " +
+                "Fats " + totalNutrient[1] + "g, " + "Proteins " + totalNutrient[2] + "g, ";
+            document.getElementById("total_nutrient2").innerHTML = "Vitamin A " + totalNutrient[3] +"mcg, " +
+                "Vitamin C " + totalNutrient[4] +"mg, " + "Vitamin E " + totalNutrient[5] + "mg, " +
+                "Calcium " + totalNutrient[6] +"mg";
+            document.getElementById("total_result").style.display="block";
+        }
+
+        function show_footprint(totalGas){
+            if (imgExists===true) {
+                document.getElementById("footprint_image").style.display="none";
+                document.getElementById(imgName).style.display="none";
+                imgExists = false;
+            }
+
+            if (imgExists ===false) {
+                if (totalGas <= 3){
+                    document.getElementById("footprint_image").style.display="block";
+                    document.getElementById("img_verylow").style.display="block";
+                    imgExists = true;
+                    imgName = "img_verylow";
+                } else if (totalGas <=6){
+                    document.getElementById("footprint_image").style.display="block";
+                    document.getElementById("img_low").style.display="block";
+                    imgExists = true;
+                    imgName = "img_low";
+                } else if (totalGas <=9){
+                    document.getElementById("footprint_image").style.display="block";
+                    document.getElementById("img_average").style.display="block";
+                    imgExists = true;
+                    imgName = "img_average";
+                } else if (totalGas <=12){
+                    document.getElementById("footprint_image").style.display="block";
+                    document.getElementById("img_littlehigh").style.display="block";
+                    imgExists = true;
+                    imgName = "img_littlehigh";
+                } else if (totalGas <= 15){
+                    document.getElementById("footprint_image").style.display="block";
+                    document.getElementById("img_high").style.display="block";
+                    imgExists = true;
+                    imgName = "img_high";
+                } else if (totalGas > 15){
+                    document.getElementById("footprint_image").style.display="block";
+                    document.getElementById("img_veryhigh").style.display="block";
+                    imgExists = true;
+                    imgName = "img_veryhigh";
+                }
+            }
+        }
+
+        /*  hide validation error message
         function onSelected(id){
             document.getElementById(id).style.visibility ="hidden";
         }
@@ -223,23 +439,8 @@ function fill_select_box(){
                 checkRow();
             }
 
-        }
-
-        function checkRow () {
-            if (rowExists)
-            {
-                document.getElementById("calculate_button").style.visibility = "visible";
-
-            }
-            else {
-                document.getElementById("calculate_button").style.visibility = "hidden";
-                document.getElementById("total_result").style.display = "none";
-                document.getElementById("footprint_image").style.display = "none";
-                document.getElementById(imgName).style.display = "none";
-                imgExists = false;
-            }
-        }
-
+        }*/
+        /*
         function validateInput() {
             ingGroup = document.getElementById("food_group").value;
             ingredient = document.getElementById("food_name").value;
@@ -266,7 +467,23 @@ function fill_select_box(){
                     document.getElementById("amountValidationError").style.visibility ="hidden";
             }
             return isValid;
+        }*/
+
+        function checkRow () {
+            if (rowExists)
+            {
+                document.getElementById("calculate_button").style.visibility = "visible";
+
+            }
+            else {
+                document.getElementById("calculate_button").style.visibility = "hidden";
+                document.getElementById("total_result").style.display = "none";
+                document.getElementById("footprint_image").style.display = "none";
+                document.getElementById(imgName).style.display = "none";
+                imgExists = false;
+            }
         }
+
 
         function calculate_calories() {
             document.getElementById("total_result2").style.display = "none";
@@ -470,43 +687,8 @@ function fill_select_box(){
             return isValid2;
         }
 
-        // function add() or save() calls addIngredient()
-        function addIngredient() {
-            for(var i=0; i<emissionData.length;i++) {
-                //console.log(dataset[i]);
-                if(ingredient === emissionData[i].food_name) {
-                    emissionValue = emissionData[i].value;
-                } else {continue;}
-            }
 
-            for(var i=0; i<calorieData.length;i++) {
-                //console.log(dataset[i]);
-                if(ingredient === calorieData[i].food_name) {
-                    calorie = calorieData[i].value;
-                } else {continue;}
-            }
-
-            if (unit === "g") {
-                finalValue = amount / 100 * emissionValue;
-                finalValue = Number(finalValue).toFixed(2);
-                finalValue += " kg";
-                finalCalorie = amount / 100 * calorie;
-                finalCalorie = Number(finalCalorie).toFixed(2);
-                //amount = amount/1000;
-                metric = "g";
-                finalCalorie += " kcal";
-            } else {
-                finalValue = amount * emissionValue * 10;
-                finalValue = Number(finalValue).toFixed(2);
-                finalValue += " kg";
-                finalCalorie = amount * calorie * 10;
-                finalCalorie = Number(finalCalorie).toFixed(2);
-                metric = "kg";
-                finalCalorie += " kcal";
-            }
-
-        }
-
+        /*
         function save(){
             valid = validateInput();
             if (valid === true) {
@@ -521,8 +703,9 @@ function fill_select_box(){
                 selectedRow = null;
                 document.getElementById("save_button").style.visibility = "hidden";
             }
-        }
+        }*/
 
+        /*
         function insertRecord(grp,ing,amt,met,val,cal){
             // get the table by id, create a new rows and cell and set values into cell
             var table = document.getElementById("table").getElementsByTagName('tbody')[0];
@@ -588,160 +771,9 @@ function fill_select_box(){
             }
             checkRow();
         }
-        // calculate greenhouse gases and calories
-        function calculate(){
-            var carbDict = {};
-            var fatDict = {};
-            var proteinDict = {};
-            var vitADict = {};
-            var vitCDict = {};
-            var vitEDict = {};
-            var calciumDict = {};
-            var totalNutrient = []; // Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
-            var greenHouse = "";
-            var kcal = "";
-            var amountTable = "";
-            var nutrientDict = {};
-            var myTable = document.getElementById("table"), sumGas = 0, sumCal = 0;
-            // go through table and save ingredient as key, amount as value
-            for (var i = 1; i < myTable.rows.length; i++) {
-                if (myTable.rows[i].cells[2].innerHTML.includes("k")){
-                    amountTable = myTable.rows[i].cells[2].innerHTML.replace(/[^0-9]/g, '');
-                    amountTable *= 1000; // convert from kg to gram
-                }
-                else {
-                    amountTable = parseInt(myTable.rows[i].cells[2].innerHTML.replace(/[^0-9]/g, '')); // extract numeric values
-                }
+        */
 
-                if (myTable.rows[i].cells[1].innerHTML in nutrientDict) {
-                    var existingAmount = parseInt(nutrientDict[myTable.rows[i].cells[1].innerHTML]);
-                    amountTable = existingAmount + amountTable;
-                    nutrientDict[myTable.rows[i].cells[1].innerHTML] = amountTable;
-                }
-                else {
-                    nutrientDict[myTable.rows[i].cells[1].innerHTML] = amountTable;
-                }
-                console.log(nutrientDict);
-            }
-            // once we have a dictionary of Ingredient: amount (gram), go through nutrientData to get nutrient value
-            for (var item in nutrientDict) {
-                for (var k = 0; k < nutrientData.length; k++) {
-                    //console.log(dataset[i]);
-                    if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Carb_g")) {
-                        carbDict[item] = Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Fat_g")) {
-                        fatDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Protein_g")) {
-                        proteinDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitA_mcg")) {
-                        vitADict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitC_mg")) {
-                        vitCDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitE_mg")) {
-                        vitEDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Calcium_mg")) {
-                        calciumDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    }
-                }
-            }
-            // totalNutrient; Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
-            var carbSum = 0;
-            var fatSum = 0;
-            var proteinSum = 0;
-            var vitASum = 0;
-            var vitCSum = 0;
-            var vitESum = 0;
-            var calciumSum = 0;
-            for (var item in carbDict){ carbSum += parseFloat(carbDict[item])};
-            for (var item in fatDict){ fatSum += parseFloat(fatDict[item])};
-            for (var item in proteinDict){ proteinSum += parseFloat(proteinDict[item])};
-            for (var item in vitADict){ vitASum += parseFloat(vitADict[item])};
-            for (var item in vitCDict){ vitCSum += parseFloat(vitCDict[item])};
-            for (var item in vitEDict){ vitESum += parseFloat(vitEDict[item])};
-            for (var item in calciumDict){ calciumSum += parseFloat(calciumDict[item])};
 
-            totalNutrient.push(Number(carbSum).toFixed(2), Number(fatSum).toFixed(2), Number(proteinSum).toFixed(2),
-                Number(vitASum).toFixed(2), Number(vitCSum).toFixed(2),Number(vitESum).toFixed(2), Number(calciumSum).toFixed(2));
-            //console.log(totalNutrient);
-
-            for (var i = 1; i < myTable.rows.length; i++) {
-                //console.log(i);
-
-                for (var j = 0; j < myTable.rows[i].cells[3].innerHTML.length; j++){
-                    if (myTable.rows[i].cells[3].innerHTML.charAt(j) != "k") {
-                        greenHouse += myTable.rows[i].cells[3].innerHTML.charAt(j);
-                    }
-                    else break;
-                }
-                sumGas += parseFloat(greenHouse);
-                greenHouse = "";
-
-                for (var j = 0; j < myTable.rows[i].cells[4].innerHTML.length; j++){
-                    if (myTable.rows[i].cells[4].innerHTML.charAt(j) != "k") {
-                        kcal += myTable.rows[i].cells[4].innerHTML.charAt(j);
-                    }
-                    else break;
-                }
-
-                sumCal += parseFloat(kcal);
-                kcal = "";
-            }
-
-            sumGas = Number(sumGas).toFixed(2);
-            sumCal = Number(sumCal).toFixed(2);
-            //console.log(sumGas + " " + sumCal);
-            document.getElementById("carbon_footprint").innerHTML = sumGas + " kg"; // (CO2 equivalents)
-            document.getElementById("total_calories").innerHTML = sumCal + " kcal";
-            document.getElementById("total_nutrient").innerHTML = "Carbohydrates " + totalNutrient[0] +"g, " +
-                "Fats " + totalNutrient[1] + "g, " + "Proteins " + totalNutrient[2] + "g, ";
-            document.getElementById("total_nutrient2").innerHTML = "Vitamin A " + totalNutrient[3] +"mcg, " +
-                    "Vitamin C " + totalNutrient[4] +"mg, " + "Vitamin E " + totalNutrient[5] + "mg, " +
-                    "Calcium " + totalNutrient[6] +"mg";
-            document.getElementById("total_result").style.display="block";
-            show_footprint(sumGas);
-        }
-
-        function show_footprint(totalGas){
-            if (imgExists===true) {
-                document.getElementById("footprint_image").style.display="none";
-                document.getElementById(imgName).style.display="none";
-                imgExists = false;
-            }
-
-            if (imgExists ===false) {
-                if (totalGas <= 3){
-                    document.getElementById("footprint_image").style.display="block";
-                    document.getElementById("img_verylow").style.display="block";
-                    imgExists = true;
-                    imgName = "img_verylow";
-                } else if (totalGas <=6){
-                    document.getElementById("footprint_image").style.display="block";
-                    document.getElementById("img_low").style.display="block";
-                    imgExists = true;
-                    imgName = "img_low";
-                } else if (totalGas <=9){
-                    document.getElementById("footprint_image").style.display="block";
-                    document.getElementById("img_average").style.display="block";
-                    imgExists = true;
-                    imgName = "img_average";
-                } else if (totalGas <=12){
-                    document.getElementById("footprint_image").style.display="block";
-                    document.getElementById("img_littlehigh").style.display="block";
-                    imgExists = true;
-                    imgName = "img_littlehigh";
-                } else if (totalGas <= 15){
-                    document.getElementById("footprint_image").style.display="block";
-                    document.getElementById("img_high").style.display="block";
-                    imgExists = true;
-                    imgName = "img_high";
-                } else if (totalGas > 15){
-                    document.getElementById("footprint_image").style.display="block";
-                    document.getElementById("img_veryhigh").style.display="block";
-                    imgExists = true;
-                    imgName = "img_veryhigh";
-                }
-            }
-        }
 
         function show_hide() {
             if (appear === true){
@@ -807,41 +839,67 @@ function fill_select_box(){
 
     <!-- main -->
     <div class="container">
+        <p class="align-left"> STEP 1. Let's find out how much calories you should eat per day.</p>
         <div class="row">
-            <div class="12u align-left">
-                <!-- <h3>Let's calculate your carbon footprint</h3> -->
-                <p>STEP 1. Add and calculate carbon footprint of ingredients in your recipe.</p><br>
-            </div>
-        </div>
-        <div class="container mt-5">
-            <h4 class="align-center">RECIPE LISTING</h4>
-            <form method="post" id="insert_form">
-                <div class="table-responsive">
-                    <span id="error"></span>
-                    <table class="table table-bordered table-hover" id="item_table">
-                        <thead>
-                        <tr>
-                            <th>Food Type</th>
-                            <th>Food</th>
-                            <th>Weight</th>
-                            <th>Unit</th>
-                            <th>Greenhouse Gases</th>
-                            <th>Calories</th>
-                            <th class="align-left"><button type="button" name="add" class="btn btn-success btn-xs add">
-                                    <span class="glyphicon glyphicon-plus"></span>
-                                </button></th>
-                        </tr>
-                        </thead>
-                        <tbody id="first_table"></tbody>
-                    </table>
-                    <div class="align-center">
-                        <input type="submit" name="submit" class="button alt" value="CALCULATE FOODPRINT" />
+            <div class="7u">
+                <div id="form-group2" class="form-group2">
+                    <p class="bmr_form">GENDER</p>
+                    <input type="radio" id="male" name="gender" value="male" onchange=onSelected("genderValidationError")>
+                    <label class="first_label" for="male">Male</label>
+                    <input type="radio" id="female" name="gender" value="female" onchange=onSelected("genderValidationError")>
+                    <label class="second_label" for="female">Female</label>
+                    <div class="validation-error" style="visibility:hidden;" id="genderValidationError">Please select your gender</div>
+
+                    <p class="bmr_form">HEIGHT</p>
+                    <input class="input_height" type="text" id="height" name="height" maxlength="3" pattern="\d{3}" placeholder="cm" onkeypress="isInputNumber(event)"
+                           onchange=onSelected("heightValidationError")>
+                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                        <span class="tooltiptext">Round to the nearest integer</span>
                     </div>
+                    <div class="validation-error" style="visibility:hidden;" id="heightValidationError">Please enter between 1 and 999</div>
+
+                    <p class="bmr_form">WEIGHT</p>
+                    <input class="input_weight" type="text" id="weight" name="weight" maxlength="3" pattern="\d{3}" placeholder="kg" onkeypress="isInputNumber(event)"
+                           onchange=onSelected("weightValidationError")>
+                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                        <span class="tooltiptext">Round to the nearest integer</span>
+                    </div>
+                    <div class="validation-error" style="visibility:hidden;" id="weightValidationError">Please enter between 1 and 999</div>
+
+                    <p class="bmr_form">AGE</p>
+                    <input class="input_age" id="age" name="age" type="text" maxlength="2" onkeypress="isInputNumber(event);" placeholder="Enter age"
+                           onchange=onSelected("ageValidationError")>
+                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                        <span class="tooltiptext">Enter between 1 and 99</span>
+                    </div>
+                    <div class="validation-error" style="visibility:hidden;" id="ageValidationError">Please enter between 1 and 99</div>
+
+                    <p class="bmr_form">ACTIVITY</p>
+                    <select class="input_activity" name="activity" id="activity" onchange=onSelected("activityValidationError")>
+                        <option class="input_activity" value="" disabled selected>Select activity level</option>
+                        <option class="input_activity" value="sedentary">Sedentary: little to no exercise</option>
+                        <option class="input_activity" value="light">Light: exercise 1-3 times per week</option>
+                        <option class="input_activity" value="moderate">Moderate: exercise 4-5 times per week</option>
+                        <option class="input_activity" value="veryActive">Very active: intense exercise 6-7 times per week </option>
+                        <option class="input_activity" value="extraActive">Extra active: very intense exercise daily</option>
+                    </select>
+                    <div class="extra_info">Exercise: 15-30 mins of elevated heart rate activity<br>
+                        Intense exercise: 45-120 mins of elevated heart rate activity<br>
+                        Very intense exercise: 2+ hrs of elevated heart rate activity</div>
+                    <div class="validation-error" style="visibility:hidden;" id="activityValidationError">Please select your activity level</div>
+                    <ul class="actions">
+                        <li><a id="calories_button" class="button alt calories" onclick="calculate_calories()">Calculate Calories</a></li>
+                    </ul>
+                </div> <!--div form-group-->
+            </div> <!--7u-->
+            <div class="5u">
+                <div class="result2" id="total_result2" style="display:none;"><br>
+                    <p style="display: inline-block">YOUR DAILY ENERGY REQUIREMENTS :&nbsp;</p><p id="result_bmr" style="display: inline-block"></p><p style="display: inline-block">&nbsp;kcal</p><br>
+                    <p>YOUR DAILY NUTRIENT REQUIREMENTS :&nbsp;</p><p id="result_nutrient"></p><p id="result_nutrient2"></p>
                 </div>
+            </div>
+        </div> <!--end of row-->
 
-            </form>
-
-        </div>
 
         <!--
         <div class="row">
@@ -925,96 +983,68 @@ function fill_select_box(){
                 </div>
             </div>
         </div> -->
+        <hr class="major"/>
+        <div class="row">
+            <div class="12u align-left">
+                <!-- <h3>Let's calculate your carbon footprint</h3> -->
+                <p>STEP 2. Let's build your low carbon footprint recipe.</p><br>
+            </div>
+        </div>
+        <div class="container mt-5">
+            <h4 class="align-center">YOUR RECIPE</h4>
+            <form method="post" id="insert_form">
+                <div class="table-responsive">
+                    <span id="error"></span>
+                    <table class="table table-bordered table-hover" id="item_table">
+                        <thead>
+                        <tr>
+                            <th>Food Type</th>
+                            <th>Food</th>
+                            <th>Weight</th>
+                            <th>Unit</th>
+                            <th>Greenhouse Gases</th>
+                            <th>Calories</th>
+                            <th class="align-left"><button type="button" name="add" class="btn btn-success btn-xs add">
+                                    <span class="glyphicon glyphicon-plus"></span>
+                                </button></th>
+                        </tr>
+                        </thead>
+                        <tbody id="first_table"></tbody>
+                    </table>
+                    <div class="align-center">
+                        <input type="submit" name="submit" class="button alt" id="calculate_button" value="CALCULATE FOODPRINT" />
+                    </div>
+                </div>
+
+            </form>
+        </div>
         <div class="row">
             <div class="12u align-center">
                 <div class="result" id="total_result" style="display:none; padding-top: 60px;" >
-                    <br><br>
-                    <h4 class="meal_planning">YOUR CARBON FOOTPRINT :&nbsp;</h4><h4 id="carbon_footprint"></h4><br>
-                    <h4 class="meal_planning">CALORIES OF YOUR RECIPE :&nbsp;</h4><h4 id="total_calories"></h4><br>
-                    <h4 class="meal_planning">TOTAL AMOUNT OF NUTRIENT :&nbsp;</h4><br><h4 id="total_nutrient"></h4><br><h4 id="total_nutrient2"></h4><br>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="12u">
-                <div id="footprint_image" style="display:none; text-align: center;"><!--http://www.globalstewards.org/reduce-carbon-footprint.htm-->
-                    <img id="img_verylow" style="display: none; text-align: center" src="images/verylow.png" class="image" width="400">
-                    <img id="img_low" style="display: none; text-align: center" src="images/low.png" class="image" width="400">
-                    <img id="img_average" style="display: none; text-align: center" src="images/average.png" class="image" width="400">
-                    <img id="img_littlehigh" style="display: none; text-align: center" src="images/littlehigh.png" class="image" width="400">
-                    <img id="img_high" style="display: none; text-align: center" src="images/high.png" class="image" width="400">
-                    <img id="img_veryhigh" style="display: none; text-align: center" src="images/veryhigh.png" class="image" width="400">
                     <br>
-                    <h3><span style="text-decoration: none; border-bottom: 2px solid #44af92; color:#000000;"> &nbsp;Carbon Footprint of Your Recipe&nbsp; </span></h3><br>
-                    <ul class="actions">
-                        <li><a id="bmr_button" class="button alt bmr">Check your calorie needs</a></li>
-                    </ul>
+                    <h4 style="display: inline-block" class="meal_planning">CARBON FOOTPRINT OF YOUR MEAL:&nbsp;</h4><h4 style="display: inline-block" id="carbon_footprint"></h4><br>
+                    <h4 style="display: inline-block" class="meal_planning">CALORIES OF YOUR MEAL PLAN :&nbsp;</h4><h4 style="display: inline-block" id="total_calories"></h4><br>
+                    <h4 style="display: inline-block" class="meal_planning">TOTAL AMOUNT OF NUTRIENT :&nbsp;</h4><br><h4 id="total_nutrient"></h4><h4 id="total_nutrient2"></h4><br>
+                    <div id="footprint_image" style="display:none; text-align: center;"><!--http://www.globalstewards.org/reduce-carbon-footprint.htm-->
+                        <img id="img_verylow" style="display: none; text-align: center" src="images/verylow.png" class="image" width="400">
+                        <img id="img_low" style="display: none; text-align: center" src="images/low.png" class="image" width="400">
+                        <img id="img_average" style="display: none; text-align: center" src="images/average.png" class="image" width="400">
+                        <img id="img_littlehigh" style="display: none; text-align: center" src="images/littlehigh.png" class="image" width="400">
+                        <img id="img_high" style="display: none; text-align: center" src="images/high.png" class="image" width="400">
+                        <img id="img_veryhigh" style="display: none; text-align: center" src="images/veryhigh.png" class="image" width="400">
+                        <br>
+                        <h3><span style="text-decoration: none; border-bottom: 2px solid #44af92; color:#000000;"> &nbsp;Carbon Footprint of Your Meal Plan&nbsp; </span></h3><br>
+                        <ul class="actions">
+                            <li><a id="bmr_button" class="button alt bmr">Check your calorie needs</a></li>
+                        </ul>
+                    </div>
                 </div>
             </div>
         </div>
+
         <br>
-        <hr class="major"/>
-        <p class="align-left"> STEP 2. Let's find out how much calories you should eat per day.</p>
-        <div class="row">
-            <div class="6u">
-                <div id="form-group2" class="form-group2">
-                    <p class="bmr_form">GENDER</p>
-                    <input type="radio" id="male" name="gender" value="male" onchange=onSelected("genderValidationError")>
-                    <label class="first_label" for="male">Male</label>
-                    <input type="radio" id="female" name="gender" value="female" onchange=onSelected("genderValidationError")>
-                    <label class="second_label" for="female">Female</label>
-                    <div class="validation-error" style="visibility:hidden;" id="genderValidationError">Please select your gender</div>
 
-                    <p class="bmr_form">HEIGHT</p>
-                    <input class="input_height" type="text" id="height" name="height" maxlength="3" pattern="\d{3}" placeholder="cm" onkeypress="isInputNumber(event)"
-                           onchange=onSelected("heightValidationError")>
-                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                        <span class="tooltiptext">Round to the nearest integer</span>
-                    </div>
-                    <div class="validation-error" style="visibility:hidden;" id="heightValidationError">Please enter between 1 and 999</div>
 
-                    <p class="bmr_form">WEIGHT</p>
-                    <input class="input_weight" type="text" id="weight" name="weight" maxlength="3" pattern="\d{3}" placeholder="kg" onkeypress="isInputNumber(event)"
-                           onchange=onSelected("weightValidationError")>
-                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                        <span class="tooltiptext">Round to the nearest integer</span>
-                    </div>
-                    <div class="validation-error" style="visibility:hidden;" id="weightValidationError">Please enter between 1 and 999</div>
-
-                    <p class="bmr_form">AGE</p>
-                    <input class="input_age" id="age" name="age" type="text" maxlength="2" onkeypress="isInputNumber(event);" placeholder="Enter age"
-                           onchange=onSelected("ageValidationError")>
-                    <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
-                        <span class="tooltiptext">Enter between 1 and 99</span>
-                    </div>
-                    <div class="validation-error" style="visibility:hidden;" id="ageValidationError">Please enter between 1 and 99</div>
-
-                    <p class="bmr_form">ACTIVITY</p>
-                    <select class="input_activity" name="activity" id="activity" onchange=onSelected("activityValidationError")>
-                        <option class="input_activity" value="" disabled selected>Select activity level</option>
-                        <option class="input_activity" value="sedentary">Sedentary: little to no exercise</option>
-                        <option class="input_activity" value="light">Light: exercise 1-3 times per week</option>
-                        <option class="input_activity" value="moderate">Moderate: exercise 4-5 times per week</option>
-                        <option class="input_activity" value="veryActive">Very active: intense exercise 6-7 times per week </option>
-                        <option class="input_activity" value="extraActive">Extra active: very intense exercise daily</option>
-                    </select>
-                    <div class="extra_info">Exercise: 15-30 mins of elevated heart rate activity<br>
-                        Intense exercise: 45-120 mins of elevated heart rate activity<br>
-                        Very intense exercise: 2+ hrs of elevated heart rate activity</div>
-                    <div class="validation-error" style="visibility:hidden;" id="activityValidationError">Please select your activity level</div>
-                    <br>
-                    <ul class="actions">
-                        <li><a id="calories_button" class="button alt calories" onclick="calculate_calories()">Calculate Calories</a></li>
-                    </ul>
-                </div> <!--div form-group-->
-            </div> <!--5u-->
-            <div class="6u">
-                <div class="result2" id="total_result2" style="display:none;"><br>
-                    <h4>RECOMMENDED DAILY CALORIE INTAKE :&nbsp;</h4><h4 id="result_bmr"></h4><h4>&nbsp;kcal</h4><br>
-                    <h4>ESTIMATED AVERAGE REQUIREMENT FOR NUTRIENTS :&nbsp;</h4><h4 id="result_nutrient"></h4><br><h4 id="result_nutrient2"></h4>
-                </div>
-            </div>
-        </div> <!--end of row-->
     </div> 	<!-- 1st Container -->
 
         <!-- Footer -->
