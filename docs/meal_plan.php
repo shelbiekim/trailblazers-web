@@ -987,11 +987,11 @@ function fill_select_box(){
         <div class="row">
             <div class="12u align-left">
                 <!-- <h3>Let's calculate your carbon footprint</h3> -->
-                <p>STEP 2. Let's build your low carbon footprint recipe.</p><br>
+                <p>STEP 2. Let's build your low carbon footprint meal plan</p><br>
             </div>
         </div>
         <div class="container mt-5">
-            <h4 class="align-center">YOUR RECIPE</h4>
+            <h4 class="align-center">YOUR MEAL PLAN</h4>
             <form method="post" id="insert_form">
                 <div class="table-responsive">
                     <span id="error"></span>
@@ -1022,7 +1022,7 @@ function fill_select_box(){
             <div class="12u align-center">
                 <div class="result" id="total_result" style="display:none; padding-top: 60px;" >
                     <br>
-                    <h4 style="display: inline-block" class="meal_planning">CARBON FOOTPRINT OF YOUR MEAL:&nbsp;</h4><h4 style="display: inline-block" id="carbon_footprint"></h4><br>
+                    <h4 style="display: inline-block" class="meal_planning">CARBON FOOTPRINT OF YOUR MEAL PLAN:&nbsp;</h4><h4 style="display: inline-block" id="carbon_footprint"></h4><br>
                     <h4 style="display: inline-block" class="meal_planning">CALORIES OF YOUR MEAL PLAN :&nbsp;</h4><h4 style="display: inline-block" id="total_calories"></h4><br>
                     <h4 style="display: inline-block" class="meal_planning">TOTAL AMOUNT OF NUTRIENT :&nbsp;</h4><br><h4 id="total_nutrient"></h4><h4 id="total_nutrient2"></h4><br>
                     <div id="footprint_image" style="display:none; text-align: center;"><!--http://www.globalstewards.org/reduce-carbon-footprint.htm-->
