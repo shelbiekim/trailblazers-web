@@ -1164,7 +1164,7 @@ function fill_select_box(){
         </div> -->
     <div class="container">
         <div>
-            <p>STEP 2. Let's build your low carbon footprint meal plan</p><br>
+            <p>STEP 2. Build your meal plan by clicking the add button for each meal tab</p><br>
         </div>
             <h4 class="align-center">YOUR MEAL PLAN</h4>
                 <ul class="nav nav-tabs" >
@@ -1240,8 +1240,11 @@ function fill_select_box(){
                         </form>
                     </div>
                 </div>
+            <div>
+                <p>STEP 3. Click on the CALCULATE FOODPRINT button to find out your carbon footprint</p><br>
+            </div>
             <div class="align-center">
-                <input type="submit" name="submit" class="button alt" id="calculate_button" value="CALCULATE FOODPRINT" />
+                <input type="submit" name="submit" class="button alt" id="calculate_button" value="CALCULATE FOOTPRINT" />
             </div><br>
 
         <div class="row">
@@ -1252,10 +1255,9 @@ function fill_select_box(){
                     <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #44af92; color:#000000;" id="carbon_footprint"></span></h3><br>
                     <div id="tree_image" class="tree_image" style="display:none; text-align: center;">
                         <img id="img_tree" style="display: none; text-align: center" src="images/trees.png" class="image" width="500">
-                        <h3 style="display: inline-block">It takes&nbsp;</h3><h3 style="display: inline-block" id="tree_num"></h3>
+                        <h3 style="display: inline-block">It takes&nbsp;</h3><h3 style="display: inline-block; font-weight:bold;" id="tree_num"></h3>
                         <h3 style="display: inline-block">trees to offset your annual footprint</h3><br>
-                        <p style="display: inline-block">On average, every tree absorbs 0.07 tons of CO2 annually.</p><br>
-                        <p style="display: inline-block">Your footprint requires&nbsp;</p><p style="display: inline-block" id="tree_num2"></p><p style="display: inline-block">&nbsp;trees per year.</p>
+                        <p style="margin-bottom: 0;">On average, every tree absorbs 0.07 tons of CO2 annually.</p><p style="display: inline-block">Your footprint requires&nbsp;</p><p style="display: inline-block;font-weight:bold;" id="tree_num2"></p><p style="display: inline-block">&nbsp;trees per year.</p>
                     </div>
                     <ul class="actions">
                         <li><a id="bmr_button" class="button alt bmr">Check out our recipes </a></li>
