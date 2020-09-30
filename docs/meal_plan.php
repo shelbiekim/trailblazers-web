@@ -72,8 +72,16 @@ function fill_select_box(){
     <!-- jQuery library -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     <script type="text/javascript">
         $(document).ready(function(){
+            $('[data-toggle="tooltip"]').tooltip();
+            const hamburgerBtn = document.getElementById('hamburgerBtn');
+            const navBar = document.getElementById('navBar');
+            hamburgerBtn.addEventListener('click', () => {
+                console.log("Button clicked");
+                navBar.classList.toggle('open');
+            });
             var count = 0;
 
             $(document).on('click', '.add', function(){
@@ -126,8 +134,10 @@ function fill_select_box(){
                 event.preventDefault();
                 //var form_data = $(this).serialize();
                 //$('#item_table').find("tr:gt(0)").remove();
+            });
 
-
+            $('#bmr_calculator_form').on('submit',function(event){
+                event.preventDefault();
             });
 
             $(document).on('change', '.item_sub_category', function(){
@@ -171,6 +181,22 @@ function fill_select_box(){
                     $('#item_calories'+sub_category_id).html(finals[1]);
                 };
             });
+
+            $(function(){
+                $("#calories_button").click(function(){
+                    if($('#bmr_calculator_form')[0].checkValidity() === true){
+                        calculate_calories();
+                    }
+                });
+            });
+
+            $(function(){
+                $("#return_button").click(function(){
+                    $('#total_result2').css("display","none");
+                    $('#bmr_calculator_form').css("display","block");
+                });
+            });
+
 
             $(function(){
                 $("#calculate_button").click(function(){
@@ -250,18 +276,10 @@ function fill_select_box(){
            });
         });*/
 
-
-
     </script>
     <script type="text/javascript">
-        var gender = "";
         var male = "";
         var female = "";
-        var height = "";
-        var weight = "";
-        var age = "";
-        var activity = "";
-        var bmr = "";
         var appear = false;
         var valid = false;
         var valid2 = false;
@@ -421,12 +439,11 @@ function fill_select_box(){
             }
         }
 
-        /*  hide validation error message
         function onSelected(id){
             document.getElementById(id).style.visibility ="hidden";
         }
 
-        // add ingredient
+        /* add ingredient
         function add(){
             valid = validateInput();
             if (valid === true) {
@@ -486,34 +503,45 @@ function fill_select_box(){
 
 
         function calculate_calories() {
-            document.getElementById("total_result2").style.display = "none";
-            valid2 = validateInput2();
-            if(valid2==true) {
-                activity = checkActivity();
-                if (document.getElementById('male').checked) {
-                    gender = "male";
-                    bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
-                    bmr = bmr * activity;
-                    bmr = Number(bmr).toFixed(2);
-                } else if (document.getElementById('female').checked) {
-                    gender = "female";
-                    bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
-                    bmr = bmr * activity;
-                    bmr = Number(bmr).toFixed(2);
-                }
-                calculate_nutrient();
-                document.getElementById("total_result2").style.display = "block";
-                document.getElementById("result_bmr").innerHTML = bmr;
+            //valid2 = validateInput2();
+            //if(valid2==true) {
+            var gender = "";
+            var height = parseInt(document.getElementById("height").value);
+            var weight = parseInt(document.getElementById("weight").value);
+            var age = parseInt(document.getElementById("age").value);
+            var activity = "";
+            var bmr = "";
+
+            activity = checkActivity();
+            if (document.getElementById('male').checked) {
+                gender = "male";
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
+                bmr = bmr * activity;
+                bmr = Number(bmr).toFixed(2);
+                console.log(bmr);
+            } else if (document.getElementById('female').checked) {
+                gender = "female";
+                bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
+                bmr = bmr * activity;
+                bmr = Number(bmr).toFixed(2);
             }
+            document.getElementById("bmr_calculator_form").style.display = "none";
+            document.getElementById("total_result2").style.display = "block";
+            document.getElementById("result_bmr").innerHTML = bmr + "&nbsp;kcal";
+
+            calculate_nutrient(bmr);
 
         }
 
-        function calculate_nutrient() {
+        //}
+
+        function calculate_nutrient(bmr_value) {
             var tempArray;
             var maleArray;
             var femaleArray;
             var userAge;
             var nutriArray; // nutrient
+            var bmr = bmr_value;
             if (document.getElementById('male').checked) {
                 tempArray = recommendData.filter(function (x) {
                     return x.gender == "male";
@@ -521,21 +549,20 @@ function fill_select_box(){
                 userAge = document.getElementById('age').value;
                 //console.log(userAge);
                 maleArray = checkAge(userAge,tempArray);
-                nutriArray = checkNutrient(maleArray);
+                nutriArray = checkNutrient(maleArray, bmr);
             } else if (document.getElementById('female').checked) {
                 tempArray = recommendData.filter(function (x) {
                     return x.gender == "female";
                 });
                 userAge = parseInt(document.getElementById('age'));
                 femaleArray = checkAge(userAge,tempArray);
-                nutriArray = checkNutrient(femaleArray);
+                nutriArray = checkNutrient(femaleArray, bmr);
             }
 
             document.getElementById("result_nutrient").innerHTML = "Carbohydrates " + nutriArray[6] +"g, " +
-            "Fats " + nutriArray[0] + "g, " + "Proteins " + nutriArray[1] + "g, ";
-            document.getElementById("result_nutrient2").innerHTML = "Vitamin A " + nutriArray[2] +"mcg, " +
-                "Vitamin C " + nutriArray[3] +"mg, " + "Vitamin E " + nutriArray[4] + "mg, " +
-                "Calcium " + nutriArray[5] +"mg";
+            "Fats " + nutriArray[0] + "g, " + "Proteins " + nutriArray[1] + "g, " + "Vitamin A " + nutriArray[2] +"mcg, " +
+            "Vitamin C " + nutriArray[3] +"mg, " + "Vitamin E " + nutriArray[4] + "mg, " +
+            "Calcium " + nutriArray[5] +"mg";
 
         }
 
@@ -572,14 +599,14 @@ function fill_select_box(){
                 });
             } else if (userAge > 70) {
                 genderArray = genderArray.filter(function (x) {
-                    return x.age_range == ">70";
+                    return x.age_range == ">71";
                 });
             }
             //console.log(genderArray);
             return genderArray;
         }
 
-        function checkNutrient(userArray){
+        function checkNutrient(userArray, bmr_value){
             var nutriArray = []; // Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium, Carbohydrates,
             var nutriCarbo;
             var nutriFat;
@@ -588,6 +615,7 @@ function fill_select_box(){
             var nutriVC;
             var nutriVE;
             var nutriCal;
+            var bmr = bmr_value;
             for (var key in userArray){
                 if (userArray[key].nutrient_type == "Fat(g)"){
                     nutriFat = userArray[key].value;
@@ -647,6 +675,7 @@ function fill_select_box(){
             }
         }
 
+        /*
         function validateInput2() {
             male = document.getElementById("male").value;
             female = document.getElementById("female").value;
@@ -687,8 +716,15 @@ function fill_select_box(){
             return isValid2;
         }
 
+        // validate user input for Amount
+        function isInputNumber(evt){
+            onSelected("amountValidationError");
+            var ch = String.fromCharCode(evt.which);
+            if(!(/[0-9]/.test(ch))) {
+                evt.preventDefault();
+            }
+        }
 
-        /*
         function save(){
             valid = validateInput();
             if (valid === true) {
@@ -772,9 +808,7 @@ function fill_select_box(){
             checkRow();
         }
         */
-
-
-
+        /*
         function show_hide() {
             if (appear === true){
                 document.getElementById("save_button").style.visibility ="visible";
@@ -788,7 +822,7 @@ function fill_select_box(){
             document.getElementById("amountInput").value = "";
             document.getElementById("unit").value = "";
             selectedRow = null;
-        }
+        }*/
     </script>
     <noscript>
         <link rel="stylesheet" href="css/skel.css" />
@@ -807,7 +841,7 @@ function fill_select_box(){
     <meta name="msapplication-TileColor" content="#da532c">
     <meta name="theme-color" content="#ffffff">
 </head>
-<body id="top">
+<body id="top" class="meal_body">
     <!-- Header -->
     <header id="header" class="skel-layers-fixed">
         <h5 class="team_logo"><a href="index.html">Trailblazers</a></h5>
@@ -827,21 +861,84 @@ function fill_select_box(){
     </div>
     <!-- Banner -->
     <div class="container">
-    <div id="mealBanner">
-            <br><br><br><br>
-            <header class="major">
-                <h3 style="color:#ffffff; font-weight: bold;">Meal Planning</h3>
-                <p style="color: #ffffff">Eat healthy with eco-friendly meals</p>
-            </header>
+        <div id="hamburgerBox"></div>
+        <div id="hamburgerBtn">&#9776 </div>
     </div>
+    <div class="container">
+        <div id="mealBanner">
+                <br><br><br><br>
+                <header class="major">
+                    <h3 style="color:#ffffff; font-weight: bold;">Meal Planning</h3>
+                    <p style="color: #ffffff">Eat healthy with eco-friendly meals</p>
+                </header>
+        </div>
     </div>
     <br>
-
-    <!-- main -->
     <div class="container">
-        <p class="align-left"> STEP 1. Let's find out how much calories you should eat per day.</p>
+
+        <nav id="navBar">
+            <div class="nav-brand">
+                <p>STEP 1.<br>Check your daily energy requirements</p>
+                <form method="post" id="bmr_calculator_form" style="display:block;">
+                    <div id="form-group2" class="form-group2">
+                        <p class="bmr_form">Gender</p><br>
+                            <div class="first_label" style="display: inline-block;">
+                                <input class="first_label" type="radio" id="male" name="gender" checked/>
+                                <label for="male" style="color:#ffffff;">Male</label>
+                                <input type="radio" id="female" name="gender" />
+                                <label for="female" style="color:#ffffff;">Female</label>
+                            </div><br>
+                        <p class="bmr_form">Height</p>
+                        <input class="input_height" id="height" name="height" type="number" min="1" step="0.01" placeholder="cm" required>
+                        <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                            <span class="tooltiptext">Round to the nearest integer</span>
+                        </div><br>
+
+
+                        <p class="bmr_form">Weight</p>
+                        <input class="input_weight" id="weight" name="weight" type="number" min="1" step="0.01" placeholder="kg" required>
+                        <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                            <span class="tooltiptext">Round to the nearest integer</span>
+                        </div><br>
+
+                        <p class="bmr_form">Age</p>
+                        <input class="input_age" id="age" name="age"  type="number" min="1" step="1" placeholder="Enter age" required>
+                        <div class="tooltip"><i id="info" class="fa fa-info-circle" data-toggle="tooltip"></i>
+                            <span class="tooltiptext">Enter between 1 and 99</span>
+                        </div><br>
+
+                        <p class="bmr_form">Activity</p>
+                        <select class="input_activity" name="activity" id="activity" required>
+                            <option class="input_activity" value="" disabled selected>Select activity level</option>
+                            <option class="input_activity" value="sedentary">Sedentary: little to no exercise</option>
+                            <option class="input_activity" value="light">Light: exercise 1-3 times per week</option>
+                            <option class="input_activity" value="moderate">Moderate: exercise 4-5 times per week</option>
+                            <option class="input_activity" value="veryActive">Very active: intense exercise 6-7 times per week </option>
+                            <option class="input_activity" value="extraActive">Extra active: very intense exercise daily</option>
+                        </select>&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip'
+                                       title="Exercise: 15-30 mins of elevated heart rate activity&#013;Intense: 45-120 mins of elevated heart rate activity&#013;Very intense: 2+ hrs of elevated heart rate activity"></span>
+                        <!--class="btn btn-primary"-->
+                        <br><br>
+                        <input type="submit" name="submit" class="button alt" style="background-color: #ffffff" id="calories_button" value="SAVE PROFILE" />
+                    </div> <!--div form-group-->
+                </form>
+            </div>
+            <div class="result2" id="total_result2" style="display:none;">
+                <p style="display: inline-block">DAILY ENERGY:&nbsp;</p><p id="result_bmr" style="display: inline-block"></p>
+                <p style="display: inline-block">DAILY NUTRIENT:&nbsp;</p><p id="result_nutrient" style="display: inline-block"></p>
+                <ul class="actions">
+                    <li><a id="return_button" style="background-color: #ffffff" class="button alt">EDIT PROFILE</a></li>
+                </ul>
+            </div>
+        </nav>
+
+    </div>
+    <!--
+    <div class="container">
+        <p class="align-left"></p>
         <div class="row">
             <div class="7u">
+
                 <div id="form-group2" class="form-group2">
                     <p class="bmr_form">GENDER</p>
                     <input type="radio" id="male" name="gender" value="male" onchange=onSelected("genderValidationError")>
@@ -890,15 +987,15 @@ function fill_select_box(){
                     <ul class="actions">
                         <li><a id="calories_button" class="button alt calories" onclick="calculate_calories()">Calculate Calories</a></li>
                     </ul>
-                </div> <!--div form-group-->
-            </div> <!--7u-->
+                </div>
+            </div>
             <div class="5u">
                 <div class="result2" id="total_result2" style="display:none;"><br>
                     <p style="display: inline-block">YOUR DAILY ENERGY REQUIREMENTS :&nbsp;</p><p id="result_bmr" style="display: inline-block"></p><p style="display: inline-block">&nbsp;kcal</p><br>
                     <p>YOUR DAILY NUTRIENT REQUIREMENTS :&nbsp;</p><p id="result_nutrient"></p><p id="result_nutrient2"></p>
                 </div>
             </div>
-        </div> <!--end of row-->
+        </div> -->
 
 
         <!--
@@ -983,18 +1080,15 @@ function fill_select_box(){
                 </div>
             </div>
         </div> -->
-        <hr class="major"/>
-        <div class="row">
-            <div class="12u align-left">
+    <div class="container">
+        <div>
                 <!-- <h3>Let's calculate your carbon footprint</h3> -->
                 <p>STEP 2. Let's build your low carbon footprint meal plan</p><br>
-            </div>
         </div>
-        <div class="container mt-5">
+        <div class="container mt-5" >
             <h4 class="align-center">YOUR MEAL PLAN</h4>
             <form method="post" id="insert_form">
                 <div class="table-responsive">
-                    <span id="error"></span>
                     <table class="table table-bordered table-hover" id="item_table">
                         <thead>
                         <tr>
@@ -1035,12 +1129,13 @@ function fill_select_box(){
                         <br>
                         <h3><span style="text-decoration: none; border-bottom: 2px solid #44af92; color:#000000;"> &nbsp;Carbon Footprint of Your Meal Plan&nbsp; </span></h3><br>
                         <ul class="actions">
-                            <li><a id="bmr_button" class="button alt bmr">Check your calorie needs</a></li>
+                            <li><a id="bmr_button" class="button alt bmr">Check out our recipes </a></li>
                         </ul>
                     </div>
                 </div>
             </div>
         </div>
+    </div>
 
         <br>
 
