@@ -122,7 +122,6 @@ function fill_select_box(){
             var count = 0;
             var bmr;
             var nutriArray;
-            var isValid = false;
 
             $(document).on('click', '.add', function(){
                 var tab_id = $('.tab-content .active').attr('id');
@@ -234,7 +233,6 @@ function fill_select_box(){
             $(function(){
                 $("#calories_button").click(function(){
                     if($('#bmr_calculator_form')[0].checkValidity() === true){
-                        isValid = true;
                         bmr = calculate_calories();
                         nutriArray = calculate_nutrient(bmr);
                         $('#bar_calories').html(0+"&nbsp;kcal");
@@ -244,8 +242,6 @@ function fill_select_box(){
                     }
                 });
             });
-
-
 
             $(function(){
                 $("#return_button").click(function(){
@@ -257,11 +253,7 @@ function fill_select_box(){
 
             $(function(){
                 $("#calculate_button").click(function(){
-                    if(isValid===false){
-                        var text = "Please save your profile in STEP 1 first";
-                        alert(text);
-                    } else if($('#insert_form')[0].checkValidity() === true && isValid===true) {
-                        isValid = true;
+                    if($('#insert_form')[0].checkValidity() === true) {
 
                         $(':required:invalid', '#insert_form').each(function () {
                             var id = $('.tab-pane').find(':required:invalid').closest('.tab-pane').attr('id');
@@ -331,7 +323,6 @@ function fill_select_box(){
                         pb4.setValue(percent);
 
                         show_footprint(sum/1000); //tons
-
                     };
                 });
             });
@@ -339,9 +330,12 @@ function fill_select_box(){
 
         $(function(){
             $("#bmr_button").click(function(){
-                var text = "Sorry, we are currently updating our site.";
-                alert(text);
-
+                $('html,body').animate(
+                    {
+                        scrollTop:$('#check_bmr').offset().top
+                    },
+                    'slow'
+                )
             });
         });
         /*
