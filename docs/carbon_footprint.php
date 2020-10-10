@@ -1,21 +1,58 @@
 <?php
     define("DB_server","localhost");
     define("DB_user","root");
-    define("DB_password","toor33"); //toor33
+    define("DB_password",""); //toor33
     define("DB_name","phpmyadmin");
     function db_connect(){
         $connection = mysqli_connect(DB_server,DB_user,DB_password,DB_name);
         return $connection;
     };
     $db = db_connect();
-    $distinctSet = $sql="SELECT DISTINCT(food_name) FROM combined_data_removed ORDER BY food_name ASC"; //"SELECT Distinct(Food_product) FROM Food_emission ORDER BY Food_product ASC";
-    $distinctQuery = mysqli_query($db,$distinctSet);
-    $distinctArr = array();
-    foreach ($distinctQuery as $row) {
-        $distinctArr[] = $row;
+    $distinctFruits= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Fruits' ORDER BY food_name ASC";
+    $fruitsQuery = mysqli_query($db,$distinctFruits);
+    $fruitsArr = array();
+    foreach ($fruitsQuery as $row) {
+        $fruitsArr[] = $row;
     }
 
-    //query to get data from the table "combined_data"
+    $distinctDairy= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Dairy and Eggs' ORDER BY food_name ASC";
+    $dairyQuery = mysqli_query($db,$distinctDairy);
+    $dairyArr = array();
+    foreach ($dairyQuery as $row) {
+        $dairyArr[] = $row;
+    }
+
+    $breakfastOther = $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group != 'Fruits' && food_group != 'Dairy and Eggs' ORDER BY food_name ASC";
+    $breakfastQuery = mysqli_query($db,$breakfastOther);
+    $breakfastArr = array();
+    foreach ($breakfastQuery as $row) {
+        $breakfastArr[] = $row;
+    }
+
+    $distinctVeges= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Vegetables' ORDER BY food_name ASC";
+    $vegeQuery = mysqli_query($db,$distinctVeges);
+    $vegeArr = array();
+    foreach ($vegeQuery as $row) {
+        $vegeArr[] = $row;
+    }
+
+    $distinctMeat= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Meats' ORDER BY food_name ASC";
+    $meatQuery = mysqli_query($db,$distinctMeat);
+    $meatArr = array();
+    foreach ($meatQuery as $row) {
+        $meatArr[] = $row;
+    }
+
+    $distinctOther= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group != 'Vegetables' && food_group != 'Meats' ORDER BY food_name ASC";
+    $otherQuery = mysqli_query($db,$distinctOther);
+    $otherArr = array();
+    foreach ($otherQuery as $row) {
+        $otherArr[] = $row;
+    }
+
+
+
+//query to get data from the table "combined_data"
     $totalSet = "SELECT * FROM combined_data_removed ORDER BY food_group ASC";
     //execute query
     $totalQuery = mysqli_query($db, $totalSet);
@@ -27,7 +64,6 @@
     }
 
     //free memory associated with result
-    $distinctQuery -> close();
     $totalQuery -> close();
     //close connection
     $db -> close();
@@ -42,7 +78,7 @@
 <html>
 	<head>
         <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-		<title>Carbon Footprint - Trailblazers</title>
+		<title>What's Your Footprint? - Trailblazers</title>
 		<meta http-equiv="content-type" content="text/html; charset=utf-8" />
         <!-- Slideshow -->
         <meta name="viewport" content="width=device-width, initial-scale=1">
@@ -50,18 +86,21 @@
 		<meta name="keywords" content="" />
 		<!--[if lte IE 8]><script src="js/html5shiv.js"></script><![endif]-->
 		<script src="js/jquery.min.js"></script>
-        <link rel="stylesheet" href="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/themes/smoothness/jquery-ui.css">
-        <script src="https://ajax.googleapis.com/ajax/libs/jqueryui/1.12.1/jquery-ui.min.js"></script>
-        <script src=https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.jquery.min.js></script>
-        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/chosen/1.8.7/chosen.min.css">
-
+        <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script>
+        <script src="//cdnjs.cloudflare.com/ajax/libs/bootstrap-select/1.6.3/js/bootstrap-select.min.js"></script>
         <script src="js/skel.min.js"></script>
 		<script src="js/skel-layers.min.js"></script>
 		<script src="js/init.js"></script>
         <script src="js/Chart.min.js"></script>
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
+
         <script type ="text/javascript">
             $(document).ready(function(){
-                $(".chosen").chosen();
+                $('.selectpicker').selectpicker({
+                    style: 'btn-default',
+                    size: false,
+                    width: 'fit'
+                });
             });
         </script>
         <script type ="text/javascript">
@@ -261,8 +300,9 @@
 				<nav id="nav">
 					<ul>
 						<li><a href="index.html">Home</a></li>
-						<li><a href="carbon_footprint.php" class="active-page">Carbon Footprint</a></li>
+						<li><a href="carbon_footprint.php" class="active-page">What's Your Footprint?</a></li>
 						<li><a href="meal_plan.php">Meal Planning</a></li>
+                        <li><a href="recipes.php">Recipes</a></li>
                         <li><a href="facts.html" >Facts</a></li>
                         <li><a href="about_us.html">About Us</a></li>
 					</ul>
@@ -271,15 +311,15 @@
 
             <div class="breadcrumb container">
                 <a href="index.html">Home</a>&nbsp; >&nbsp;
-                <span>Carbon Footprint</span>
+                <span>What's Your Footprint?</span>
             </div>
         <!-- Banner -->
         <div class="container">
             <div id="mealBanner2">
                 <br><br><br><br>
                 <header class="major">
-                    <h3 style="color:#ffffff; font-weight: bold;">Carbon Footprint</h3>
-                    <p style="color: #ffffff">Where do emissions from food come from?</p>
+                    <h3 style="color:#ffffff; font-weight: bold;">What's Your Footprint?</h3>
+                    <p style="color: #ffffff">Find out your current carbon footprint</p>
                 </header>
             </div>
         </div>
@@ -291,92 +331,95 @@
                     <div class="6u">
                         <p>What you eat is important to your carbon footprint. Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
                             generated across the supply chain of the product. <br><br>
-                            Find out the carbon footprint of your food by entering what you eat for a day.
+                            Let's find out the carbon footprint based on your choice by entering what you eat for a day.
                             <!--* Negative value can be observed when the carbon dioxide absorbed by the plant’s photosynthesis is more than that released by its respiration.-->
                         </p>
+                        <form method="post" id="multiple_select_form">
+
+                        </form>
                             <h5 class="selectMenu">Breakfast</h5>
-                            <select class="chosen" id="food_name1">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name1">
+                                <option data-tokens="">Select Fruits</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($fruitsArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
-                                }
-                                ?>
-                                </select>
-                            <select class="chosen" id="food_name2">
-                                <option value="" disabled selected>Select</option>
-                                <?php
-                                foreach($distinctArr as $row) {
-                                    $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
-                            <select class="chosen" id="food_name3">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name2">
+                                <option data-tokens="" disabled selected>Select Dairy</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($dairyArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
+                                }
+                                ?>
+                            </select>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name3">
+                                <option data-tokens="" disabled selected>Select Other</option>
+                                <?php
+                                foreach($breakfastArr as $row) {
+                                    $food_name = $row['food_name'];
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
                             <br><br>
                             <h5 class="selectMenu">Lunch</h5>
-                            <select class="chosen" id="food_name4">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name4">
+                                <option data-tokens="" disabled selected>Select Vegetables</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($vegeArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
-                            <select class="chosen" id="food_name5">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name5">
+                                <option data-tokens="" disabled selected>Select Meats</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($meatArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
-                            <select class="chosen" id="food_name6">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name6">
+                                <option data-tokens="" disabled selected>Select Other</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($otherArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
                             <br><br>
                             <h5 class="selectMenu">Dinner</h5>
-                            <select class="chosen" id="food_name7">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name7">
+                                <option data-tokens="" disabled selected>Select Vegetables</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($vegeArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
-                            <select class="chosen" id="food_name8">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name8">
+                                <option data-tokens=""  disabled selected>Select Meats</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($meatArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
-                            <select class="chosen" id="food_name9">
-                                <option value="" disabled selected>Select</option>
+                            <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name9">
+                                <option data-tokens=""  disabled selected>Select Other</option>
                                 <?php
-                                foreach($distinctArr as $row) {
+                                foreach($otherArr as $row) {
                                     $food_name = $row['food_name'];
-                                    echo "<option value='$food_name'>$food_name</option>";
+                                    echo "<option data-tokens='$food_name'>$food_name</option>";
                                 }
                                 ?>
                             </select>
@@ -408,169 +451,6 @@
                 </div> 	<!-- 1st Container -->
 
             </div> 	<!-- main wrapper -->
-
-        <!-- Banner <div class ="12u align-center">
-                <a href="meal_plan.php" class="image effect"><img src="images/nutrient.png" height="200" alt="Meal Planning" /></a>
-                <p>Build your low carbon footprint recipes</p>
-            </div>-->
-
-
-                <!--
-                <div class="row">
-                    <div class ="6u">
-                        <h3>TOP FOODS HIGHEST IN SELECTED NUTRIENT</h3>
-                        <p>Research suggests that some packaged foods generate lower carbon footprint than
-                            organic foods across the food supply chain. Hence, it is important to know the nutrient
-                            density of the selected foods to reduce the individual carbon footprint
-                            as well as eat the right nutrients. </p>
-                        <h5>Choose nutrient&nbsp;&nbsp;&nbsp;&nbsp;</h5>
-                        <div>
-                            <select id="nutrient" onchange="filterNutrient()">
-                                <option value="Select">Select</option>
-                                <option value="Calcium_mg">Calcium</option>
-                                <option value="Carb_g">Carb</option>
-                                <option value="Fat_g">Fat</option>
-                                <option value="Fiber_g">Fiber</option>
-                                <option value="Protein_g">Protein</option>
-                                <option value="Sugar_g">Sugar</option>
-                                <option value="VitA_mcg">Vitamin A</option>
-                                <option value="VitC_mg">Vitamin C</option>
-                                <option value="VitE_mg">Vitamin E</option>
-                            </select>
-                        </div>
-                        <br>
-
-                        <br>
-                        <ul class="actions">
-                            <li><a class="button alt" onclick="validateInput2()">Submit</a></li>
-                        </ul>
-                    </div>
-                    <div class="6u">
-                        <canvas id="myChart2" width="100" height="60"></canvas>
-                    </div>
-                    <br><br>
-                </div> -->
-                    <!--
-                    <script type ="text/javascript">
-                        var original_data = ;
-                        var food_data = original_data;
-                        var data_filter = "";
-                        var select_nutrient = "";
-                        var myChart2;
-                        var chartExist2 = false;
-                        var topLimit;
-
-                        function filterNutrient() {
-                            select_nutrient = document.getElementById("nutrient").value;
-                        }
-
-                        function validateInput2() {
-                            if (select_nutrient.length > 0 && document.getElementById("nutrient").value != "Select" &&
-                                chartExist2 === true)  {
-                                myChart2.destroy();
-                                food_data = food_data.filter(d => d.nutrient === select_nutrient);
-
-                                showFood2();
-                            } else if (select_nutrient.length > 0 && document.getElementById("nutrient").value != "Select") {
-                                food_data = food_data.filter(d => d.nutrient === select_nutrient);
-
-                                showFood2();
-                            }
-                        }
-
-                        function showFood2() {
-                            // descending order
-                            food_data.sort(function(a, b) {
-                                return b.value - a.value;
-                            });
-
-                            topLimit = 10;
-                            for (var i=0; i<10;i++){
-                                if (food_data[i].value === '0') {
-                                    topLimit = i;
-                                    break;
-                                }
-                            }
-
-                            var top_ten = food_data.slice(0,topLimit);
-                            var top_emission = [];
-                            for (var i in top_ten) {
-                                for(var j=0; j<original_data.length;j++) {
-                                    //console.log(dataset[j]);
-                                    if(top_ten[i].food_name === original_data[j].food_name &&
-                                    original_data[j].nutrient === "sum_emission") {
-                                        top_emission.push(original_data[j].value);
-                                    } else {continue;}
-                                }
-                            }
-                            //console.log(top_emission);
-                            var chart_x = [];
-                            var description_x = [];
-                            var chart_y = [];
-                            var splitNutrient = select_nutrient.substr(0,select_nutrient.indexOf('_'));
-                            var splitUnit = select_nutrient.split("_").pop();
-
-                            for(var i in top_ten) {
-                                description_x.push(top_ten[i].descrip);
-                                var splitString = top_ten[i].food_name
-                                chart_x.push(splitString); // get food name
-                                chart_y.push(top_ten[i].value);
-                            }
-
-                            var ctx2 = document.getElementById('myChart2').getContext('2d');
-                            var config2 = {
-                                type: 'bar',
-                                data: {
-                                    labels: chart_x,
-                                    tooltipText: description_x,
-                                    datasets: [{
-                                        label:  splitNutrient + ' per 100g of Food',
-                                        data: chart_y,
-                                        // bootstrap colors
-                                        // https://i.pinimg.com/originals/b8/70/f6/b870f6c3cf2f275906616de26cffaa52.png
-                                        backgroundColor: 'rgba(76,175,80,0.7)',
-                                        //hoverBackgroundColor: 'rgba(255,152,0,0.7)'
-                                    }]
-                                },
-                                options: {
-                                    scales: {
-                                        yAxes: [{
-                                            ticks: {
-                                                //min: 0, //actual 0
-                                                //max: 800 //actual is 707
-                                                callback: function(value, index, values){
-                                                    return value + splitUnit ;
-                                                }
-                                            }
-                                        }]
-                                    },
-                                    responsive: true,
-                                    tooltips: {
-                                        callbacks: {
-                                            title: function(tooltipItem, data) {
-                                                var title = data.tooltipText[tooltipItem[0].index];
-                                                return title;
-                                            },
-                                            afterLabel: function(tooltipItem, data) {
-                                                var top = "CO2 per 100g: " + top_emission[tooltipItem.index];
-                                                return top;
-                                            }
-                                        }
-                                    }
-
-                                }
-                            };
-                            Chart.defaults.global.defaultFontSize = 14;
-                            myChart2 = new Chart(ctx2, config2);
-                            chartExist2 = true;
-                            // reset data
-                            console.log(chart_x);
-                            //showTable(food_data);
-                            food_data = original_data;
-                        }
-
-                    </script> -->
-
 
 		<!-- Footer -->
 			<footer id="footer">

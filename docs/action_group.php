@@ -1,10 +1,10 @@
 <?php
 define("DB_server","localhost");
 define("DB_user","root");
-define("DB_password","toor33"); //toor33
+define("DB_password",""); //toor33
 define("DB_name","phpmyadmin");
 
-$connect = new PDO("mysql:host=localhost; dbname=phpmyadmin;", "root", "toor33");
+$connect = new PDO("mysql:host=localhost; dbname=phpmyadmin;", "root", "");//toor33
 
 function fill_select_box($connect, $food_group)
 {
@@ -20,7 +20,7 @@ function fill_select_box($connect, $food_group)
 
     foreach($result as $row)
     {
-        $output .= '<option value="'.$row["food_name"].'">'.$row["food_name"].'</option>';
+        $output .= '<option data-tokens="'.$row["food_name"].'">'.$row["food_name"].'</option>';
     }
 
     return $output;
