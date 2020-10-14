@@ -113,6 +113,17 @@
                 });
 
             });
+
+            $(function(){
+                $("#down_button").click(function(){
+                    $('html,body').animate(
+                        {
+                            scrollTop:$('#what_next').offset().top
+                        },
+                        'slow'
+                    )
+                });
+            });
         </script>
         <script type ="text/javascript">
             var dataset = <?php echo json_encode($totalArr);?>;
@@ -336,13 +347,12 @@
 
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
-                <div class="container align-center">
+                <div class="container">
                 <div class="row">
-                    <div class="12u">
-                        <p>What you eat is important to your carbon footprint.<br>Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e)<br>which is
+                    <div class="6u">
+                        <p>What you eat is important to your carbon footprint. Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
                             generated across the supply chain of the product. <br><br>
                             Let's find out the carbon footprint based on your choice by entering what you eat for a day.
-                            <!--* Negative value can be observed when the carbon dioxide absorbed by the plant’s photosynthesis is more than that released by its respiration.-->
                         </p>
                         <form method="post" id="multiple_select_form">
 
@@ -435,30 +445,34 @@
                             </select>
                         <br><br><br>
                         <ul class="actions">
-                            <li><a class="button alt" onclick="validateInput()" id="findout">Find out your footprint</a></li>
+                            <li><a class="button special" onclick="validateInput()" id="findout">Find out your footprint</a></li>
                         </ul>
-                    </div> <!-- 12u -->
-                </div> <!-- 1st row -->
-
-                <hr class="major" />
-                <div class="row" id="chartRow">
+                    </div> <!-- first 6u -->
                     <div class="6u">
                         <canvas id="myChart" width="60" height="40"></canvas>
-                    </div>
-                    <div class="6u">
                         <div id="petrol" style="display: none;"><br>
-                            <img src="images/foot_icon.png" width="50"/></a><p style="display: inline-block">Your daily carbon footprint is &nbsp;</p><p id="result_petrol" style="display: inline-block; font-weight:bold;"></p><br>
-                            <img src="images/car_icon.png" width="60"/></a><p style="display: inline-block">This is the equivalent of driving a medium petrol car&nbsp;</p><p id="result_car" style="display: inline-block; font-weight:bold;"></p>
+                            <img src="images/foot_icon.png" width="50"/></a><p style="display: inline-block">&nbsp;Your daily carbon footprint is &nbsp;</p><p id="result_petrol" style="display: inline-block; font-weight:bold;"></p><br>
+                            <img src="images/car_icon.png" width="60"/></a><p style="display: inline-block">&nbsp;This is the equivalent of driving a medium petrol car&nbsp;</p><p id="result_car" style="display: inline-block; font-weight:bold;"></p><br>
+                            <div class="align-center">
+                            <button id="down_button" class="btn btn-warning btn-sm">
+                                <span class="glyphicon glyphicon-menu-down"></span></button>&nbsp;&nbsp;Click to find out the next step
+                            </div>
                         </div>
                     </div>
-                </div><br><br><br> <!--row-->
-                    <div class ="12u align-center carbonBanner">
-                        <a href="meal_plan.php" class="image effect"><img src="images/carbon_banner.png" width="500" alt="Meal Planning" /></a>
-                        <div class="centered">
-                            <a style="color: #ffffff" href="meal_plan.php">Let's build low foodprint recipes</a>
+                </div><br><br><br><br><br><br>
+                    <div class="align-center" id="what_next"><!--row-->
+                        <div row="12u">
+                        <a style="font-size: 14pt;" href="meal_plan.php">
+                            Let's create your own recipes
+                        </a>
+                        </div><br>
+                        <div row="12u">
+                        <a style="font-size: 14pt;" href="recipes.php">
+                            Let's find out our low carbon footprint recipes
+                        </a>
                         </div>
                     </div>
-                </div> 	<!-- 1st Container -->
+                </div><br><br><br> 	<!-- 1st Container -->
             </div> 	<!-- main wrapper -->
 
 		<!-- Footer -->
