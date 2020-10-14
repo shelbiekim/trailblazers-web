@@ -157,6 +157,12 @@ function fill_select_box(){
             findIngredients("Vegan Pistachio And Orange Baklava");
             findInstructions("Vegan Pistachio And Orange Baklava");
 
+            $(function(){
+                $("#print_button").click(function(){
+                    window.print();
+                });
+            });
+
             load();
 
             $(function(){
@@ -774,16 +780,6 @@ function fill_select_box(){
     <div id="hamburgerBox"></div>
     <div id="hamburgerBtn">&#9776 </div>
 </div>
-<!--
-<div class="container">
-    <div id="recipeBanner">
-        <br><br><br><br>
-        <header class="major">
-            <h3 style="color:#ffffff; font-weight: bold;">Recipes</h3>
-            <p style="color: #ffffff">Eat healthy with low carbon footprint vegetarian meals</p>
-        </header>
-    </div>
-</div> -->
 <br>
 <div class="container">
     <nav id="navBar">
@@ -882,6 +878,11 @@ function fill_select_box(){
     <div class="row">
         <div class="5u">
             <img id="vegan_pistacio" src="images/recipe/Vegan Pistachio And Orange Baklava.jpg" class="image recipe_img_main">
+            <div class="align-left" style="margin-top: 5px;">
+                <button id="print_button" style="text-decoration: none" class="btn btn-success btn-sm">
+                    <span class="glyphicon glyphicon-print"></span> Print
+                </button>
+            </div>
         </div>
         <div class="7u align-left">
             <h3>Vegan Pistachio And Orange Baklava</h3>
@@ -902,6 +903,7 @@ function fill_select_box(){
     </div>
     <div class="row align-left">
         <div class="5u">
+            <br>
             <p style="color: #ED553B">Nutrition Per Serving&nbsp;&nbsp;</p><br>
             <p style="color: #000000; text-transform: none">Calories&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_calories"></p><br>
             <p style="color: #000000; text-transform: none">Carbs&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_carbs"></p><br>
@@ -910,6 +912,7 @@ function fill_select_box(){
             <p style="color: #ED553B">Ingredients&nbsp;&nbsp;</p><br><p style="text-transform: none;font-weight: 300;color: #000000;line-height: 1.75em;" id="recipe_ingredients"></p><br>
         </div>
         <div class="7u">
+            <br>
             <p style="color: #ED553B">Instructions&nbsp;&nbsp;</p><br><p style="text-transform: none; font-weight: 300;line-height: 1.75em;padding-right:5em;" id="recipe_instructions"></p><br>
         </div>
     </div><br>
