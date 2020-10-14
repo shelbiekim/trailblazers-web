@@ -244,14 +244,6 @@ function fill_select_box(){
                 event.preventDefault();
             });
 
-            $('#insert_form_lunch').on('submit',function(event){
-                event.preventDefault();
-            });
-
-            $('#insert_form_dinner').on('submit',function(event){
-                event.preventDefault();
-            });
-
             $('#bmr_calculator_form').on('submit',function(event){
                 event.preventDefault();
             });
@@ -315,6 +307,7 @@ function fill_select_box(){
                 };
             });
 
+
             $(function(){
                 $("#calories_button").click(function(){
                     if($('#bmr_calculator_form')[0].checkValidity() === true){
@@ -342,8 +335,12 @@ function fill_select_box(){
 
             $(function(){
                 $("#calculate_button").click(function(){
-                    if($('#insert_form')[0].checkValidity() === true) {
-                        isValid = true;
+                    var temp = document.getElementById("bmr_calculator_form");
+                    if (temp.style.display === "block") {
+                        alert('Please save your profile first');
+                    } else if(!$('#insert_form')[0].checkValidity()) {
+                        alert('Please complete your meal plan');
+                    } else {
 
                         $('#total_result').css("display","block");
                         $('html,body').animate(
@@ -411,9 +408,6 @@ function fill_select_box(){
 
                         show_footprint(sum/1000); //tons
 
-                    }
-                    else {
-                        alert('Please fill in the field')
                     };
                 });
             });
