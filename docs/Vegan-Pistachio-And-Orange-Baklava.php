@@ -816,7 +816,7 @@ function fill_select_box(){
                                          title="Exercise: 15-30 mins of elevated heart rate activity&#013;Intense: 45-120 mins of elevated heart rate activity&#013;Very intense: 2+ hrs of elevated heart rate activity"></span>
                     <!--class="btn btn-primary"-->
                     <br><br>
-                    <input type="submit" name="submit" class="button alt" style="background-color: #ffffff" id="calories_button" value="SAVE PROFILE" />
+                    <input type="submit" name="submit" class="button profile" style="background-color: #FFCA0B" id="calories_button" value="SAVE PROFILE" />
                     <hr class="major" />
                 </div> <!--div form-group-->
             </form>
@@ -824,7 +824,7 @@ function fill_select_box(){
         <div class="result2" id="total_result2" style="display:none;">
             <p style="display: inline-block; margin-bottom:3px;color: black;">YOUR PROFILE</p><p id="result_bmr" style="display: inline-block; margin-bottom:5px;"></p>
             <ul class="actions">
-                <li><a id="return_button" style="background-color: #ffffff" class="button alt">EDIT PROFILE</a></li>
+                <li><a id="return_button" style="background-color: #FFCA0B" class="button special">EDIT PROFILE</a></li>
             </ul>
 
             <p id="result_nutrient" style="display: none"></p>
