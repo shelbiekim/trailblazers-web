@@ -765,7 +765,6 @@ function fill_select_box(){
                 <li><a href="meal_plan.php" class="active-page">Meal Planning</a></li>
                 <li><a href="recipes.php">Recipes</a></li>
                 <li><a href="facts.html" >Facts</a></li>
-                <li><a href="about_us.html">About Us</a></li>
             </ul>
         </nav>
     </header>
