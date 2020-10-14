@@ -850,7 +850,7 @@ function fill_select_box(){
                 </div>
 
                 <div>
-                    <p style="display: inline-block; margin: 0;">Carb&nbsp;</p><span class='glyphicon glyphicon-info-sign my-tooltip' title="Carbohydrates"></span><br>
+                    <p style="display: inline-block; margin: 0;">Carbs&nbsp;</p><span class='glyphicon glyphicon-info-sign my-tooltip' title="Carbohydrates"></span><br>
                     <p id="bar_carb" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_carb_bmr" style="display: inline-block; margin: 0;"></p>
                 </div>
                 <div class="progress-bar-carb">
@@ -977,16 +977,6 @@ function fill_select_box(){
                     <h4 style="display: none" class="meal_planning">CALORIES OF YOUR MEAL PLAN :&nbsp;</h4><h4 style="display: none" id="total_calories"></h4><br>
                     <h4 style="display: none" class="meal_planning">TOTAL AMOUNT OF NUTRIENT :&nbsp;</h4><br><h4 style="display: none" id="total_nutrient"></h4><h4 style="display: none" id="total_nutrient2"></h4><br>
 
-
-                    <div id="footprint_image" style="display:none; text-align: center;"><!--http://www.globalstewards.org/reduce-carbon-footprint.htm-->
-                        <img id="img_verylow" style="display: none; text-align: center" src="images/verylow.png" class="image" width="400">
-                        <img id="img_low" style="display: none; text-align: center" src="images/low.png" class="image" width="400">
-                        <img id="img_average" style="display: none; text-align: center" src="images/average.png" class="image" width="400">
-                        <img id="img_littlehigh" style="display: none; text-align: center" src="images/littlehigh.png" class="image" width="400">
-                        <img id="img_high" style="display: none; text-align: center" src="images/high.png" class="image" width="400">
-                        <img id="img_veryhigh" style="display: none; text-align: center" src="images/veryhigh.png" class="image" width="400">
-                        <br>
-                    </div>
                 </div> <!--result-->
             </div>
         </div> <!--row-->

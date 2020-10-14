@@ -8,12 +8,6 @@ function db_connect(){
     return $connection;
 };
 $db = db_connect();
-$emissionData = "SELECT * FROM combined_data WHERE nutrient='sum_emission' ORDER BY food_name ASC";
-$emissionQuery = mysqli_query($db,$emissionData);
-$emissionArray = array();
-foreach ($emissionQuery as $row) {
-    $emissionArray[] = $row;
-}
 
 $calorieData = "SELECT * FROM combined_data WHERE nutrient='Energy_kcal' ORDER BY food_name ASC";
 $calorieQuery = mysqli_query($db,$calorieData);
@@ -36,8 +30,12 @@ foreach ($recommendQuery as $row) {
     $recommendArray[] = $row;
 }
 
-$sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
-$result=mysqli_query($db,$sql);
+$recipeData = "SELECT * FROM recipes ORDER BY number ASC";
+$recipeQuery = mysqli_query($db,$recipeData);
+$recipeArray = array();
+foreach ($recipeQuery as $row) {
+    $recipeArray[] = $row;
+}
 
 function fill_select_box(){
     $db = db_connect();
@@ -77,25 +75,6 @@ function fill_select_box(){
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <script type="text/javascript">
-        // searchFucntion() is called when type in Search box
-        function searchFunction() {
-            var input, filter, ul, li, a, i;
-            input = document.getElementById('myinput');
-            filter = input.value.toUpperCase();
-            ul = document.getElementById('recipe_wrapper');
-            li = ul.getElementsByTagName('li');
-
-            for(i=0; i<li.length;i++){
-                a= li[i].getElementsByTagName('a')[0];
-                if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
-                    li[i].style.display="";
-                }
-                else{
-                    li[i].style.display='none';
-                }
-            }
-        }
-
         $(document).ready(function(){
             //filtering button for ALL, BREAFKAST, LUNCH, DINNER
             $('.recipe_type').click(function(){
@@ -172,17 +151,18 @@ function fill_select_box(){
         }
 
         $(document).ready(function(){
+            findRecipe("Vegan Pistachio And Orange Baklava");
+            findEmission("Vegan Pistachio And Orange Baklava");
+            findNutrition("Vegan Pistachio And Orange Baklava");
+            findIngredients("Vegan Pistachio And Orange Baklava");
+            findInstructions("Vegan Pistachio And Orange Baklava");
+
             load();
 
             $(function(){
                 $('.auto_save').savy('load');
             });
 
-            $('.selectpicker').selectpicker({
-                style: 'btn-default',
-                size: false,
-                //width: 'fit'
-            });
 
             $('[data-toggle="tooltip"]').tooltip();
             const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -226,76 +206,6 @@ function fill_select_box(){
             var nutriArray;
             var isValid = false;
 
-            $(document).on('click', '.add', function(){
-                var tab_id = $('.tab-content .active').attr('id');
-                if (tab_id==="breakfast_tab") {
-                    tab_id = "first_table";
-                } else if (tab_id ==="lunch_tab") {
-                    tab_id = "lunch_table";
-                } else if (tab_id === "dinner_tab") {
-                    tab_id = "dinner_table"
-                }
-                count++;
-                var html = '';
-
-                html += '<tr>';
-                html += '<td><select data-show-subtext="true" data-live-search="true" name="item_category[]" class="form-control item_category selectpicker" id="item_category'+count+'" data-sub_category_id="'+count+'" required><option data-tokens="">Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
-                html += '<td><select data-show-subtext="true" data-live-search="true" name="item_sub_category[]" class="form-control item_sub_category selectpicker" data-sub_category_id="'+count+'" id="item_sub_category'+count+'" required><option data-tokens="">Select Food</option></select></td>';
-                html += '<td><input name="item_weight" class="form-control item_weight selectpicker" data-sub_category_id="'+count+'" placeholder="Enter" type="number" min="0.01" step="0.01" id="item_weight'+count+'" required></td>';
-                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit selectpicker" data-sub_category_id="'+count+'" required><option data-tokens="">Select g/kg</option>\n' +
-                    '                        <option data-tokens="g">g</option>\n' +
-                    '                        <option data-tokens="kg">kg</option></select></td>';
-                html += '<td><output class="item_emissions" id="item_emissions'+count+'"></output></td>'
-                html += '<td><output class="item_calories" id="item_calories'+count+'"></output></td>'
-                html += '<td><button type="button" name="remove" class="align-center btn btn-danger btn-xs remove"><span class="glyphicon glyphicon-minus"></span></button></td>';
-                $('#'+tab_id).append(html);
-                $('.selectpicker').selectpicker('refresh');
-                console.log(tab_id);
-
-            });
-
-
-            $(document).on('click','.remove', function(){
-                $(this).closest('tr').remove();
-                if ( $("#item_table tr").length < 2) {
-
-                    $('#total_result').css("display","none");
-                }
-            });
-
-            $(document).on('change','.item_category', function(){
-                var food_group = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                $.ajax({
-                    url:"action_group.php",
-                    //send data to server with POST method
-                    method:"POST",
-                    data:{food_group: food_group},
-                    success:function(data){
-                        var html = '<option data-tokens = "" selected disabled>Select Food</option>';
-                        html += data;
-                        $('#item_sub_category'+sub_category_id).html(html);
-                        $('#item_weight'+sub_category_id).val("");
-                        $('#unit'+sub_category_id)[0].selectedIndex = 0;
-                        $('#item_emissions'+sub_category_id).html("");
-                        $('#item_calories'+sub_category_id).html("");
-                        $('.selectpicker').selectpicker('refresh');
-                    }
-
-                })
-            });
-            //validation
-            $('#insert_form').on('submit',function(event){
-                event.preventDefault();
-            });
-
-            $('#insert_form_lunch').on('submit',function(event){
-                event.preventDefault();
-            });
-
-            $('#insert_form_dinner').on('submit',function(event){
-                event.preventDefault();
-            });
 
             $('#bmr_calculator_form').on('submit',function(event){
                 event.preventDefault();
@@ -318,48 +228,6 @@ function fill_select_box(){
                 })
             })
 
-            $(document).on('change', '.item_sub_category', function(){
-                var food_name = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                //if unit is chosen
-                if (($('#unit'+sub_category_id).val() != "") && ($('#item_weight'+sub_category_id).val() != "")) {
-                    var finals = [];
-                    var unit = $('#unit'+sub_category_id).val();
-                    var weight = $('#item_weight'+sub_category_id).val();
-                    finals = addIngredient(food_name, unit, weight);
-                    $('#item_emissions'+sub_category_id).html(finals[0]);
-                    $('#item_calories'+sub_category_id).html(finals[1]);
-                };
-            });
-
-            $(document).on('change', '.item_weight', function(){
-                var weight = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                var food_name = $('#item_sub_category'+sub_category_id).val();
-                //if unit is chosen
-                if (($('#unit'+sub_category_id).val() != "") && ($('#item_sub_category'+sub_category_id).val() != "")) {
-                    var finals = [];
-                    var unit = $('#unit'+sub_category_id).val();
-                    finals = addIngredient(food_name, unit, weight);
-                    $('#item_emissions'+sub_category_id).html(finals[0]);
-                    $('#item_calories'+sub_category_id).html(finals[1]);
-                };
-            });
-
-            $(document).on('change', '.input_unit', function(){
-                var unit = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                var food_name = $('#item_sub_category'+sub_category_id).val();
-                //if weight is entered
-                if ($('#item_weight'+sub_category_id).val() != "" && ($('#item_sub_category'+sub_category_id).val() != "")) {
-                    var finals = [];
-                    var weight = $('#item_weight'+sub_category_id).val();
-                    finals = addIngredient(food_name, unit, weight);
-                    $('#item_emissions'+sub_category_id).html(finals[0]);
-                    $('#item_calories'+sub_category_id).html(finals[1]);
-                };
-            });
-
             $(function(){
                 $("#calories_button").click(function(){
                     if($('#bmr_calculator_form')[0].checkValidity() === true){
@@ -381,7 +249,6 @@ function fill_select_box(){
                     $('#bmr_calculator_form').css("display","block");
                 });
             });
-
 
             $(function(){
                 $("#calculate_button").click(function(){
@@ -462,16 +329,8 @@ function fill_select_box(){
                 });
             });
         });
-
-        $(function(){
-            $("#bmr_button").click(function(){
-                var text = "Sorry, we are currently updating our site.";
-                alert(text);
-
-            });
-        });
-
     </script>
+
     <script type="text/javascript">
         var male = "";
         var female = "";
@@ -481,60 +340,12 @@ function fill_select_box(){
         var isValid = true;
         var isValid2 = true;
         var rowExists = false;
-        var emissionData = <?php echo json_encode($emissionArray);?>;
         var calorieData =  <?php echo json_encode($calorieArray);?>;
         var nutrientData =  <?php echo json_encode($nutrientArray);?>;
         var recommendData = <?php echo json_encode($recommendArray);?>;
         var selectedRow = null;
         var imgExists = false;
         var imgName = "";
-
-        // function add() or save() calls addIngredient()
-        function addIngredient(foodName, unitChosen, weight) {
-            var ingredient = foodName;
-            var unit = unitChosen;
-            var amount = weight;
-            var metric = "";
-            var emissionValue = "";
-            var calorie = "";
-            var finalValue = "";
-            var finalCalorie = "";
-
-            for(var i=0; i<emissionData.length;i++) {
-                //console.log(dataset[i]);
-                if(ingredient === emissionData[i].food_name) {
-                    emissionValue = emissionData[i].value;
-                } else {continue;}
-            }
-
-            for(var i=0; i<calorieData.length;i++) {
-                //console.log(dataset[i]);
-                if(ingredient === calorieData[i].food_name) {
-                    calorie = calorieData[i].value;
-                } else {continue;}
-            }
-
-            if (unit === "g") {
-                finalValue = amount / 100 * emissionValue;
-                finalValue = Number(finalValue).toFixed(2);
-                finalValue += " kg"; // greenhouse gases
-
-                finalCalorie = amount / 100 * calorie;
-                finalCalorie = Number(finalCalorie).toFixed(2);
-                metric = "g";
-                finalCalorie += " kcal"; // calories
-            } else if (unit === "kg") {
-                finalValue = amount * emissionValue * 10;
-                finalValue = Number(finalValue).toFixed(2);
-                finalValue += " kg"; // greenhouse gases
-
-                finalCalorie = amount * calorie * 10;
-                finalCalorie = Number(finalCalorie).toFixed(2);
-                metric = "kg";
-                finalCalorie += " kcal"; // calories
-            }
-            return [finalValue, finalCalorie];
-        }
 
         function checkNutrientData(nutrientDict){
             var carbDict = {};
@@ -789,8 +600,138 @@ function fill_select_box(){
                 return 1.9;
             }
         }
-
     </script>
+
+    <!--js specific to this file-->
+    <script>
+        var recipeData = <?php echo json_encode($recipeArray);?>;
+        var serves;
+        var prep_time;
+        var cook_time;
+        var total_time;
+        var carbon_emissions;
+        var car_km;
+        var calories;
+        var carbs;
+        var fat;
+        var protein;
+        var ingredients;
+        var instructions;
+
+        // convert minutes to HOUR and MINUTES format
+        function convertTime(getTime){
+            var time = getTime;
+            var time_hour;
+            var time_min;
+            if (time / 60 > 0) {
+                time_hour = parseInt(time / 60);
+                time_min = "";
+                if (time % 60 > 0) {
+                    time_min = time % 60;
+                    time_min = time_min + " " + "minutes";
+                }
+            }
+            if (time_hour == 0) {
+                time = " " + time_min;
+            } else {
+                time = time_hour  + " " + "hour" + " " + time_min;
+            }
+            return time;
+        }
+
+        function findRecipe(recipe){
+            for(var i=0; i<recipeData.length;i++) {
+                //console.log(dataset[i]);
+                if(recipe === recipeData[i].recipe_name) {
+                    serves = recipeData[i].serving;
+                    prep_time = recipeData[i].prep_time;
+                    cook_time = recipeData[i].cook_time;
+                    total_time = recipeData[i].total_time;
+                } else {continue;}
+            }
+
+            prep_time = convertTime(prep_time);
+            cook_time = convertTime(cook_time);
+            total_time = convertTime(total_time);
+
+            document.getElementById("serves").innerHTML = serves;
+            document.getElementById("prep_time").innerHTML = prep_time;
+            document.getElementById("cook_time").innerHTML = cook_time;
+            document.getElementById("total_time").innerHTML = total_time;
+        }
+
+        function findEmission(recipe){
+            for(var i=0; i<recipeData.length;i++) {
+                //console.log(dataset[i]);
+                if(recipe === recipeData[i].recipe_name) {
+                    carbon_emissions = recipeData[i].carbon_emissions;
+                } else {continue;}
+            }
+            document.getElementById("recipe_emission").innerHTML = carbon_emissions + " " + "kg CO2e";
+            findCar(carbon_emissions);
+        }
+
+        function findCar(emissions){
+            car_km = Number(emissions / 0.118).toFixed(2);
+            document.getElementById("recipe_car").innerHTML = car_km + " " + "km";
+        }
+
+        function findNutrition(recipe){
+            for(var i=0; i<recipeData.length;i++) {
+                //console.log(dataset[i]);
+                if(recipe === recipeData[i].recipe_name) {
+                    calories = Number(recipeData[i].energy/serves).toFixed();
+                    carbs = Number(recipeData[i].carb/serves).toFixed(2);
+                    fat = Number(recipeData[i].fat/serves).toFixed(2);
+                    protein = Number(recipeData[i].protein/serves).toFixed(2);
+                } else {continue;}
+            }
+            document.getElementById("recipe_calories").innerHTML = calories + " " + "kcal";
+            document.getElementById("recipe_carbs").innerHTML = carbs + " " + "g";
+            document.getElementById("recipe_fat").innerHTML = fat + " " + "g";
+            document.getElementById("recipe_protein").innerHTML = protein + " " + "g";
+        }
+
+        function findIngredients(recipe){
+            for(var i=0; i<recipeData.length;i++) {
+                //console.log(dataset[i]);
+                if(recipe === recipeData[i].recipe_name) {
+                    ingredients = recipeData[i].ingredients;
+                } else {continue;}
+            }
+            // get rid of the brackets []
+            ingredients = ingredients.replace(/[\[\]']+/g,'');
+            // Split string with commas to new line
+            ingredients = ingredients.split(",").join("<br />");
+            document.getElementById("recipe_ingredients").innerHTML = ingredients;
+        }
+
+        function findInstructions(recipe){
+            var result = "";
+            var pre;
+            var array;
+            for(var i=0; i<recipeData.length;i++) {
+                //console.log(dataset[i]);
+                if(recipe === recipeData[i].recipe_name) {
+                    instructions = recipeData[i].instructions;
+                } else {continue;}
+            }
+            // get rid of the brackets []
+            instructions = instructions.replace(/[\[\]']+/g,'');
+            array = instructions.split(",");
+            console.log(array)
+            // Split string with commas to new line
+            //instructions = instructions.split(",");
+
+            for(var i=0; i<array.length;i++){
+                pre= i + 1 + ".";
+                result = result + pre + " " + array[i] + "<br />";
+                console.log(array.length)
+            }
+            document.getElementById("recipe_instructions").innerHTML = result;
+        }
+    </script>
+
     <noscript>
         <link rel="stylesheet" href="css/skel.css" />
         <link rel="stylesheet" href="css/style.css" />
@@ -809,225 +750,172 @@ function fill_select_box(){
     <meta name="theme-color" content="#ffffff">
 </head>
 <body id="top" class="meal_body">
-    <!-- Header -->
-    <header id="header" class="skel-layers-fixed">
-        <h5 class="team_logo"><a href="index.html">Trailblazers</a></h5>
-        <nav id="nav">
-            <ul>
-                <li><a href="index.html">Home</a></li>
-                <li><a href="carbon_footprint.php">What's Your Footprint?</a></li>
-                <li><a href="meal_plan.php">Meal Planning</a></li>
-                <li><a href="recipes.php" class="active-page">Recipes</a></li>
-                <li><a href="facts.html" >Facts</a></li>
-                <li><a href="about_us.html">About Us</a></li>
+<!-- Header -->
+<header id="header" class="skel-layers-fixed">
+    <h5 class="team_logo"><a href="index.html">Trailblazers</a></h5>
+    <nav id="nav">
+        <ul>
+            <li><a href="index.html">Home</a></li>
+            <li><a href="carbon_footprint.php">What's Your Footprint?</a></li>
+            <li><a href="meal_plan.php">Meal Planning</a></li>
+            <li><a href="recipes.php" class="active-page">Recipes</a></li>
+            <li><a href="facts.html" >Facts</a></li>
+            <li><a href="about_us.html">About Us</a></li>
+        </ul>
+    </nav>
+</header>
+<div class="breadcrumb container">
+    <a href="index.html">Home</a>&nbsp; >&nbsp;
+    <a href="recipes.php">Recipes</a>&nbsp; >&nbsp;
+    <span>Vegan Pistachio And Orange Baklava</span>
+</div>
+<!-- Banner -->
+<div class="container">
+    <div id="hamburgerBox"></div>
+    <div id="hamburgerBtn">&#9776 </div>
+</div>
+<!--
+<div class="container">
+    <div id="recipeBanner">
+        <br><br><br><br>
+        <header class="major">
+            <h3 style="color:#ffffff; font-weight: bold;">Recipes</h3>
+            <p style="color: #ffffff">Eat healthy with low carbon footprint vegetarian meals</p>
+        </header>
+    </div>
+</div> -->
+<br>
+<div class="container">
+    <nav id="navBar">
+        <div class="nav-brand">
+            <form method="post" id="bmr_calculator_form" style="display:block;">
+                <p style="font-weight: bold">STEP 1.<br>Check your daily energy requirements</p>
+                <div id="form-group2" class="form-group2">
+                    <p class="bmr_form">Gender</p><br>
+                    <div class="first_label" style="display: inline-block;">
+                        <input class="first_label auto_save" type="radio" id="male" name="gender" checked/>
+                        <label for="male" style="color:#ffffff;">Male</label>
+                        <input class="auto_save" type="radio" id="female" name="gender" />
+                        <label for="female" style="color:#ffffff;">Female</label>
+                    </div><br>
+                    <p class="bmr_form">Height</p>
+                    <input class="input_height auto_save" id="height" name="height" type="number" min="1" step="0.01" placeholder="cm" required><br>
+
+                    <p class="bmr_form">Weight</p>
+                    <input class="input_weight auto_save" id="weight" name="weight" type="number" min="1" step="0.01" placeholder="kg" required>
+                    <br>
+
+                    <p class="bmr_form">Age</p>
+                    <input class="input_age auto_save" id="age" name="age"  type="number" min="1" step="1" placeholder="Enter age" required>
+                    <br>
+
+                    <p class="bmr_form">Activity</p>
+                    <select class="input_activity auto_save" name="activity" id="activity" required>
+                        <option class="input_activity auto_save" value="">Select activity level</option>
+                        <option class="input_activity auto_save" value="Sedentary">Sedentary: little to no exercise</option>
+                        <option class="input_activity auto_save" value="Light">Light: exercise 1-3 times per week</option>
+                        <option class="input_activity auto_save" value="Moderate">Moderate: exercise 4-5 times per week</option>
+                        <option class="input_activity auto_save" value="Very Active">Very active: intense exercise 6-7 times per week </option>
+                        <option class="input_activity auto_save" value="Extra Active">Extra active: very intense exercise daily</option>
+                    </select>&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip'
+                                         title="Exercise: 15-30 mins of elevated heart rate activity&#013;Intense: 45-120 mins of elevated heart rate activity&#013;Very intense: 2+ hrs of elevated heart rate activity"></span>
+                    <!--class="btn btn-primary"-->
+                    <br><br>
+                    <input type="submit" name="submit" class="button alt" style="background-color: #ffffff" id="calories_button" value="SAVE PROFILE" />
+                    <hr class="major" />
+                </div> <!--div form-group-->
+            </form>
+        </div>
+        <div class="result2" id="total_result2" style="display:none;">
+            <p style="display: inline-block; margin-bottom:3px;color: black;">YOUR PROFILE</p><p id="result_bmr" style="display: inline-block; margin-bottom:5px;"></p>
+            <ul class="actions">
+                <li><a id="return_button" style="background-color: #ffffff" class="button alt">EDIT PROFILE</a></li>
             </ul>
-        </nav>
-    </header>
-    <div class="breadcrumb container">
-        <a href="index.html">Home</a>&nbsp; >&nbsp;
-        <span>Recipes</span>
-    </div>
-    <!-- Banner -->
-    <div class="container">
-        <div id="hamburgerBox"></div>
-        <div id="hamburgerBtn">&#9776 </div>
-    </div>
-    <div class="container">
-        <div id="recipeBanner">
-            <br><br><br><br>
-            <header class="major">
-                <h3 style="color:#ffffff; font-weight: bold;">Recipes</h3>
-                <p style="color: #ffffff">Eat healthy with low carbon footprint vegetarian meals</p>
-            </header>
+
+            <p id="result_nutrient" style="display: none"></p>
+
+            <div>
+                <p style="display: inline-block; margin-bottom: 3px;color: black;">DAILY RECOMMENDATIONS</p>
+            </div>
+            <div>
+                <p style="display:inline-block; margin: 0;">Energy&nbsp;</p><br>
+                <p id="bar_calories" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_bmr" style="display: inline-block; margin: 0;"></p>
+            </div>
+            <div class="progress-bar-energy">
+                <div class="progress-bar-value"></div>
+                <div class="progress-bar-fill"></div>
+            </div>
+
+            <div>
+                <p style="display: inline-block; margin: 0;">Carbs&nbsp;</p><span class='glyphicon glyphicon-info-sign my-tooltip' title="Carbohydrates"></span><br>
+                <p id="bar_carb" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_carb_bmr" style="display: inline-block; margin: 0;"></p>
+            </div>
+            <div class="progress-bar-carb">
+                <div class="progress-bar-value"></div>
+                <div class="progress-bar-fill"></div>
+            </div>
+
+
+            <div>
+                <p style="display: inline-block; margin: 0;">Fat&nbsp;</p><br> <!--pb3-->
+                <p id="bar_fat" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_fat_bmr" style="display: inline-block; margin: 0;"></p>
+            </div>
+            <div class="progress-bar-fat">
+                <div class="progress-bar-value"></div>
+                <div class="progress-bar-fill"></div>
+            </div>
+
+            <div>
+                <p style="display: inline-block; margin: 0;">Protein&nbsp;</p><br> <!--pb4-->
+                <p id="bar_protein" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_protein_bmr" style="display: inline-block; margin: 0;"></p>
+            </div>
+            <div class="progress-bar-protein">
+                <div class="progress-bar-value"></div>
+                <div class="progress-bar-fill"></div>
+            </div>
+
+        </div>
+    </nav>
+</div>
+
+<div class="container align-center recipe-container" style="margin-top: 60px;">
+    <div class="row">
+        <div class="5u">
+            <img id="vegan_pistacio" src="images/recipe/Vegan Pistachio And Orange Baklava.jpg" class="image recipe_img_main">
+        </div>
+        <div class="7u align-left">
+            <h3>Vegan Pistachio And Orange Baklava</h3>
+            <img class="tree_icons" src="images/tree_icon.png" height="30"/>
+            <hr class="minor" />
+            <p style="color: #ED553B">Serves&nbsp;&nbsp;</p><p id="serves"></p><br>
+            <p style="color: #ED553B">Prep Time&nbsp;&nbsp;</p><p id="prep_time"></p><br>
+            <p style="color: #ED553B">Cook Time&nbsp;&nbsp;</p><p id="cook_time"></p><br>
+            <p style="color: #ED553B">Total Time&nbsp;&nbsp;</p><p id="total_time"></p>
+            <hr class="minor" />
+            <img src="images/foot_icon.png" width="40"/></a><p style="text-transform: none" id="recipe_emission"></p>
+            <p style="text-transform: none">produced by eating this recipe per one serve</p>
+            <br>
+            <img src="images/car_icon.png" width="50"/></a><p style="text-transform: none" id="recipe_car"></p>
+            <p style="text-transform: none">Equivalent of driving a medium petrol car per one serve</p>
+            <hr class="minor" />
         </div>
     </div>
-    <br>
-    <div class="container">
-        <nav id="navBar">
-            <div class="nav-brand">
-                <form method="post" id="bmr_calculator_form" style="display:block;">
-                    <p style="font-weight: bold">STEP 1.<br>Check your daily energy requirements</p>
-                    <div id="form-group2" class="form-group2">
-                        <p class="bmr_form">Gender</p><br>
-                        <div class="first_label" style="display: inline-block;">
-                            <input class="first_label auto_save" type="radio" id="male" name="gender" checked/>
-                            <label for="male" style="color:#ffffff;">Male</label>
-                            <input class="auto_save" type="radio" id="female" name="gender" />
-                            <label for="female" style="color:#ffffff;">Female</label>
-                        </div><br>
-                        <p class="bmr_form">Height</p>
-                        <input class="input_height auto_save" id="height" name="height" type="number" min="1" step="0.01" placeholder="cm" required><br>
+    <div class="row align-left">
+        <div class="5u">
+            <p style="color: #ED553B">Nutrition Per Serving&nbsp;&nbsp;</p><br>
+            <p style="color: #000000; text-transform: none">Calories&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_calories"></p><br>
+            <p style="color: #000000; text-transform: none">Carbs&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_carbs"></p><br>
+            <p style="color: #000000; text-transform: none">Fat&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_fat"></p><br>
+            <p style="color: #000000; text-transform: none">Protein&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_protein"></p><br><br>
+            <p style="color: #ED553B">Ingredients&nbsp;&nbsp;</p><br><p style="text-transform: none;font-weight: 300;color: #000000;line-height: 1.75em;" id="recipe_ingredients"></p><br>
+        </div>
+        <div class="7u">
+            <p style="color: #ED553B">Instructions&nbsp;&nbsp;</p><br><p style="text-transform: none; font-weight: 300;line-height: 1.75em;padding-right:5em;" id="recipe_instructions"></p><br>
+        </div>
+    </div><br>
 
-                        <p class="bmr_form">Weight</p>
-                        <input class="input_weight auto_save" id="weight" name="weight" type="number" min="1" step="0.01" placeholder="kg" required>
-                        <br>
-
-                        <p class="bmr_form">Age</p>
-                        <input class="input_age auto_save" id="age" name="age"  type="number" min="1" step="1" placeholder="Enter age" required>
-                        <br>
-
-                        <p class="bmr_form">Activity</p>
-                        <select class="input_activity auto_save" name="activity" id="activity" required>
-                            <option class="input_activity auto_save" value="">Select activity level</option>
-                            <option class="input_activity auto_save" value="Sedentary">Sedentary: little to no exercise</option>
-                            <option class="input_activity auto_save" value="Light">Light: exercise 1-3 times per week</option>
-                            <option class="input_activity auto_save" value="Moderate">Moderate: exercise 4-5 times per week</option>
-                            <option class="input_activity auto_save" value="Very Active">Very active: intense exercise 6-7 times per week </option>
-                            <option class="input_activity auto_save" value="Extra Active">Extra active: very intense exercise daily</option>
-                        </select>&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip'
-                                             title="Exercise: 15-30 mins of elevated heart rate activity&#013;Intense: 45-120 mins of elevated heart rate activity&#013;Very intense: 2+ hrs of elevated heart rate activity"></span>
-                        <!--class="btn btn-primary"-->
-                        <br><br>
-                        <input type="submit" name="submit" class="button alt" style="background-color: #ffffff" id="calories_button" value="SAVE PROFILE" />
-                        <hr class="major" />
-                    </div> <!--div form-group-->
-                </form>
-            </div>
-            <div class="result2" id="total_result2" style="display:none;">
-                <p style="display: inline-block; margin-bottom:3px;color: black;">YOUR PROFILE</p><p id="result_bmr" style="display: inline-block; margin-bottom:5px;"></p>
-                <ul class="actions">
-                    <li><a id="return_button" style="background-color: #ffffff" class="button alt">EDIT PROFILE</a></li>
-                </ul>
-
-                <p id="result_nutrient" style="display: none"></p>
-
-                <div>
-                    <p style="display: inline-block; margin-bottom: 3px;color: black;">DAILY RECOMMENDATIONS</p>
-                </div>
-                <div>
-                    <p style="display:inline-block; margin: 0;">Energy&nbsp;</p><br>
-                    <p id="bar_calories" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_bmr" style="display: inline-block; margin: 0;"></p>
-                </div>
-                <div class="progress-bar-energy">
-                    <div class="progress-bar-value"></div>
-                    <div class="progress-bar-fill"></div>
-                </div>
-
-                <div>
-                    <p style="display: inline-block; margin: 0;">Carbs&nbsp;</p><span class='glyphicon glyphicon-info-sign my-tooltip' title="Carbohydrates"></span><br>
-                    <p id="bar_carb" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_carb_bmr" style="display: inline-block; margin: 0;"></p>
-                </div>
-                <div class="progress-bar-carb">
-                    <div class="progress-bar-value"></div>
-                    <div class="progress-bar-fill"></div>
-                </div>
-
-                <div>
-                    <p style="display: inline-block; margin: 0;">Fat&nbsp;</p><br> <!--pb3-->
-                    <p id="bar_fat" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_fat_bmr" style="display: inline-block; margin: 0;"></p>
-                </div>
-                <div class="progress-bar-fat">
-                    <div class="progress-bar-value"></div>
-                    <div class="progress-bar-fill"></div>
-                </div>
-
-                <div>
-                    <p style="display: inline-block; margin: 0;">Protein&nbsp;</p><br> <!--pb4-->
-                    <p id="bar_protein" style="display: inline-block; margin: 0;"></p><p style="display: inline-block; margin: 0;">&nbsp;/&nbsp;</p><p id="bar_protein_bmr" style="display: inline-block; margin: 0;"></p>
-                </div>
-                <div class="progress-bar-protein">
-                    <div class="progress-bar-value"></div>
-                    <div class="progress-bar-fill"></div>
-                </div>
-
-            </div>
-        </nav>
-    </div>
-<div class="container align-center">
-    <div class="search-bar">
-        <input type="text" name="search" value="" autocomplete="off" id="myinput" onkeyup="searchFunction()" placeholder="Search recipe">
-    </div>
-</div>
-<div class="container align-center" style="margin-top: 60px;">
-    <ul id="recipe_type_ul" style="margin-bottom: 5px;">
-        <li class="recipe_type active" data-filter="all">ALL</li>
-        <li class="recipe_type" data-filter="breakfast">BREAKFAST</li>
-        <li class="recipe_type" data-filter="lunch">LUNCH</li>
-        <li class="recipe_type" data-filter="dinner">DINNER</li>
-    </ul>
-    <button class="button small" id="sort-tree">Sort by Tree</button>
 </div>
 
-<div class="container align-center">
-    <ul id="recipe_wrapper" class="align-center recipe_wrapper" style="vertical-align: top;text-align: left">
-        <a href="Vegan-Pistachio-And-Orange-Baklava.php">
-            <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
-                    <img id="vegan_pistacio" src="images/recipe/Vegan Pistachio And Orange Baklava.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
-                    <a href="Vegan-Pistachio-And-Orange-Baklava.php" class="recipe_a">Vegan Pistachio And Orange Baklava</a>
-                </li>
-            </div>
-        </a>
-            <div class="recipe_gallery lunch" data-worth="1.5">
-                <li class="recipe_li">
-                    <img id="the_crispiest" src="images/recipe/The Crispiest Vegan Fish And Chips.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/>
-                    <img src="images/half_tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">The Crispiest Vegan Fish And Chips</a>
-                </li>
-            </div>
-            <div class="recipe_gallery lunch dinner" data-worth="3">
-                <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Broad Bean And Basil Risotto.jpg" class="image recipe_img" >
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Broad Bean And Basil Risotto</a>
-                </li>
-            </div>
-
-            <div class="recipe_gallery breakfast lunch dinner" data-worth="0.5">
-                <li class="recipe_li" >
-                    <img id="broad_bean" src="images/recipe/Spicy Courgette Fritters.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/half_tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Spicy Courgette Fritters</a>
-                </li>
-            </div>
-            <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
-                <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Creamed Aubergine Wheat With Fried Sugar Snap Peas.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Creamed Aubergine Wheat With Fried Sugar Snap Peas</a>
-                </li>
-            </div>
-            <div class="recipe_gallery dinner" data-worth="3">
-                <li class="recipe_li" >
-                    <img id="broad_bean" src="images/recipe/Roasted Veg And Chickpeas With A Parsley Crumb.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Roasted Veg And Chickpeas With A Parsley Crumb</a>
-                </li>
-            </div>
-
-            <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Herby Pea Pilaf.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Herby Pea Pilaf</a>
-                </li>
-            </div>
-            <div class="recipe_gallery breakfast" data-worth="1">
-                <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Onion Bhajis (Plain Flour Recipe).jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Onion Bhajis (Plain Flour Recipe)</a>
-                </li>
-            </div>
-            <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
-                <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Spiced Couscous Salad With Crispy Spring Onions.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Spiced Couscous Salad With Crispy Spring Onions</a>
-                </li>
-            </div>
-
-            <div class="recipe_gallery breakfast lunch dinner" data-worth="1.5">
-                <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Smoked Tofu Kedgeree.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Smoked Tofu Kedgeree</a>
-                </li>
-            </div>
-    </ul>
-</div>
 
 <!-- Footer -->
 <footer id="footer">
