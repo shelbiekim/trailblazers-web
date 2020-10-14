@@ -1,7 +1,7 @@
 <?php
     define("DB_server","localhost");
     define("DB_user","root");
-    define("DB_password","toor33"); //toor33
+    define("DB_password",""); //toor33
     define("DB_name","phpmyadmin");
     function db_connect(){
         $connection = mysqli_connect(DB_server,DB_user,DB_password,DB_name);
@@ -111,7 +111,6 @@
                     'slow'
                 )
                 });
-
             });
 
             $(function(){
@@ -291,6 +290,7 @@
                 totalPetrol += "km";
                 document.getElementById("result_petrol").innerHTML = totalFoodPrint;
                 document.getElementById("result_car").innerHTML = totalPetrol;
+                document.getElementById("bar_chart_icon").style.display = "none";
                 document.getElementById("petrol").style.display = "block";
                 chartExist = true;
                 //reset
@@ -448,6 +448,11 @@
                             <li><a class="button special" onclick="validateInput()" id="findout">Find out your footprint</a></li>
                         </ul>
                     </div> <!-- first 6u -->
+                    <div class="6u align-center" id="bar_chart_icon">
+                        <br><br><br>
+                        <img src="images/bar_chart_icon.png" width="150px"/></a><br><br>
+                        <p>Click on FIND OUT YOUR FOOTPRINT button<br>to see your footprint</p>
+                    </div>
                     <div class="6u">
                         <canvas id="myChart" width="60" height="40"></canvas>
                         <div id="petrol" style="display: none;"><br>
