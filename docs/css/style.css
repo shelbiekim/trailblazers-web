@@ -1579,21 +1579,21 @@
 
 	/* transforming the image when container gets hovered */
 	.recipe_li:hover {
-	/*transform: scale(1.1);
-	transform-origin: 0 0;*/
-	cursor: pointer;
+		transform: scale(1.1);
+		transform-origin: 0 0;
+		cursor: pointer;
 	}
 
 	.recipe_a {
-	text-decoration: none;
-	color: #555f66;
-	font-weight: 300;
+		text-decoration: none;
+		color: #555f66;
+		font-weight: 300;
 	}
 
 	.recipe_tree {
-	font-size: 0.9em;
+		font-size: 0.9em;
 	}
 
 	.image.recipe_img {
-	margin: 0;
+		margin: 0;
 	}
