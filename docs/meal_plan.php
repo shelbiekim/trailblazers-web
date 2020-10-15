@@ -947,7 +947,7 @@ function fill_select_box(){
                             </table>
                         </div>
                 </div> <!--dinner-->
-                    <p style="font-weight: 500;">STEP 3. Click on the CALCULATE FOODPRINT button to find out your carbon footprint</p><br>
+                    <p style="font-weight: 500;">STEP 3. Click on the CALCULATE FOOTPRINT button to find out your carbon footprint</p><br>
                     <input type="submit" name="submit" class="button alt align-center" id="calculate_button" value="CALCULATE FOOTPRINT" />
             </div> <!--tab content-->
         </form><br>
