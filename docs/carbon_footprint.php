@@ -278,6 +278,7 @@
                                     return title;
                                 },
                                 label: function(tooltipItem, data){
+                                    tooltipItem.yLabel = Number(tooltipItem.yLabel).toFixed(2);
                                     return tooltipItem.yLabel +'kg';
                                 }
                             }
@@ -352,7 +353,8 @@
                     <div class="6u">
                         <p>What you eat is important to your carbon footprint. Carbon footprint is the quantity of greenhouse gas in carbon dioxide equivalent (CO2e) which is
                             generated across the supply chain of the product. <br><br>
-                            Let's find out the carbon footprint based on your choice by entering what you eat for a day.
+                            Let's find out the carbon footprint based on your choice by entering what you eat for a day.&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip'
+                                                                                                                              title="Each food item is calculated per 100g"></span>
                         </p>
                         <form method="post" id="multiple_select_form">
 
