@@ -194,12 +194,12 @@ function fill_select_box(){
                 var html = '';
 
                 html += '<tr>';
-                html += '<td><select data-show-subtext="true" data-live-search="true" name="item_category[]" class="form-control item_category selectpicker" id="item_category'+count+'" data-sub_category_id="'+count+'" required><option data-tokens="">Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
-                html += '<td><select data-show-subtext="true" data-live-search="true" name="item_sub_category[]" class="form-control item_sub_category selectpicker" data-sub_category_id="'+count+'" id="item_sub_category'+count+'" required><option data-tokens="">Select Food</option></select></td>';
+                html += '<td><select name="item_category[]" class="form-control item_category selectpicker" id="item_category'+count+'" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
+                html += '<td><select name="item_sub_category[]" class="form-control item_sub_category selectpicker" data-sub_category_id="'+count+'" id="item_sub_category'+count+'" required><option value="" selected disabled>Select Food</option></select></td>';
                 html += '<td><input name="item_weight" class="form-control item_weight selectpicker" data-sub_category_id="'+count+'" placeholder="Enter" type="number" min="0.01" step="0.01" id="item_weight'+count+'" required></td>';
-                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit selectpicker" data-sub_category_id="'+count+'" required><option data-tokens="">Select g/kg</option>\n' +
-                    '                        <option data-tokens="g">g</option>\n' +
-                    '                        <option data-tokens="kg">kg</option></select></td>';
+                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit selectpicker" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select g/kg</option>\n' +
+                    '                        <option value="g">g</option>\n' +
+                    '                        <option value="kg">kg</option></select></td>';
                 html += '<td><output class="item_emissions" id="item_emissions'+count+'"></output></td>'
                 html += '<td><output class="item_calories" id="item_calories'+count+'"></output></td>'
                 html += '<td><button type="button" name="remove" class="align-center btn btn-danger btn-xs remove"><span class="glyphicon glyphicon-minus"></span></button></td>';
@@ -247,23 +247,6 @@ function fill_select_box(){
             $('#bmr_calculator_form').on('submit',function(event){
                 event.preventDefault();
             });
-
-            var invalidClassName = 'invalid';
-            var inputs = document.querySelectorAll('input, select, textarea');
-            inputs.forEach(function (input) {
-                // Add a css class on submit when the input is invalid.
-                input.addEventListener('invalid', function () {
-                    input.classList.add(invalidClassName)
-                })
-
-                // Remove the class when the input becomes valid.
-                // 'input' will fire each time the user types
-                input.addEventListener('input', function () {
-                    if (input.validity.valid) {
-                        input.classList.remove(invalidClassName)
-                    }
-                })
-            })
 
             $(document).on('change', '.item_sub_category', function(){
                 var food_name = $(this).val();
@@ -332,13 +315,25 @@ function fill_select_box(){
                 });
             });
 
+            // validate the current tab before moving on to the next tab
+            $('#myTab a').on('click', function(e) {
+                e.preventDefault();
+                if ($('#insert_form')[0].checkValidity()) {
+                    $(this).tab('show');
+                } else {
+                    alert('Please complete your meal plan');
+                   return false;
+                }
+            });
 
+            // calculate footprint button validation
             $(function(){
                 $("#calculate_button").click(function(){
                     var temp = document.getElementById("bmr_calculator_form");
                     if (temp.style.display === "block") {
                         alert('Please save your profile first');
                     } else if(!$('#insert_form')[0].checkValidity()) {
+                        // if form is not valid
                         alert('Please complete your meal plan');
                     } else {
 
@@ -880,12 +875,12 @@ function fill_select_box(){
                 </button> button for each meal tab</p><br>
         </div>
         <h4 class="align-center">YOUR MEAL PLAN</h4>
-            <ul class="nav nav-tabs" >
+            <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a data-toggle="tab" href="#breakfast_tab">BREAKFAST</a></li>
                 <li><a data-toggle="tab" href="#lunch_tab">LUNCH</a></li>
                 <li><a data-toggle="tab" href="#dinner_tab">DINNER</a></li>
             </ul>
-        <form method="post" id="insert_form">
+        <form method="post" id="insert_form" novalidate>
             <div class="tab-content" style="margin-top: 10px;">
                 <div id="breakfast_tab" class="tab-pane fade in active">
                         <div class="table-responsive">
@@ -963,7 +958,10 @@ function fill_select_box(){
                         <h3 style="display: inline-block">It takes&nbsp;</h3><h3 style="display: inline-block; font-weight:bold;" id="tree_num"></h3>
                         <h3 style="display: inline-block">trees to offset your annual footprint</h3><br>
                         <p style="margin-bottom: 0;">On average, every tree absorbs 0.07 tons of CO2 annually.</p><p style="display: inline-block">Your footprint requires&nbsp;</p><p style="display: inline-block;font-weight:bold;" id="tree_num2"></p><p style="display: inline-block">&nbsp;trees per year.</p>
+                        <br><p style="display: inline-block">The average Australian's footprint requires&nbsp;<p style="display: inline-block;font-weight:bold;">37.5</p><p style="display: inline-block">&nbsp;trees per year.</p>
+                        <br><p style="display: inline-block">The ideal footprint requires&nbsp;<p style="display: inline-block;font-weight:bold;">5</p><p style="display: inline-block">&nbsp;trees per year.</p>
                     </div>
+                    <br><br>
                     <ul class="actions">
                         <li><a href="recipes.php" id="bmr_button" class="button alt bmr">Check out our recipes </a></li>
                     </ul>
