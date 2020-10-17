@@ -28,13 +28,15 @@
 	}
 
 	a {
-		color: #63c5bc;
+		color: #117791;
 		text-decoration: underline;
+		font-weight: 300;
 	}
 
 		a:hover {
 			text-decoration: none;
 			cursor:pointer;
+			font-weight: 300;
 		}
 
 	strong, b {
@@ -328,8 +330,8 @@
 
 		input[type="checkbox"]:focus + label:before,
 		input[type="radio"]:focus + label:before {
-			border-color: #63c5bc;
-			box-shadow: 0 0 0 1px #63c5bc;
+			border-color: #117791;
+			box-shadow: 0 0 0 1px #117791;
 		}
 
 	input[type="checkbox"] + label:before {
@@ -411,7 +413,7 @@
 			display: inline-block;
 			margin: 0 0 1.25em 0;
 			color: #ffffff;
-			background: #63c5bc;
+			background: #117791;
 			width: 3em;
 			height: 3em;
 			font-size: 2em;
@@ -623,7 +625,7 @@
 		background-color: #192024;
 		border-radius: 6px;
 		border: 0;
-		color: #ffffff !important;
+		color: #ffffff;
 		cursor: pointer;
 		display: inline-block;
 		font-weight: 300;
@@ -671,7 +673,7 @@
 		input[type="button"].small,
 		.button.small {
 			font-size: 0.7em;
-			background: #44af92; !important;
+			background: #117791; !important;
 			text-decoration: none;
 			margin: 3px;
 		}
@@ -714,7 +716,7 @@
 
 		input[type="button"].alt.bmr,
 		.button.alt.bmr {
-			background-color: #44af92;
+			background-color: #117791;
 			box-shadow: inset 0 0 0 1px rgba(144, 144, 144, 0.25);
 			color: #ffffff !important;
 			margin-left:10px;
@@ -730,7 +732,7 @@
 
 		input[type="button"].alt.bmr:hover,
 		.button.alt.bmr:hover {
-			background-color: #63c5bc;
+			background-color: #117791;
 		}
 
 			input[type="button"].alt:hover,
@@ -748,26 +750,27 @@
 				color: #bbb;
 			}
 
-		input[type="button"].special,
+		input[type="submit"].special,
 		.button.special {
-			background-color: #44af92;
+			background-color:#117791;
 			color: #ffffff !important;
 		}
 
 			input[type="button"].special:hover,
 			.button.special:hover {
-				background-color: #63c5bc;
+				background-color:#117791;
 			}
 
+		input[type="submit"].profile,
 		input[type="button"].profile,
 		.button.profile {
-			background: #FFCA0B; !important;
-			color: #000000; !important;
+			background: #3B3D4B; !important;
+			color: #ffffff; !important;
 		}
 
 		input[type="button"].profile:hover,
 		.button.profile:hover {
-			opacity: 0.5;
+			background: #3B3D4B;
 		}
 
 		input[type="submit"].disabled, input[type="submit"]:disabled,
@@ -798,7 +801,7 @@
 		}
 
 		.wrapper.style2 {
-			background: #44af92; /*deep green 0a585e, yellow #FFCA0B, ocean blue #05668d*/
+			background: #117791; /*deep green 0a585e, yellow #FFCA0B, ocean blue #05668d*/
 			color: #ffffff;
 		}
 
@@ -897,11 +900,11 @@
 					}
 
 						#header nav > ul > li a:hover {
-							color: #63c5bc;
+							color: #117791;
 						}
                         #header nav > ul > li a.active-page
                         {
-                            color: #63c5bc;
+                            color: #117791;
 
                         }
 
@@ -1056,7 +1059,7 @@
       color: #fff;
     }
     #quiz h1 {
-      color: #63c5bc;
+      color: #117791;
       font-family: "Roboto", Helvetica, sans-serif;
       font-size: 14pt;
       font-weight: 300;
@@ -1070,7 +1073,7 @@
       line-height: 1.75em;
     }
     #quiz-counter {
-      color: #88449a;
+      color: #117791;
       font-family: "Roboto", Helvetica, sans-serif;
       font-size: 14pt;
       font-weight: 300;
@@ -1168,7 +1171,7 @@
     #quiz-buttons a,
     .quiz-container .quiz-button {
         display: inline-block;
-        background: #88449a;
+        background: #117791;
         border-radius: 6px;
         color: #fff;
         text-transform: uppercase;
@@ -1417,14 +1420,14 @@
 	.progress-bar-energy, .progress-bar-carb, .progress-bar-fat, .progress-bar-protein {
 		position: relative;
 		width: 180px;
-		height: 30px;
+		height: 20px;
 		border: 1px solid black;
 		background: transparent;
 	}
 
 	.progress-bar-fill {
 		height: 100%;
-		background: #FFCA0B; /* purple #88449a*/
+		background: #FFAF11; /* purple #88449a*/
 		transition: width 0.5s;
 	}
 
@@ -1437,16 +1440,45 @@
 		justify-content: center;
 	}
 
+	.recipe_div {
+		width: 120px;
+		text-overflow: ellipsis;
+		white-space: nowrap;
+		overflow: hidden;
+		display: inline-block;
+		margin: 0;
+		margin-left: 2px;
+		vertical-align: middle;
+
+	}
+
+	.recipe_div:hover {
+		cursor: pointer;
+	}
+
+	.recipeDiv {
+		width: 180px;
+		height: 30px;
+		margin: 0 0;
+		background-color: #ffffff; /*#555*/
+		color: #555f66; /*#fff*/
+		border-radius: 6px;
+		box-shadow: 2px 2px 2px rgba(144, 144, 144, 0.25); /*box-shadow: ;inset 0 0 0 1px rgba(144, 144, 144, 0.25);*/
+		border: 1px solid #666f77;
+		vertical-align: middle;
+		overflow: visible;
+	}
 
 	#navBar{
 		width: 230px;
 		height: 100vh;
 		position: fixed;
+		overflow-x:auto; /*make it scrollable*/
 		top: 0;
 		left: 0;
-		background-color: #44af92; /*deep green 0a585e, yellow #FFCA0B, ocean blue #05668d*/
+		background-color: #F5F5F5;
 		padding: 60px 20px;
-		color: #ffffff;
+		color: #000000;
 		z-index: 1000;
 	}
 
@@ -1467,7 +1499,7 @@
 		left: 82px;
 		width: 57.5px;
 		height: 34px;
-		background-color: #44af92;
+		background-color: #daf2dc;
 		border-radius: 6px;
 		opacity: 0.8;
 		z-index: 2000;
@@ -1586,7 +1618,7 @@
 		list-style: none;
 		font-size: 0.7em;
 		color: #ffffff;
-		background: #666f77;
+		background: #3B3D4B;
 		text-decoration: none;
 		padding: 0 1.75em;
 		margin: 5px;
@@ -1600,12 +1632,12 @@
 	}
 
 	li.recipe_type:hover {
-		background: #FFCA0B;
+		background: #FFAF11;
 		color: #000000;
 	}
 
 	li.recipe_type.active {
-		background: #FFCA0B;
+		background: #FFAF11;
 		color: #000000;
 	}
 
@@ -1693,6 +1725,10 @@
 		display: inline-block;
 	}
 
+	.recipe_heading {
+		color: #D13940;
+	}
+
 	.tree_icons {
 		margin:0;
 	}
@@ -1705,4 +1741,13 @@
 
 	.tree_image p {
 		margin:0;
+	}
+
+	@supports (-moz-appearance:none) {
+		select
+		{
+			-moz-appearance:none !important;
+			background: #ffffff url('data:image/gif;base64,R0lGODlhBgAGAKEDAFVVVX9/f9TU1CgmNyH5BAEKAAMALAAAAAAGAAYAAAIODA4hCDKWxlhNvmCnGwUAOw==') right center no-repeat !important;
+			background-position: calc(100% - 5px) center !important;
+		}
 	}
