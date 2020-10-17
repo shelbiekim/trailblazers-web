@@ -101,16 +101,6 @@
                     size: false,
                     width: 'fit'
                 });
-
-                $("#findout").click(function(){
-
-                $('html,body').animate(
-                    {
-                        scrollTop:$('#chartRow').offset().top
-                    },
-                    'slow'
-                )
-                });
             });
 
             $(function(){
@@ -345,7 +335,6 @@
                 </header>
             </div>
         </div>
-
 		<!-- Main -->
 			<div id="main" class="wrapper style1">
                 <div class="container">
@@ -445,7 +434,7 @@
                                 }
                                 ?>
                             </select>
-                        <br><br><br>
+                        <br><br>
                         <ul class="actions">
                             <li><a class="button special" onclick="validateInput()" id="findout">Find out your footprint</a></li>
                         </ul>
@@ -457,9 +446,10 @@
                     </div>
                     <div class="6u">
                         <canvas id="myChart" width="60" height="40"></canvas>
-                        <div id="petrol" style="display: none;"><br>
-                            <img src="images/foot_icon.png" width="50"/></a><p style="display: inline-block">&nbsp;Your daily carbon footprint is &nbsp;</p><p id="result_petrol" style="display: inline-block; font-weight:bold;"></p><br>
-                            <img src="images/car_icon.png" width="60"/></a><p style="display: inline-block">&nbsp;This is the equivalent of driving a medium petrol car&nbsp;</p><p id="result_car" style="display: inline-block; font-weight:bold;"></p><br>
+                        <div id="petrol" style="display: none;margin:0;"><br>
+                            <img src="images/foot_icon.png" width="40"/></a><p style="display: inline-block">&nbsp;Your daily carbon footprint is &nbsp;</p><p id="result_petrol" style="display: inline-block; font-weight:bold;"></p><br>
+                            <img src="images/car_icon.png" width="50"/></a><p style="display: inline-block">&nbsp;This is the equivalent of driving a medium petrol car&nbsp;</p><p id="result_car" style="display: inline-block; font-weight:bold;"></p><br>
+                            <img src="images/ideal_amount.png" width="50"/></a><p style="display: inline-block">&nbsp;The ideal daily carbon footprint is &nbsp;</p><p style="display: inline-block; font-weight:bold;">1.1kg</p><br>
                             <div class="align-center">
                             <button id="down_button" class="btn btn-warning btn-sm">
                                 <span class="glyphicon glyphicon-menu-down"></span></button>&nbsp;&nbsp;Click to find out the next step
