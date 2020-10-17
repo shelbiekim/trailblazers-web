@@ -76,92 +76,58 @@ function fill_select_box(){
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <script type="text/javascript">
         $(document).ready(function(){
-            //filtering button for ALL, BREAFKAST, LUNCH, DINNER
-            $('.recipe_type').click(function(){
-                const value = $(this).attr('data-filter');
-                if (value == 'all') {
-                    $('.recipe_gallery').show('1000');
-                } else {
-                    $('.recipe_gallery').not('.'+value).hide('1000');
-                    $('.recipe_gallery').filter('.'+value).show('1000');
+            var count = 0;
+            var bmr;
+            var nutriArray;
+            var isValid = false;
+
+            //use localStorage - openDiv(), save(), load() - for sidebar profile
+            function openDiv() {
+                var profile = document.getElementById("total_result2");
+                var stepOne = document.getElementById("bmr_calculator_form")
+                if(profile.style.display === "none"){
+                    stepOne.style.display = "none";
+                    profile.style.display = "block";
+                    document.getElementById("result_bmr").innerHTML = localStorage.getItem('resultBmr');
+                    document.getElementById("bar_bmr").innerHTML = localStorage.getItem('barBmr');
+                    document.getElementById("bar_calories").innerHTML = localStorage.getItem('barCalories');
+                    document.getElementById("bar_carb_bmr").innerHTML = localStorage.getItem('barCarbBmr');
+                    document.getElementById("bar_fat_bmr").innerHTML = localStorage.getItem('barFatBmr');
+                    document.getElementById("bar_protein_bmr").innerHTML = localStorage.getItem('barProteinBmr');
+                    document.getElementById("bar_carb").innerHTML = localStorage.getItem('barCarb');
+                    document.getElementById("bar_fat").innerHTML = localStorage.getItem('barFat');
+                    document.getElementById("bar_protein").innerHTML = localStorage.getItem('barProtein');
+                    bmr = localStorage.getItem('bmr');
+                    nutriArray = JSON.parse(localStorage.getItem('nutriArray'));
+                    console.log(nutriArray)
                 }
-            })
-            //add active class on selected item
-            $('.recipe_type').click(function(){
-                $(this).addClass('active').siblings().removeClass('active')
-            })
-            var isSorted = false;
-            // sort by tree
-            $('#sort-tree').click(function(){
-                if (isSorted == false) {
-                    $('.recipe_wrapper div').sort(function(a,b){
-                        return $(a).data('worth') - $(b).data('worth');
-                    }).appendTo('.recipe_wrapper')
-                    isSorted = true;
-                } else {
-                    $('.recipe_wrapper div').sort(function(a,b){
-                        return $(b).data('worth') - $(a).data('worth');
-                    }).appendTo('.recipe_wrapper')
-                    isSorted = false;
-                }
-            });
-        })
-
-        //use localStorage - openDiv(), save(), load() - for sidebar profile
-        function openDiv() {
-            var profile = document.getElementById("total_result2");
-            var stepOne = document.getElementById("bmr_calculator_form")
-            if(profile.style.display === "none"){
-                stepOne.style.display = "none";
-                profile.style.display = "block";
-                document.getElementById("result_bmr").innerHTML = localStorage.getItem('resultBmr');
-                document.getElementById("bar_bmr").innerHTML = localStorage.getItem('barBmr');
-                document.getElementById("bar_calories").innerHTML = localStorage.getItem('barCalories');
-                document.getElementById("bar_carb_bmr").innerHTML = localStorage.getItem('barCarbBmr');
-                document.getElementById("bar_fat_bmr").innerHTML = localStorage.getItem('barFatBmr');
-                document.getElementById("bar_protein_bmr").innerHTML = localStorage.getItem('barProteinBmr');
-                document.getElementById("bar_carb").innerHTML = localStorage.getItem('barCarb');
-                document.getElementById("bar_fat").innerHTML = localStorage.getItem('barFat');
-                document.getElementById("bar_protein").innerHTML = localStorage.getItem('barProtein');
             }
-        }
 
-        function save() {
-            openDiv();
-            var saveDiv = document.getElementById("total_result2");
-            if (saveDiv.style.display === "block") {
-                localStorage.setItem("isVisible", true);
-                localStorage.resultBmr = document.getElementById("result_bmr").innerHTML;
-                localStorage.barBmr = document.getElementById("bar_bmr").innerHTML;
-                localStorage.barCalories = document.getElementById("bar_calories").innerHTML;
-                localStorage.barCarbBmr = document.getElementById("bar_carb_bmr").innerHTML;
-                localStorage.barFatBmr = document.getElementById("bar_fat_bmr").innerHTML;
-                localStorage.barProteinBmr = document.getElementById("bar_protein_bmr").innerHTML;
-                localStorage.barCarb = document.getElementById("bar_carb").innerHTML;
-                localStorage.barFat = document.getElementById("bar_fat").innerHTML;
-                localStorage.barProtein = document.getElementById("bar_protein").innerHTML;
-            }
-        }
-
-        function load() {
-            var isVisible = localStorage.getItem("isVisible");
-            if (isVisible == "true") {
+            function save() {
                 openDiv();
+                var saveDiv = document.getElementById("total_result2");
+                if (saveDiv.style.display === "block") {
+                    localStorage.setItem("isVisible", true);
+                    localStorage.resultBmr = document.getElementById("result_bmr").innerHTML;
+                    localStorage.barBmr = document.getElementById("bar_bmr").innerHTML;
+                    localStorage.barCalories = document.getElementById("bar_calories").innerHTML;
+                    localStorage.barCarbBmr = document.getElementById("bar_carb_bmr").innerHTML;
+                    localStorage.barFatBmr = document.getElementById("bar_fat_bmr").innerHTML;
+                    localStorage.barProteinBmr = document.getElementById("bar_protein_bmr").innerHTML;
+                    localStorage.barCarb = document.getElementById("bar_carb").innerHTML;
+                    localStorage.barFat = document.getElementById("bar_fat").innerHTML;
+                    localStorage.barProtein = document.getElementById("bar_protein").innerHTML;
+                    localStorage.setItem("bmr", bmr);
+                    localStorage.setItem("nutriArray", JSON.stringify(nutriArray));
+                }
             }
-        }
 
-        $(document).ready(function(){
-            findRecipe("Vegan Pistachio And Orange Baklava");
-            findEmission("Vegan Pistachio And Orange Baklava");
-            findNutrition("Vegan Pistachio And Orange Baklava");
-            findIngredients("Vegan Pistachio And Orange Baklava");
-            findInstructions("Vegan Pistachio And Orange Baklava");
-
-            $(function(){
-                $("#print_button").click(function(){
-                    window.print();
-                });
-            });
+            function load() {
+                var isVisible = localStorage.getItem("isVisible");
+                if (isVisible == "true") {
+                    openDiv();
+                }
+            }
 
             load();
 
@@ -169,6 +135,11 @@ function fill_select_box(){
                 $('.auto_save').savy('load');
             });
 
+            $('.selectpicker').selectpicker({
+                style: 'btn-default',
+                size: false,
+                //width: 'fit'
+            });
 
             $('[data-toggle="tooltip"]').tooltip();
             const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -207,32 +178,115 @@ function fill_select_box(){
             const pb3 = new ProgressBar(document.querySelector('.progress-bar-fat'), 0);
             const pb4 = new ProgressBar(document.querySelector('.progress-bar-protein'), 0);
 
-            var count = 0;
-            var bmr;
-            var nutriArray;
-            var isValid = false;
 
+            $(document).on('click', '.add', function(){
+                var tab_id = $('.tab-content .active').attr('id');
+                if (tab_id==="breakfast_tab") {
+                    tab_id = "first_table";
+                } else if (tab_id ==="lunch_tab") {
+                    tab_id = "lunch_table";
+                } else if (tab_id === "dinner_tab") {
+                    tab_id = "dinner_table"
+                }
+                count++;
+                var html = '';
+
+                html += '<tr>';
+                html += '<td><select name="item_category[]" class="form-control item_category selectpicker" id="item_category'+count+'" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
+                html += '<td><select name="item_sub_category[]" class="form-control item_sub_category selectpicker" data-sub_category_id="'+count+'" id="item_sub_category'+count+'" required><option value="" selected disabled>Select Food</option></select></td>';
+                html += '<td><input name="item_weight" class="form-control item_weight selectpicker" data-sub_category_id="'+count+'" placeholder="Enter" type="number" min="0.01" step="0.01" id="item_weight'+count+'" required></td>';
+                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit selectpicker" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select g/kg</option>\n' +
+                    '                        <option value="g">g</option>\n' +
+                    '                        <option value="kg">kg</option></select></td>';
+                html += '<td><output class="item_emissions" id="item_emissions'+count+'"></output></td>'
+                html += '<td><output class="item_calories" id="item_calories'+count+'"></output></td>'
+                html += '<td><button type="button" name="remove" class="align-center btn btn-danger btn-xs remove"><span class="glyphicon glyphicon-minus"></span></button></td>';
+                $('#'+tab_id).append(html);
+                $('.selectpicker').selectpicker('refresh');
+                console.log(tab_id);
+
+            });
+
+
+            $(document).on('click','.remove', function(){
+                $(this).closest('tr').remove();
+                if ( $("#item_table tr").length < 2) {
+
+                    $('#total_result').css("display","none");
+                }
+            });
+
+            $(document).on('change','.item_category', function(){
+                var food_group = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                $.ajax({
+                    url:"action_group.php",
+                    //send data to server with POST method
+                    method:"POST",
+                    data:{food_group: food_group},
+                    success:function(data){
+                        var html = '<option data-tokens = "" selected disabled>Select Food</option>';
+                        html += data;
+                        $('#item_sub_category'+sub_category_id).html(html);
+                        $('#item_weight'+sub_category_id).val("");
+                        $('#unit'+sub_category_id)[0].selectedIndex = 0;
+                        $('#item_emissions'+sub_category_id).html("");
+                        $('#item_calories'+sub_category_id).html("");
+                        $('.selectpicker').selectpicker('refresh');
+                    }
+
+                })
+            });
+            //validation
+            $('#insert_form').on('submit',function(event){
+                event.preventDefault();
+            });
 
             $('#bmr_calculator_form').on('submit',function(event){
                 event.preventDefault();
             });
 
-            var invalidClassName = 'invalid';
-            var inputs = document.querySelectorAll('input, select, textarea');
-            inputs.forEach(function (input) {
-                // Add a css class on submit when the input is invalid.
-                input.addEventListener('invalid', function () {
-                    input.classList.add(invalidClassName)
-                })
+            $(document).on('change', '.item_sub_category', function(){
+                var food_name = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                //if unit is chosen
+                if (($('#unit'+sub_category_id).val() != "") && ($('#item_weight'+sub_category_id).val() != "")) {
+                    var finals = [];
+                    var unit = $('#unit'+sub_category_id).val();
+                    var weight = $('#item_weight'+sub_category_id).val();
+                    finals = addIngredient(food_name, unit, weight);
+                    $('#item_emissions'+sub_category_id).html(finals[0]);
+                    $('#item_calories'+sub_category_id).html(finals[1]);
+                };
+            });
 
-                // Remove the class when the input becomes valid.
-                // 'input' will fire each time the user types
-                input.addEventListener('input', function () {
-                    if (input.validity.valid) {
-                        input.classList.remove(invalidClassName)
-                    }
-                })
-            })
+            $(document).on('change', '.item_weight', function(){
+                var weight = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                var food_name = $('#item_sub_category'+sub_category_id).val();
+                //if unit is chosen
+                if (($('#unit'+sub_category_id).val() != "") && ($('#item_sub_category'+sub_category_id).val() != "")) {
+                    var finals = [];
+                    var unit = $('#unit'+sub_category_id).val();
+                    finals = addIngredient(food_name, unit, weight);
+                    $('#item_emissions'+sub_category_id).html(finals[0]);
+                    $('#item_calories'+sub_category_id).html(finals[1]);
+                };
+            });
+
+            $(document).on('change', '.input_unit', function(){
+                var unit = $(this).val();
+                var sub_category_id = $(this).data('sub_category_id');
+                var food_name = $('#item_sub_category'+sub_category_id).val();
+                //if weight is entered
+                if ($('#item_weight'+sub_category_id).val() != "" && ($('#item_sub_category'+sub_category_id).val() != "")) {
+                    var finals = [];
+                    var weight = $('#item_weight'+sub_category_id).val();
+                    finals = addIngredient(food_name, unit, weight);
+                    $('#item_emissions'+sub_category_id).html(finals[0]);
+                    $('#item_calories'+sub_category_id).html(finals[1]);
+                };
+            });
 
             $(function(){
                 $("#calories_button").click(function(){
@@ -245,6 +299,7 @@ function fill_select_box(){
                         $('#bar_fat').html(0+"&nbsp;g");
                         $('#bar_protein').html(0+"&nbsp;g");
                         save();
+
                     }
                 });
             });
@@ -256,14 +311,27 @@ function fill_select_box(){
                 });
             });
 
+            // validate the current tab before moving on to the next tab
+            $('#myTab a').on('click', function(e) {
+                e.preventDefault();
+                if ($('#insert_form')[0].checkValidity()) {
+                    $(this).tab('show');
+                } else {
+                    alert('Please complete your meal plan');
+                    return false;
+                }
+            });
+
+            // calculate footprint button validation
             $(function(){
                 $("#calculate_button").click(function(){
-                    if(isValid===false){
-                        var text = "Please save your profile in STEP 1 first";
-                        alert(text);
-                    } else if($('#insert_form')[0].checkValidity() === true && isValid===true) {
-                        isValid = true;
-
+                    var temp = document.getElementById("bmr_calculator_form");
+                    if (temp.style.display === "block") {
+                        alert('Please save your profile first');
+                    } else if(!$('#insert_form')[0].checkValidity()) {
+                        // if form is not valid
+                        alert('Please complete your meal plan');
+                    } else {
 
                         $('#total_result').css("display","block");
                         $('html,body').animate(
@@ -313,13 +381,16 @@ function fill_select_box(){
                             }
 
                         });
+
                         var totalNutrient = checkNutrientData(nutrientDict);
                         $('#bar_carb').html(totalNutrient[0] + "&nbsp;g");
                         var percent = Number(totalNutrient[0] / (nutriArray[6]) * 100).toFixed(0);
+                        console.log("totalNutrient Carb" + totalNutrient[0], "nutriArray6" + nutriArray[6]);
                         pb2.setValue(percent);
 
                         $('#bar_fat').html(totalNutrient[1] + "&nbsp;g");
                         var percent = Number(totalNutrient[1] / (nutriArray[0]) * 100).toFixed(0);
+                        console.log("totalNutrient Fat" + totalNutrient[1], "nutriArray0" + nutriArray[0]);
                         pb3.setValue(percent);
 
                         $('#bar_protein').html(totalNutrient[2] + "&nbsp;g");
@@ -328,11 +399,72 @@ function fill_select_box(){
 
                         show_footprint(sum/1000); //tons
 
-                    }
-                    else {
-                        alert('Please fill in the field')
                     };
                 });
+            });
+
+            findRecipe("Vegan Pistachio And Orange Baklava");
+            findEmission("Vegan Pistachio And Orange Baklava");
+            findNutrition("Vegan Pistachio And Orange Baklava");
+            findIngredients("Vegan Pistachio And Orange Baklava");
+            findInstructions("Vegan Pistachio And Orange Baklava");
+
+            $(function(){
+                $("#print_button").click(function(){
+                    window.print();
+                });
+            });
+
+            load();
+
+
+            // Add to List button
+            $('#add_button').click(function(){
+                if(document.getElementById("bmr_calculator_form").style.display === "block"){
+                    var text = "Please save your profile in STEP 1 first";
+                    alert(text);
+                } else {
+                    var recipeNutrient = getRecipeNutrient(); // calories, carbs, fat, protein
+                    console.log(recipeNutrient);
+
+                    $('#bar_calories').html(recipeNutrient[0] + "&nbsp;kcal");
+                    var user_cal = localStorage.getItem('barBmr').match(/[0-9.]+/g);
+                    var percent = Number(recipeNutrient[0] / (user_cal) * 100).toFixed(0);
+                    pb1.setValue(percent);
+
+                    $('#bar_carb').html(recipeNutrient[1] + "&nbsp;g");
+                    var user_carb = localStorage.getItem('barCarbBmr').match(/[0-9.]+/g); // extract float from string
+                    var percent = Number(recipeNutrient[1] / (user_carb) * 100).toFixed(0);
+                    pb2.setValue(percent);
+
+                    $('#bar_fat').html(recipeNutrient[2] + "&nbsp;g");
+                    var user_fat = localStorage.getItem('barFatBmr').match(/[0-9.]+/g); // extract float from string
+                    var percent = Number(recipeNutrient[2] / (user_fat) * 100).toFixed(0);
+                    pb3.setValue(percent);
+
+                    $('#bar_protein').html(recipeNutrient[3] + "&nbsp;g");
+                    var user_protein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g); // extract float from string
+                    var percent = Number(recipeNutrient[3] / (user_fat) * 100).toFixed(0);
+                    pb4.setValue(percent);
+
+                    var recipeName = document.getElementById('recipe_name').innerHTML;
+                    console.log(document.getElementById('recipe_name').innerHTML)
+                    var fileName = location.href.split("/").slice(-1);
+                    console.log(fileName);
+                    var newItem ='<div class="recipeDiv" style="display: inline-block">' + '<a style="color: black;" href='+fileName+'><p class="recipe_div"> ' + recipeName + '</p>' + '<span style="overflow: visible;margin-right: 3px;vertical-align: middle;" class="glyphicon glyphicon-list my-tooltip" title=' + recipeName + '></span></a>'+
+                        '<button id="remove_button" style="display: inline-block;vertical-align: middle;" class="btn btn-danger btn-xs delete" style="position: absolute;"><span class="glyphicon glyphicon-remove"></button>' + '</div>';
+                    //newItem = newItem + '<button id="remove_button" class="btn btn-danger btn-xs delete" style="position: absolute;"><span class="glyphicon glyphicon-remove"></button>'
+                    $('#recipe_list').append(newItem);
+
+
+                }
+            })
+
+            $("#recipe_list").on("click", '.delete', function() {
+                var confirmation = confirm('Are you sure you want to delete this meal?');
+                if (confirmation) {
+                    $(this).closest('.recipeDiv').remove();
+                }
             });
         });
     </script>
@@ -449,7 +581,6 @@ function fill_select_box(){
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
                 bmr = bmr * activity;
                 bmr = Number(bmr).toFixed(2);
-                console.log(bmr);
             } else if (document.getElementById('female').checked) {
                 gender = "Female";
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
@@ -476,7 +607,6 @@ function fill_select_box(){
                     return x.gender == "male";
                 });
                 userAge = document.getElementById('age').value;
-                //console.log(userAge);
                 maleArray = checkAge(userAge,tempArray);
                 nutriArray = checkNutrient(maleArray, bmr);
             } else if (document.getElementById('female').checked) {
@@ -534,7 +664,6 @@ function fill_select_box(){
                     return x.age_range == ">71";
                 });
             }
-            //console.log(genderArray);
             return genderArray;
         }
 
@@ -647,7 +776,6 @@ function fill_select_box(){
 
         function findRecipe(recipe){
             for(var i=0; i<recipeData.length;i++) {
-                //console.log(dataset[i]);
                 if(recipe === recipeData[i].recipe_name) {
                     serves = recipeData[i].serving;
                     prep_time = recipeData[i].prep_time;
@@ -668,7 +796,6 @@ function fill_select_box(){
 
         function findEmission(recipe){
             for(var i=0; i<recipeData.length;i++) {
-                //console.log(dataset[i]);
                 if(recipe === recipeData[i].recipe_name) {
                     carbon_emissions = recipeData[i].carbon_emissions;
                 } else {continue;}
@@ -684,7 +811,6 @@ function fill_select_box(){
 
         function findNutrition(recipe){
             for(var i=0; i<recipeData.length;i++) {
-                //console.log(dataset[i]);
                 if(recipe === recipeData[i].recipe_name) {
                     calories = Number(recipeData[i].energy/serves).toFixed();
                     carbs = Number(recipeData[i].carb/serves).toFixed(2);
@@ -698,9 +824,24 @@ function fill_select_box(){
             document.getElementById("recipe_protein").innerHTML = protein + " " + "g";
         }
 
+        function getRecipeNutrient(){
+            // divide it by serving
+            var recipeNutrient = [];
+            recipeNutrient[0] = calories/serves;
+            recipeNutrient[1] = carbs/serves;
+            recipeNutrient[2] = fat/serves;
+            recipeNutrient[3] = protein/serves;
+            // get serving size
+            var servingSize = parseInt(document.getElementById("serve_number").value);
+            for(var i=0; i < recipeNutrient.length; i++) {
+                recipeNutrient[i] = recipeNutrient[i] * servingSize;
+                recipeNutrient[i] = Number(recipeNutrient[i]).toFixed(2);
+            }
+            return recipeNutrient;
+        }
+
         function findIngredients(recipe){
             for(var i=0; i<recipeData.length;i++) {
-                //console.log(dataset[i]);
                 if(recipe === recipeData[i].recipe_name) {
                     ingredients = recipeData[i].ingredients;
                 } else {continue;}
@@ -717,7 +858,6 @@ function fill_select_box(){
             var pre;
             var array;
             for(var i=0; i<recipeData.length;i++) {
-                //console.log(dataset[i]);
                 if(recipe === recipeData[i].recipe_name) {
                     instructions = recipeData[i].instructions;
                 } else {continue;}
@@ -725,14 +865,12 @@ function fill_select_box(){
             // get rid of the brackets []
             instructions = instructions.replace(/[\[\]']+/g,'');
             array = instructions.split(",");
-            console.log(array)
             // Split string with commas to new line
             //instructions = instructions.split(",");
 
             for(var i=0; i<array.length;i++){
                 pre= i + 1 + ".";
                 result = result + pre + " " + array[i] + "<br />";
-                console.log(array.length)
             }
             document.getElementById("recipe_instructions").innerHTML = result;
         }
@@ -789,9 +927,9 @@ function fill_select_box(){
                     <p class="bmr_form">Gender</p><br>
                     <div class="first_label" style="display: inline-block;">
                         <input class="first_label auto_save" type="radio" id="male" name="gender" checked/>
-                        <label for="male" style="color:#ffffff;">Male</label>
+                        <label for="male" style="color:#000000;">Male</label>
                         <input class="auto_save" type="radio" id="female" name="gender" />
-                        <label for="female" style="color:#ffffff;">Female</label>
+                        <label for="female" style="color:#000000;">Female</label>
                     </div><br>
                     <p class="bmr_form">Height</p>
                     <input class="input_height auto_save" id="height" name="height" type="number" min="1" step="0.01" placeholder="cm" required><br>
@@ -815,8 +953,8 @@ function fill_select_box(){
                     </select>&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip'
                                          title="Exercise: 15-30 mins of elevated heart rate activity&#013;Intense: 45-120 mins of elevated heart rate activity&#013;Very intense: 2+ hrs of elevated heart rate activity"></span>
                     <!--class="btn btn-primary"-->
-                    <br><br>
-                    <input type="submit" name="submit" class="button profile" style="background-color: #FFCA0B" id="calories_button" value="SAVE PROFILE" />
+                    <br><br><br>
+                    <input type="submit" name="submit" class="profile" id="calories_button" value="SAVE PROFILE" />
                     <hr class="major" />
                 </div> <!--div form-group-->
             </form>
@@ -824,7 +962,7 @@ function fill_select_box(){
         <div class="result2" id="total_result2" style="display:none;">
             <p style="display: inline-block; margin-bottom:3px;color: black;">YOUR PROFILE</p><p id="result_bmr" style="display: inline-block; margin-bottom:5px;"></p>
             <ul class="actions">
-                <li><a id="return_button" style="background-color: #FFCA0B" class="button special">EDIT PROFILE</a></li>
+                <li><a id="return_button" class="button profile">EDIT PROFILE</a></li>
             </ul>
 
             <p id="result_nutrient" style="display: none"></p>
@@ -868,29 +1006,39 @@ function fill_select_box(){
                 <div class="progress-bar-value"></div>
                 <div class="progress-bar-fill"></div>
             </div>
-
+            <br>
+            <div id="recipe_list">
+            </div>
         </div>
     </nav>
 </div>
 
-<div class="container align-center recipe-container" style="margin-top: 60px;">
+<div class="container align-center recipe-container" style="margin-top: 30px;">
     <div class="row">
-        <div class="5u">
+        <div class="5u" style="margin-top: 10px;">
             <img id="vegan_pistacio" src="images/recipe/Vegan Pistachio And Orange Baklava.jpg" class="image recipe_img_main">
             <div class="align-left" style="margin-top: 5px;">
-                <button id="print_button" style="text-decoration: none" class="btn btn-success btn-sm">
+                <button id="add_button" style="text-decoration: none;vertical-align: top;" class="btn btn-success btn-sm">
+                    <span class="	glyphicon glyphicon-list"></span> Add to List
+                </button>
+                <input style="width: 40px; height: 30px;vertical-align: top;" class="selectpicker" type="number" value="1" min="1" step="1" id="serve_number"
+                       onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" required>
+                <p style="display: inline-block;font-size: 10pt;text-transform: none;">Serve</p>
+            </div>
+            <div class="align-left" style="margin-top: 5px;">
+                <button id="print_button" style="text-decoration: none" class="btn btn-sm">
                     <span class="glyphicon glyphicon-print"></span> Print
                 </button>
             </div>
         </div>
-        <div class="7u align-left">
-            <h3>Vegan Pistachio And Orange Baklava</h3>
-            <img class="tree_icons" src="images/tree_icon.png" height="30"/>
+        <div class="7u align-left" style="margin-top: 10px;">
+            <h3 id="recipe_name">Vegan Pistachio And Orange Baklava</h3>
+            <img class="tree_icons" src="images/tree_icon.png" height="30"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
             <hr class="minor" />
-            <p style="color: #ED553B">Serves&nbsp;&nbsp;</p><p id="serves"></p><br>
-            <p style="color: #ED553B">Prep Time&nbsp;&nbsp;</p><p id="prep_time"></p><br>
-            <p style="color: #ED553B">Cook Time&nbsp;&nbsp;</p><p id="cook_time"></p><br>
-            <p style="color: #ED553B">Total Time&nbsp;&nbsp;</p><p id="total_time"></p>
+            <p class="recipe_heading">Serves&nbsp;&nbsp;</p><p id="serves"></p><br>
+            <p class="recipe_heading">Prep Time&nbsp;&nbsp;</p><p id="prep_time"></p><br>
+            <p class="recipe_heading">Cook Time&nbsp;&nbsp;</p><p id="cook_time"></p><br>
+            <p class="recipe_heading">Total Time&nbsp;&nbsp;</p><p id="total_time"></p>
             <hr class="minor" />
             <img src="images/foot_icon.png" width="40"/></a><p style="text-transform: none" id="recipe_emission"></p>
             <p style="text-transform: none">produced by eating this recipe per one serve</p>
@@ -903,16 +1051,16 @@ function fill_select_box(){
     <div class="row align-left">
         <div class="5u">
             <br>
-            <p style="color: #ED553B">Nutrition Per Serving&nbsp;&nbsp;</p><br>
+            <p class="recipe_heading">Nutrition Per Serving&nbsp;&nbsp;</p><br>
             <p style="color: #000000; text-transform: none">Calories&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_calories"></p><br>
             <p style="color: #000000; text-transform: none">Carbs&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_carbs"></p><br>
             <p style="color: #000000; text-transform: none">Fat&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_fat"></p><br>
             <p style="color: #000000; text-transform: none">Protein&nbsp;&nbsp;</p><p style="text-transform: none" id="recipe_protein"></p><br><br>
-            <p style="color: #ED553B">Ingredients&nbsp;&nbsp;</p><br><p style="text-transform: none;font-weight: 300;color: #000000;line-height: 1.75em;" id="recipe_ingredients"></p><br>
+            <p class="recipe_heading">Ingredients&nbsp;&nbsp;</p><br><p style="text-transform: none;font-weight: 300;color: #000000;line-height: 1.75em;" id="recipe_ingredients"></p><br>
         </div>
         <div class="7u">
             <br>
-            <p style="color: #ED553B">Instructions&nbsp;&nbsp;</p><br><p style="text-transform: none; font-weight: 300;line-height: 1.75em;padding-right:5em;" id="recipe_instructions"></p><br>
+            <p class="recipe_heading">Instructions&nbsp;&nbsp;</p><br><p style="text-transform: none; font-weight: 300;line-height: 1.75em;padding-right:5em;" id="recipe_instructions"></p><br>
         </div>
     </div><br>
 

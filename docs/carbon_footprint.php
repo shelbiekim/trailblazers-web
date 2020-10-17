@@ -359,7 +359,7 @@
                         <form method="post" id="multiple_select_form">
 
                         </form>
-                            <h5 class="selectMenu">Breakfast</h5>
+                            <h4 class="selectMenu" style="color: #000000;">BREAKFAST</h4>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name1">
                                 <option data-tokens="">Select Fruits</option>
                                 <?php
@@ -388,7 +388,7 @@
                                 ?>
                             </select>
                             <br><br>
-                            <h5 class="selectMenu">Lunch</h5>
+                            <h4 class="selectMenu" style="color: #000000;">LUNCH</h4>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name4">
                                 <option data-tokens="" disabled selected>Select Vegetables</option>
                                 <?php
@@ -417,7 +417,7 @@
                                 ?>
                             </select>
                             <br><br>
-                            <h5 class="selectMenu">Dinner</h5>
+                            <h4 class="selectMenu" style="color: #000000;">DINNER</h4>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name7">
                                 <option data-tokens="" disabled selected>Select Vegetables</option>
                                 <?php

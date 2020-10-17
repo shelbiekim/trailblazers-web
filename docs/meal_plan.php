@@ -290,7 +290,6 @@ function fill_select_box(){
                 };
             });
 
-
             $(function(){
                 $("#calories_button").click(function(){
                     if($('#bmr_calculator_form')[0].checkValidity() === true){
@@ -306,7 +305,6 @@ function fill_select_box(){
                     }
                 });
             });
-
 
             $(function(){
                 $("#return_button").click(function(){
@@ -785,9 +783,9 @@ function fill_select_box(){
                         <p class="bmr_form">Gender</p><br>
                         <div class="first_label" style="display: inline-block;">
                             <input class="first_label auto_save" type="radio" id="male" name="gender" checked/>
-                            <label for="male" style="color:#ffffff;">Male</label>
+                            <label for="male" style="color:#000000;">Male</label>
                             <input class="auto_save" type="radio" id="female" name="gender" />
-                            <label for="female" style="color:#ffffff;">Female</label>
+                            <label for="female" style="color:#000000;">Female</label>
                         </div><br>
                         <p class="bmr_form">Height</p>
                         <input class="input_height auto_save" id="height" name="height" type="number" min="1" step="0.01" placeholder="cm" required><br>
@@ -811,8 +809,8 @@ function fill_select_box(){
                         </select>&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip'
                                        title="Exercise: 15-30 mins of elevated heart rate activity&#013;Intense: 45-120 mins of elevated heart rate activity&#013;Very intense: 2+ hrs of elevated heart rate activity"></span>
                         <!--class="btn btn-primary"-->
-                        <br><br>
-                        <input type="submit" name="submit" class="button profile" style="background-color:#FFCA0B;color: #000000;" id="calories_button" value="SAVE PROFILE" />
+                        <br><br><br>
+                        <input type="submit" name="submit" class="profile" id="calories_button" value="SAVE PROFILE" />
                         <hr class="major" />
                     </div> <!--div form-group-->
                 </form>
@@ -820,7 +818,7 @@ function fill_select_box(){
             <div class="result2" id="total_result2" style="display:none;">
                 <p style="display: inline-block; margin-bottom:3px;color: black;">YOUR PROFILE</p><p id="result_bmr" style="display: inline-block; margin-bottom:5px;"></p>
                 <ul class="actions">
-                    <li><a id="return_button" style="background-color: #FFCA0B;color:#000000" class="button special">EDIT PROFILE</a></li>
+                    <li><a id="return_button" class="button profile">EDIT PROFILE</a></li>
                 </ul>
 
                 <p id="result_nutrient" style="display: none"></p>
@@ -876,9 +874,9 @@ function fill_select_box(){
         </div>
         <h4 class="align-center">YOUR MEAL PLAN</h4>
             <ul class="nav nav-tabs" id="myTab">
-                <li class="active"><a data-toggle="tab" href="#breakfast_tab">BREAKFAST</a></li>
-                <li><a data-toggle="tab" href="#lunch_tab">LUNCH</a></li>
-                <li><a data-toggle="tab" href="#dinner_tab">DINNER</a></li>
+                <li class="active"><a data-toggle="tab" href="#breakfast_tab" style="text-decoration:none;color: #000000;font-size: 1em;letter-spacing:0.125em;">&nbsp;BREAKFAST&nbsp;</a></li>
+                <li><a data-toggle="tab" href="#lunch_tab" style="text-decoration:none;color: #000000;font-size: 1em;letter-spacing:0.125em;">&nbsp;LUNCH&nbsp;</a></li>
+                <li><a data-toggle="tab" href="#dinner_tab" style="text-decoration:none;color: #000000;font-size: 1em;letter-spacing:0.125em;">&nbsp;DINNER&nbsp;</a></li>
             </ul>
         <form method="post" id="insert_form" novalidate>
             <div class="tab-content" style="margin-top: 10px;">
@@ -942,8 +940,9 @@ function fill_select_box(){
                             </table>
                         </div>
                 </div> <!--dinner-->
-                    <p style="font-weight: 500;">STEP 3. Click on the CALCULATE FOOTPRINT button to find out your carbon footprint</p><br>
-                    <input type="submit" name="submit" class="button alt align-center" id="calculate_button" value="CALCULATE FOOTPRINT" />
+                    <p style="font-weight: 500;">STEP 3. Click on the CALCULATE FOOTPRINT button to find out your carbon footprint</p>
+                    <input type="submit" name="submit" class="button special"  id="calculate_button" value="CALCULATE FOOTPRINT" />
+                <br><br>
             </div> <!--tab content-->
         </form><br>
 
@@ -951,8 +950,8 @@ function fill_select_box(){
             <div class="12u align-center">
                 <div class="result" id="total_result" style="display:none; padding-top: 60px;" >
                     <br>
-                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #44af92; color:#000000;"> &nbsp;YOUR FOOTPRINT IS&nbsp;</h3>
-                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #44af92; color:#000000;" id="carbon_footprint"></span></h3><br>
+                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #FFAF11; color:#000000;"> &nbsp;YOUR FOOTPRINT IS&nbsp;</h3>
+                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #FFAF11; color:#000000;" id="carbon_footprint"></span></h3><br>
                     <div id="tree_image" class="tree_image" style="display:none; text-align: center;">
                         <img id="img_tree" style="display: none; text-align: center" src="images/trees.png" class="image" width="500">
                         <h3 style="display: inline-block">It takes&nbsp;</h3><h3 style="display: inline-block; font-weight:bold;" id="tree_num"></h3>
