@@ -216,13 +216,14 @@ foreach ($recipeQuery as $row) {
                             $('#bar_fat').html(0+"&nbsp;g");
                             $('#bar_protein').html(0+"&nbsp;g");
                         } else { //recalculate progress bar + percentage
-                            pbEnergy = Number(recipeEnergy/bmr*100).toFixed(0);
-                            pbCarbs = Number(recipeCarbs/nutriArray[6]*100).toFixed(0);
-                            pbFat = Number(recipeFat/nutriArray[0]*100).toFixed(0);
-                            pbProtein = Number(recipeProtein/nutriArray[1]*100).toFixed(0);
+                            /* NEW */
+                            pbEnergy = Math.floor(recipeEnergy/bmr*100);
+                            pbCarbs = Math.floor(recipeCarbs/nutriArray[6]*100);
+                            pbFat = Math.floor(recipeFat/nutriArray[0]*100);
+                            pbProtein = Math.floor(recipeProtein/nutriArray[1]*100);
+                            /*END */
                         }
                         save();
-
                     }
                 });
             });
