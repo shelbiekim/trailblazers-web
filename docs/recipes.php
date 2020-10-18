@@ -941,12 +941,21 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
-        <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php">
+        <a href="Speedy-Vegan-Chocolate-Mug-Cake.php">
+            <div class="recipe_gallery breakfast lunch" data-worth="4">
+                <li class="recipe_li">
+                    <img id="speedy_vegan" src="images/recipe/Speedy Vegan Chocolate Mug Cake.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Speedy-Vegan-Chocolate-Mug-Cake.php" class="recipe_a">Speedy Vegan Chocolate Mug Cake</a>
+                </li>
+            </div>
+        </a>
+        <a href="Sweet-Potato-Rosti-With-Smokey-Black-Beans-And-Blackened-Spring-Onion-Corn-And-Tomato-Salsa.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
                 <li class="recipe_li">
-                    <img id="white_wine" src="images/recipe/White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens.jpg" class="image recipe_img">
+                    <img id="sweet_potato" src="images/recipe/Sweet Potato Rosti With Smokey Black Beans And Blackened Spring Onion, Corn And Tomato Salsa.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
-                    <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php" class="recipe_a">White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens</a>
+                    <a href="Sweet-Potato-Rosti-With-Smokey-Black-Beans-And-Blackened-Spring-Onion-Corn-And-Tomato-Salsa.php" class="recipe_a">Sweet Potato Rosti With Smokey Black Beans And Blackened Spring Onion, Corn And Tomato Salsa</a>
                 </li>
             </div>
         </a>
