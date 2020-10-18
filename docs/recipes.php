@@ -860,6 +860,96 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
+        <a href="Simple-Vegan-Pesto.php">
+            <div class="recipe_gallery breakfast" data-worth="1">
+                <li class="recipe_li">
+                    <img id="simple_vegan" src="images/recipe/Simple Vegan Pesto.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Simple-Vegan-Pesto.php" class="recipe_a">Simple Vegan Pesto</a>
+                </li>
+            </div>
+        </a>
+        <a href="Blood-Orange-And-Hemp-Seed-Quinoa-Tabbouleh.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="blood_orange" src="images/recipe/Blood Orange And Hemp Seed Quinoa Tabbouleh.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Blood-Orange-And-Hemp-Seed-Quinoa-Tabbouleh.php" class="recipe_a">Blood Orange And Hemp Seed Quinoa Tabbouleh</a>
+                </li>
+            </div>
+        </a>
+        <a href="Molasses-Baked-Beans.php">
+            <div class="recipe_gallery breakfast" data-worth="1">
+                <li class="recipe_li">
+                    <img id="molasses" src="images/recipe/Molasses Baked Beans.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Molasses-Baked-Beans.php" class="recipe_a">Molasses Baked Beans</a>
+                </li>
+            </div>
+        </a>
+        <a href="Stovetop-Popcorn-With-A-Baked-Orange-Glaze.php">
+            <div class="recipe_gallery breakfast lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="stovetop" src="images/recipe/Stovetop Popcorn With A Baked Orange Glaze.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Stovetop-Popcorn-With-A-Baked-Orange-Glaze.php" class="recipe_a">Stovetop Popcorn With A Baked Orange Glaze</a>
+                </li>
+            </div>
+        </a>
+        <a href="Spinach-And-Kale-Saag-With-Spiced-Roast-Potatoes-And-Cauliflower.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="spinach" src="images/recipe/Spinach And Kale Saag With Spiced Roast Potatoes And Cauliflower.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Spinach-And-Kale-Saag-With-Spiced-Roast-Potatoes-And-Cauliflower.php" class="recipe_a">Spinach And Kale Saag With Spiced Roast Potatoes And Cauliflower</a>
+                </li>
+            </div>
+        </a>
+        <a href="Vegan-Rice-Pudding-With-Caramelized-Blood-Oranges-And-Pistachios.php">
+            <div class="recipe_gallery breakfast" data-worth="1">
+                <li class="recipe_li">
+                    <img id="vegan_rice" src="images/recipe/Vegan Rice Pudding With Caramelized Blood Oranges And Pistachios.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Vegan-Rice-Pudding-With-Caramelized-Blood-Oranges-And-Pistachios.php" class="recipe_a">Vegan Rice Pudding With Caramelized Blood Oranges And Pistachios</a>
+                </li>
+            </div>
+        </a>
+        <a href="Peanut-Glazed-Swede-With-Green-Cabbage-And-Chilli-Noodles.php">
+            <div class="recipe_gallery lunch dinner" data-worth="0.5">
+                <li class="recipe_li">
+                    <img id="peanut" src="images/recipe/Peanut Glazed Swede With Green Cabbage And Chilli Noodles.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/half_tree_icon.png" height="20"/><br>
+                    <a href="Peanut-Glazed-Swede-With-Green-Cabbage-And-Chilli-Noodles.php" class="recipe_a">Peanut Glazed Swede With Green Cabbage And Chilli Noodles</a>
+                </li>
+            </div>
+        </a>
+        <a href="Baked-Black-Kale-Falafels.php">
+            <div class="recipe_gallery breakfast" data-worth="1">
+                <li class="recipe_li">
+                    <img id="baked_black_kale" src="images/recipe/Baked Black Kale Falafels.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Baked-Black-Kale-Falafels.php" class="recipe_a">Baked Black Kale Falafels</a>
+                </li>
+            </div>
+        </a>
+        <a href="Vegan-Banana-Pancakes-With-A-Smashed-Blueberry-Sauce.php">
+            <div class="recipe_gallery breakfast lunch" data-worth="1">
+                <li class="recipe_li">
+                    <img id="vegan_banana" src="images/recipe/Vegan Banana Pancakes With A Smashed Blueberry Sauce.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Vegan-Banana-Pancakes-With-A-Smashed-Blueberry-Sauce.php" class="recipe_a">Vegan Banana Pancakes With A Smashed Blueberry Sauce</a>
+                </li>
+            </div>
+        </a>
+        <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="white_wine" src="images/recipe/White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php" class="recipe_a">White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens</a>
+                </li>
+            </div>
+        </a>
     </ul>
 </div>
 
