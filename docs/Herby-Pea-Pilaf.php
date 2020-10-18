@@ -261,27 +261,34 @@ foreach ($recipeQuery as $row) {
                         var recipeNutrient = getRecipeNutrient(); // calories, carbs, fat, protein
                         //console.log(recipeNutrient);
 
-                        $('#bar_calories').html(recipeNutrient[0] + "&nbsp;kcal");
+                        /* NEW START */
+                        recipeEnergy = Number(parseFloat(recipeEnergy) + parseFloat(recipeNutrient[0])).toFixed(2);
+                        recipeCarbs = Number(parseFloat(recipeCarbs) + parseFloat(recipeNutrient[1])).toFixed(2);
+                        recipeFat = Number(parseFloat(recipeFat) + parseFloat(recipeNutrient[2])).toFixed(2);
+                        recipeProtein = Number(parseFloat(recipeProtein) + parseFloat(recipeNutrient[3])).toFixed(2);
+
+                        $('#bar_calories').html(recipeEnergy + "&nbsp;kcal");
+                        $('#bar_carb').html(recipeCarbs + "&nbsp;g");
+                        $('#bar_fat').html(recipeFat + "&nbsp;g");
+                        $('#bar_protein').html(recipeProtein + "&nbsp;g");
+
                         var user_cal = localStorage.getItem('barBmr').match(/[0-9.]+/g); // extract float from string
                         var cal_percent = Number(recipeNutrient[0] / (user_cal) * 100).toFixed(0);
                         pb1.setValue(cal_percent);
 
-                        $('#bar_carb').html(recipeNutrient[1] + "&nbsp;g");
                         var user_carb = localStorage.getItem('barCarbBmr').match(/[0-9.]+/g); // extract float from string
                         var carb_percent = Number(recipeNutrient[1] / (user_carb) * 100).toFixed(0);
                         pb2.setValue(carb_percent);
 
-                        $('#bar_fat').html(recipeNutrient[2] + "&nbsp;g");
                         var user_fat = localStorage.getItem('barFatBmr').match(/[0-9.]+/g); // extract float from string
                         var fat_percent = Number(recipeNutrient[2] / (user_fat) * 100).toFixed(0);
                         pb3.setValue(fat_percent);
 
-                        $('#bar_protein').html(recipeNutrient[3] + "&nbsp;g");
                         var user_protein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g); // extract float from string
                         var protein_percent = Number(recipeNutrient[3] / (user_protein) * 100).toFixed(0);
                         pb4.setValue(protein_percent);
-
                         //console.log(document.getElementById('recipe_name').innerHTML)
+                        /* NEW END */
 
                         //console.log(fileName);
                         var recipeServe = document.getElementById('serve_number').value;
@@ -293,11 +300,6 @@ foreach ($recipeQuery as $row) {
                         pbCarbs += parseFloat(carb_percent);
                         pbFat += parseFloat(fat_percent);
                         pbProtein += parseFloat(protein_percent);
-
-                        recipeEnergy = Number(parseFloat(recipeEnergy) + parseFloat(recipeNutrient[0])).toFixed(2);
-                        recipeCarbs = Number(parseFloat(recipeCarbs) + parseFloat(recipeNutrient[1])).toFixed(2);
-                        recipeFat = Number(parseFloat(recipeFat) + parseFloat(recipeNutrient[2])).toFixed(2);
-                        recipeProtein = Number(parseFloat(recipeProtein) + parseFloat(recipeNutrient[3])).toFixed(2);
 
                         var recipeValues = [recipeNutrient[0],recipeNutrient[1],recipeNutrient[2],recipeNutrient[3]];
                         recipeDict[fileName] = recipeValues;
