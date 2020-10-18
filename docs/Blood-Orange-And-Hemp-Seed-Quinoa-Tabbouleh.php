@@ -194,12 +194,6 @@ foreach ($recipeQuery as $row) {
                 $('.auto_save').savy('load');
             });
 
-            $('.selectpicker').selectpicker({
-                style: 'btn-default',
-                size: false,
-                //width: 'fit'
-            });
-
             $('[data-toggle="tooltip"]').tooltip();
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const navBar = document.getElementById('navBar');
@@ -688,7 +682,7 @@ foreach ($recipeQuery as $row) {
             }
             // get rid of the brackets []
             instructions = instructions.replace(/[\[\]']+/g,'');
-            array = instructions.split(",");
+            array = instructions.split(";");
             // Split string with commas to new line
             //instructions = instructions.split(",");
 
