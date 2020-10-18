@@ -128,6 +128,7 @@ foreach ($recipeQuery as $row) {
                     document.getElementById("bar_carb").innerHTML = localStorage.getItem('barCarb');
                     document.getElementById("bar_fat").innerHTML = localStorage.getItem('barFat');
                     document.getElementById("bar_protein").innerHTML = localStorage.getItem('barProtein');
+
                     pb1.setValue(parseFloat(localStorage.getItem('pbEnergy')));
                     pb2.setValue(parseFloat(localStorage.getItem('pbCarbs')));
                     pb3.setValue(parseFloat(localStorage.getItem('pbFat')));
@@ -136,6 +137,7 @@ foreach ($recipeQuery as $row) {
                     pbCarbs = parseFloat(localStorage.getItem('pbCarbs'));
                     pbFat = parseFloat(localStorage.getItem('pbFat'));
                     pbProtein = parseFloat(localStorage.getItem('pbProtein'));
+
                     recipeEnergy = parseFloat(localStorage.getItem('recipeEnergy'));
                     recipeCarbs = parseFloat(localStorage.getItem('recipeCarbs'));
                     recipeFat = parseFloat(localStorage.getItem('recipeFat'));
@@ -166,10 +168,12 @@ foreach ($recipeQuery as $row) {
                     localStorage.setItem("pbCarbs", pbCarbs);
                     localStorage.setItem("pbFat", pbFat);
                     localStorage.setItem("pbProtein", pbProtein);
+
                     pb1.setValue(parseFloat(localStorage.getItem('pbEnergy')));
                     pb2.setValue(parseFloat(localStorage.getItem('pbCarbs')));
                     pb3.setValue(parseFloat(localStorage.getItem('pbFat')));
                     pb4.setValue(parseFloat(localStorage.getItem('pbProtein')));
+
                     localStorage.setItem("bmr", bmr); // 2502.50
                     localStorage.setItem("recipeEnergy", recipeEnergy);
                     localStorage.setItem("recipeCarbs", recipeCarbs);
@@ -216,13 +220,14 @@ foreach ($recipeQuery as $row) {
                             $('#bar_fat').html(0+"&nbsp;g");
                             $('#bar_protein').html(0+"&nbsp;g");
                         } else { //recalculate progress bar + percentage
-                            pbEnergy = Number(recipeEnergy/bmr*100).toFixed(0);
-                            pbCarbs = Number(recipeCarbs/nutriArray[6]*100).toFixed(0);
-                            pbFat = Number(recipeFat/nutriArray[0]*100).toFixed(0);
-                            pbProtein = Number(recipeProtein/nutriArray[1]*100).toFixed(0);
+                            /* NEW */
+                            pbEnergy = Math.floor(recipeEnergy/bmr*100);
+                            pbCarbs = Math.floor(recipeCarbs/nutriArray[6]*100);
+                            pbFat = Math.floor(recipeFat/nutriArray[0]*100);
+                            pbProtein = Math.floor(recipeProtein/nutriArray[1]*100);
+                            /*END */
                         }
                         save();
-
                     }
                 });
             });
@@ -261,7 +266,6 @@ foreach ($recipeQuery as $row) {
                         var recipeNutrient = getRecipeNutrient(); // calories, carbs, fat, protein
                         //console.log(recipeNutrient);
 
-                        /* NEW START */
                         recipeEnergy = Number(parseFloat(recipeEnergy) + parseFloat(recipeNutrient[0])).toFixed(2);
                         recipeCarbs = Number(parseFloat(recipeCarbs) + parseFloat(recipeNutrient[1])).toFixed(2);
                         recipeFat = Number(parseFloat(recipeFat) + parseFloat(recipeNutrient[2])).toFixed(2);
@@ -288,7 +292,6 @@ foreach ($recipeQuery as $row) {
                         var protein_percent = Number(recipeNutrient[3] / (user_protein) * 100).toFixed(0);
                         pb4.setValue(protein_percent);
                         //console.log(document.getElementById('recipe_name').innerHTML)
-                        /* NEW END */
 
                         //console.log(fileName);
                         var recipeServe = document.getElementById('serve_number').value;
@@ -330,7 +333,7 @@ foreach ($recipeQuery as $row) {
                     var itemFat= recipeDict[temp][2];
                     var itemProtein= recipeDict[temp][3];
 
-                    pbEnergy -= parseFloat(tempP1);
+                    pbEnergy = pbEnergy - parseFloat(tempP1); // 35 - 34
                     pb1.setValue(tempP1);
                     pbCarbs -= parseFloat(tempP2);
                     pb2.setValue(tempP2);
