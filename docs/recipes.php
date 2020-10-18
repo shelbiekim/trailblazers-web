@@ -697,6 +697,7 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
+        <a href="Broad-Bean-And-Basil-Risotto.php">
             <div class="recipe_gallery lunch dinner" data-worth="3">
                 <li class="recipe_li">
                     <img id="broad_bean" src="images/recipe/Broad Bean And Basil Risotto.jpg" class="image recipe_img" >
@@ -704,7 +705,7 @@ foreach ($recommendQuery as $row) {
                     <a class="recipe_a">Broad Bean And Basil Risotto</a>
                 </li>
             </div>
-
+        </a>
             <div class="recipe_gallery breakfast lunch dinner" data-worth="0.5">
                 <li class="recipe_li" >
                     <img id="broad_bean" src="images/recipe/Spicy Courgette Fritters.jpg" class="image recipe_img">
