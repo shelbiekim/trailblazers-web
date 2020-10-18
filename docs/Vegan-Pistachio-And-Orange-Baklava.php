@@ -37,16 +37,6 @@ foreach ($recipeQuery as $row) {
     $recipeArray[] = $row;
 }
 
-function fill_select_box(){
-    $db = db_connect();
-    $sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
-    $result=mysqli_query($db,$sql);
-    $output='';
-    while($row=mysqli_fetch_array($result)){
-        $output .='<option value="'.$row["food_group"].'">'.$row["food_group"].'</option>';
-    }
-    echo $output;
-}
 
 ?>
 
@@ -122,7 +112,6 @@ function fill_select_box(){
             const pb2 = new ProgressBar(document.querySelector('.progress-bar-carb'), 0);
             const pb3 = new ProgressBar(document.querySelector('.progress-bar-fat'), 0);
             const pb4 = new ProgressBar(document.querySelector('.progress-bar-protein'), 0);
-
 
             //use localStorage - openDiv(), save(), load() - for sidebar profile
             function openDiv() {
@@ -205,22 +194,12 @@ function fill_select_box(){
                 $('.auto_save').savy('load');
             });
 
-            $('.selectpicker').selectpicker({
-                style: 'btn-default',
-                size: false,
-                //width: 'fit'
-            });
-
             $('[data-toggle="tooltip"]').tooltip();
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const navBar = document.getElementById('navBar');
             hamburgerBtn.addEventListener('click', () => {
-                //console.log("Button clicked");
                 navBar.classList.toggle('open');
             });
-
-
-
 
             $('#bmr_calculator_form').on('submit',function(event){
                 event.preventDefault();
@@ -267,8 +246,6 @@ function fill_select_box(){
                     window.print();
                 });
             });
-
-            load();
 
             // Add to List button
             $('#add_button').click(function(){
@@ -382,7 +359,6 @@ function fill_select_box(){
             });
         });
     </script>
-
     <script type="text/javascript">
         var male = "";
         var female = "";
@@ -399,89 +375,7 @@ function fill_select_box(){
         var imgExists = false;
         var imgName = "";
 
-        function checkNutrientData(nutrientDict){
-            var carbDict = {};
-            var fatDict = {};
-            var proteinDict = {};
-            var vitADict = {};
-            var vitCDict = {};
-            var vitEDict = {};
-            var calciumDict = {};
-            var totalNutrient = []; // Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
-            // once we have a dictionary of Ingredient: amount (gram), go through nutrientData to get nutrient value
-            for (var item in nutrientDict) {
-                for (var k = 0; k < nutrientData.length; k++) {
-                    if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Carb_g")) {
-                        carbDict[item] = Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Fat_g")) {
-                        fatDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Protein_g")) {
-                        proteinDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitA_mcg")) {
-                        vitADict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitC_mg")) {
-                        vitCDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "VitE_mg")) {
-                        vitEDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    } else if ((item === nutrientData[k].food_name) && (nutrientData[k].nutrient === "Calcium_mg")) {
-                        calciumDict[item] =  Number(nutrientDict[item] / 100 * nutrientData[k].value).toFixed(2);
-                    }
-                }
-            }
-            // totalNutrient; Carbohydrates, Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium
-            var carbSum = 0;
-            var fatSum = 0;
-            var proteinSum = 0;
-            var vitASum = 0;
-            var vitCSum = 0;
-            var vitESum = 0;
-            var calciumSum = 0;
-            for (var item in carbDict){ carbSum += parseFloat(carbDict[item])};
-            for (var item in fatDict){ fatSum += parseFloat(fatDict[item])};
-            for (var item in proteinDict){ proteinSum += parseFloat(proteinDict[item])};
-            for (var item in vitADict){ vitASum += parseFloat(vitADict[item])};
-            for (var item in vitCDict){ vitCSum += parseFloat(vitCDict[item])};
-            for (var item in vitEDict){ vitESum += parseFloat(vitEDict[item])};
-            for (var item in calciumDict){ calciumSum += parseFloat(calciumDict[item])};
-
-            totalNutrient.push(Number(carbSum).toFixed(2), Number(fatSum).toFixed(2), Number(proteinSum).toFixed(2),
-                Number(vitASum).toFixed(2), Number(vitCSum).toFixed(2),Number(vitESum).toFixed(2), Number(calciumSum).toFixed(2));
-
-            document.getElementById("total_result").style.display="block";
-
-            return totalNutrient;
-        }
-
-        function show_footprint(totalGas){
-            //in tonnes
-            document.getElementById("tree_image").style.display="block";
-            document.getElementById("img_tree").style.display="block";
-            imgExists = true;
-
-        }
-
-        function onSelected(id){
-            document.getElementById(id).style.visibility ="hidden";
-        }
-
-        function checkRow () {
-            if (rowExists)
-            {
-                document.getElementById("calculate_button").style.visibility = "visible";
-
-            }
-            else {
-                document.getElementById("calculate_button").style.visibility = "hidden";
-                document.getElementById("total_result").style.display = "none";
-                document.getElementById("footprint_image").style.display = "none";
-                document.getElementById(imgName).style.display = "none";
-                imgExists = false;
-            }
-        }
-
         function calculate_calories() {
-            //valid2 = validateInput2();
-            //if(valid2==true) {
             var gender = "";
             var height = parseFloat(document.getElementById("height").value);
             var weight = parseFloat(document.getElementById("weight").value);
@@ -606,7 +500,6 @@ function fill_select_box(){
                     nutriCal = userArray[key].value;
                 }
             }
-
             nutriArray.push(nutriFat,nutriPro, nutriVA, nutriVC, nutriVE, nutriCal);
 
             //check activity and multiply value
@@ -629,10 +522,8 @@ function fill_select_box(){
                 nutriArray[i] *= nutriFactor; // multiply value times 2
                 nutriArray[i] = Number(nutriArray[i].toFixed(2));
             }
-
             // the last item of nutriArray is the range of carbs
             nutriArray.push(nutriCarbo);
-
             return nutriArray;
         }
 
@@ -836,7 +727,7 @@ function fill_select_box(){
     <nav id="navBar">
         <div class="nav-brand">
             <form method="post" id="bmr_calculator_form" style="display:block;">
-                <p style="font-weight: bold">STEP 1.<br>Check your daily energy requirements</p>
+                <p style="font-weight: 500;">STEP 1.<br>Check your daily energy requirements</p>
                 <div id="form-group2" class="form-group2">
                     <p class="bmr_form">Gender</p><br>
                     <div class="first_label" style="display: inline-block;">

@@ -569,7 +569,7 @@ foreach ($recommendQuery as $row) {
         <nav id="navBar">
             <div class="nav-brand">
                 <form method="post" id="bmr_calculator_form" style="display:block;">
-                    <p style="font-weight: bold">STEP 1.<br>Check your daily energy requirements</p>
+                    <p style="font-weight: 500;">STEP 1.<br>Check your daily energy requirements</p>
                     <div id="form-group2" class="form-group2">
                         <p class="bmr_form">Gender</p><br>
                         <div class="first_label" style="display: inline-block;">
