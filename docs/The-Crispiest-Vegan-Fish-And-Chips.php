@@ -234,11 +234,11 @@ foreach ($recipeQuery as $row) {
                 });
             });
 
-            findRecipe("Vegan Pistachio And Orange Baklava");
-            findEmission("Vegan Pistachio And Orange Baklava");
-            findNutrition("Vegan Pistachio And Orange Baklava");
-            findIngredients("Vegan Pistachio And Orange Baklava");
-            findInstructions("Vegan Pistachio And Orange Baklava");
+            findRecipe("The Crispiest Vegan Fish And Chips");
+            findEmission("The Crispiest Vegan Fish And Chips");
+            findNutrition("The Crispiest Vegan Fish And Chips");
+            findIngredients("The Crispiest Vegan Fish And Chips");
+            findInstructions("The Crispiest Vegan Fish And Chips");
 
             $(function(){
                 $("#print_button").click(function(){
@@ -362,6 +362,7 @@ foreach ($recipeQuery as $row) {
             });
         });
     </script>
+
     <script type="text/javascript">
         var male = "";
         var female = "";
@@ -503,6 +504,7 @@ foreach ($recipeQuery as $row) {
                     nutriCal = userArray[key].value;
                 }
             }
+
             nutriArray.push(nutriFat,nutriPro, nutriVA, nutriVC, nutriVE, nutriCal);
 
             //check activity and multiply value
@@ -525,8 +527,10 @@ foreach ($recipeQuery as $row) {
                 nutriArray[i] *= nutriFactor; // multiply value times 2
                 nutriArray[i] = Number(nutriArray[i].toFixed(2));
             }
+
             // the last item of nutriArray is the range of carbs
             nutriArray.push(nutriCarbo);
+
             return nutriArray;
         }
 
@@ -718,7 +722,7 @@ foreach ($recipeQuery as $row) {
 <div class="breadcrumb container">
     <a href="index.html">Home</a>&nbsp; >&nbsp;
     <a href="recipes.php">Recipes</a>&nbsp; >&nbsp;
-    <span>Vegan Pistachio And Orange Baklava</span>
+    <span>The Crispiest Vegan Fish And Chips</span>
 </div>
 <!-- Banner -->
 <div class="container">
@@ -730,7 +734,7 @@ foreach ($recipeQuery as $row) {
     <nav id="navBar">
         <div class="nav-brand">
             <form method="post" id="bmr_calculator_form" style="display:block;">
-                <p style="font-weight: 500;">STEP 1.<br>Check your daily energy requirements</p>
+                <p style="font-weight: bold">STEP 1.<br>Check your daily energy requirements</p>
                 <div id="form-group2" class="form-group2">
                     <p class="bmr_form">Gender</p><br>
                     <div class="first_label" style="display: inline-block;">
@@ -824,7 +828,7 @@ foreach ($recipeQuery as $row) {
 <div class="container align-center recipe-container" style="margin-top: 30px;">
     <div class="row">
         <div class="5u" style="margin-top: 10px;">
-            <img id="vegan_pistacio" src="images/recipe/Vegan Pistachio And Orange Baklava.jpg" class="image recipe_img_main">
+            <img id="the_crispiest" src="images/recipe/The Crispiest Vegan Fish And Chips.jpg" class="image recipe_img_main">
             <div class="align-left" style="margin-top: 5px;">
                 <button id="add_button" style="text-decoration: none;vertical-align: top;" class="btn btn-primary btn-sm">
                     <span class="	glyphicon glyphicon-list"></span> Add to List
@@ -840,8 +844,8 @@ foreach ($recipeQuery as $row) {
             </div>
         </div>
         <div class="7u align-left" style="margin-top: 10px;">
-            <h3 id="recipe_name">Vegan Pistachio And Orange Baklava</h3>
-            <img class="tree_icons" src="images/tree_icon.png" height="30"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
+            <h3 id="recipe_name">The Crispiest Vegan Fish And Chips</h3>
+            <img class="tree_icons" src="images/tree_icon.png" height="30"/><img src="images/half_tree_icon.png" height="20"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
             <hr class="minor" />
             <p class="recipe_heading">Serves&nbsp;&nbsp;</p><p id="serves"></p><br>
             <p class="recipe_heading">Prep Time&nbsp;&nbsp;</p><p id="prep_time"></p><br>

@@ -30,7 +30,6 @@ foreach ($recommendQuery as $row) {
     $recommendArray[] = $row;
 }
 
-
 ?>
 
 <!--
@@ -307,10 +306,14 @@ foreach ($recommendQuery as $row) {
                     pbProtein -= parseFloat(tempP4);
                     pb4.setValue(tempP4);
 
-                    recipeEnergy -= parseFloat(itemCal);
-                    recipeCarbs -= parseFloat(itemCarb);
-                    recipeFat -= parseFloat(itemFat);
-                    recipeProtein -= parseFloat(itemProtein);
+                    recipeEnergy -= itemCal
+                    recipeEnergy = Number(recipeEnergy).toFixed(2);
+                    recipeCarbs -= itemCarb;
+                    recipeCarbs = Number(recipeCarbs).toFixed(2);
+                    recipeFat -= itemFat;
+                    recipeFat = Number(recipeFat).toFixed(2);
+                    recipeProtein -= itemProtein;
+                    recipeProtein = Number(recipeProtein).toFixed(2);
 
                     $('#bar_calories').html(recipeEnergy + "&nbsp;kcal");
                     $('#bar_carb').html(recipeCarbs + "&nbsp;g");
@@ -684,14 +687,16 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
+        <a href="The-Crispiest-Vegan-Fish-And-Chips.php">
             <div class="recipe_gallery lunch" data-worth="1.5">
                 <li class="recipe_li">
                     <img id="the_crispiest" src="images/recipe/The Crispiest Vegan Fish And Chips.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/>
                     <img src="images/half_tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">The Crispiest Vegan Fish And Chips</a>
+                    <a href="The-Crispiest-Vegan-Fish-And-Chips.php" class="recipe_a">The Crispiest Vegan Fish And Chips</a>
                 </li>
             </div>
+        </a>
             <div class="recipe_gallery lunch dinner" data-worth="3">
                 <li class="recipe_li">
                     <img id="broad_bean" src="images/recipe/Broad Bean And Basil Risotto.jpg" class="image recipe_img" >
