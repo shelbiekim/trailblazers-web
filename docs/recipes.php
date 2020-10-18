@@ -941,6 +941,15 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
+        <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="white_wine" src="images/recipe/White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php" class="recipe_a">White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens</a>
+                </li>
+            </div>
+        </a>
         <a href="Speedy-Vegan-Chocolate-Mug-Cake.php">
             <div class="recipe_gallery breakfast lunch" data-worth="4">
                 <li class="recipe_li">
