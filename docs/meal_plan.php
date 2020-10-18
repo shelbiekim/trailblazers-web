@@ -162,16 +162,20 @@ function fill_select_box(){
                     if (newValue < 0) {
                         newValue = 0;
                     }
-                    if (newValue > 100) {
-                        newValue = 100;
-                    }
+
                     this.value=newValue;
                     this.update();
                 }
                 update () {
                     const percentage = this.value + "%";
-                    this.fillElem.style.width = percentage;
-                    this.valueElem.textContent = percentage;
+                    if (this.value > 100) {
+                        this.fillElem.style.width = "100%";
+                        this.valueElem.textContent = percentage;
+                    } else {
+                        this.fillElem.style.width = percentage;
+                        this.valueElem.textContent = percentage;
+                    }
+
                 }
             }
 
@@ -957,8 +961,8 @@ function fill_select_box(){
                         <h3 style="display: inline-block">It takes&nbsp;</h3><h3 style="display: inline-block; font-weight:bold;" id="tree_num"></h3>
                         <h3 style="display: inline-block">trees to offset your annual footprint</h3><br>
                         <p style="margin-bottom: 0;">On average, every tree absorbs 0.07 tons of CO2 annually.</p><p style="display: inline-block">Your footprint requires&nbsp;</p><p style="display: inline-block;font-weight:bold;" id="tree_num2"></p><p style="display: inline-block">&nbsp;trees per year.</p>
-                        <br><p style="display: inline-block">The average Australian's footprint requires&nbsp;<p style="display: inline-block;font-weight:bold;">37.5</p><p style="display: inline-block">&nbsp;trees per year.</p>
-                        <br><p style="display: inline-block">The ideal footprint requires&nbsp;<p style="display: inline-block;font-weight:bold;">5</p><p style="display: inline-block">&nbsp;trees per year.</p>
+                        <br><p style="display: inline-block">The average Australian's footprint requires&nbsp;<p style="display: inline-block;font-weight:bold;">43</p><p style="display: inline-block">&nbsp;trees per year.</p>
+                        <br><p style="display: inline-block">The ideal footprint requires&nbsp;<p style="display: inline-block;font-weight:bold;">6</p><p style="display: inline-block">&nbsp;trees per year.</p>
                     </div>
                     <br><br>
                     <ul class="actions">

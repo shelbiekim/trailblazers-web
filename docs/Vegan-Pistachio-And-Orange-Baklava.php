@@ -80,6 +80,10 @@ function fill_select_box(){
             var bmr;
             var nutriArray;
             var recipeDict = {};
+            var recipeEnergy = 0;
+            var recipeCarbs = 0;
+            var recipeFat = 0;
+            var recipeProtein = 0;
             var pbEnergy = 0;
             var pbCarbs = 0;
             var pbFat = 0;
@@ -140,6 +144,14 @@ function fill_select_box(){
                     pb2.setValue(parseFloat(localStorage.getItem('pbCarbs')));
                     pb3.setValue(parseFloat(localStorage.getItem('pbFat')));
                     pb4.setValue(parseFloat(localStorage.getItem('pbProtein')));
+                    pbEnergy = parseFloat(localStorage.getItem('pbEnergy'));
+                    pbCarbs = parseFloat(localStorage.getItem('pbCarbs'));
+                    pbFat = parseFloat(localStorage.getItem('pbFat'));
+                    pbProtein = parseFloat(localStorage.getItem('pbProtein'));
+                    recipeEnergy = parseFloat(localStorage.getItem('recipeEnergy'));
+                    recipeCarbs = parseFloat(localStorage.getItem('recipeCarbs'));
+                    recipeFat = parseFloat(localStorage.getItem('recipeFat'));
+                    recipeProtein = parseFloat(localStorage.getItem('recipeProtein'));
                     bmr = localStorage.getItem('bmr');
                     nutriArray = JSON.parse(localStorage.getItem('nutriArray'));
                     //console.log(nutriArray)
@@ -166,7 +178,15 @@ function fill_select_box(){
                     localStorage.setItem("pbCarbs", pbCarbs);
                     localStorage.setItem("pbFat", pbFat);
                     localStorage.setItem("pbProtein", pbProtein);
+                    pb1.setValue(parseFloat(localStorage.getItem('pbEnergy')));
+                    pb2.setValue(parseFloat(localStorage.getItem('pbCarbs')));
+                    pb3.setValue(parseFloat(localStorage.getItem('pbFat')));
+                    pb4.setValue(parseFloat(localStorage.getItem('pbProtein')));
                     localStorage.setItem("bmr", bmr); // 2502.50
+                    localStorage.setItem("recipeEnergy", recipeEnergy);
+                    localStorage.setItem("recipeCarbs", recipeCarbs);
+                    localStorage.setItem("recipeFat", recipeFat);
+                    localStorage.setItem("recipeProtein", recipeProtein);
                     localStorage.setItem("nutriArray", JSON.stringify(nutriArray)); // [required fat, required protein, x, x, x, x, required carb]
                     localStorage.setItem("recipeDict",JSON.stringify(recipeDict)); //save it to recipeDict where all the recipe names exist; {"Vegan":["4","4","18","10"]}
                 }
@@ -206,16 +226,23 @@ function fill_select_box(){
                 event.preventDefault();
             });
 
-
+            // SAVE PROFILE button
             $(function(){
                 $("#calories_button").click(function(){
                     if($('#bmr_calculator_form')[0].checkValidity() === true){
                         bmr = calculate_calories();
                         nutriArray = calculate_nutrient(bmr);
-                        $('#bar_calories').html(0+"&nbsp;kcal");
-                        $('#bar_carb').html(0+"&nbsp;g");
-                        $('#bar_fat').html(0+"&nbsp;g");
-                        $('#bar_protein').html(0+"&nbsp;g");
+                        if(localStorage.barCalories === undefined) { //if nothing saved
+                            $('#bar_calories').html(0+"&nbsp;kcal");
+                            $('#bar_carb').html(0+"&nbsp;g");
+                            $('#bar_fat').html(0+"&nbsp;g");
+                            $('#bar_protein').html(0+"&nbsp;g");
+                        } else { //recalculate progress bar + percentage
+                            pbEnergy = Number(recipeEnergy/bmr*100).toFixed(0);
+                            pbCarbs = Number(recipeCarbs/nutriArray[6]*100).toFixed(0);
+                            pbFat = Number(recipeFat/nutriArray[0]*100).toFixed(0);
+                            pbProtein = Number(recipeProtein/nutriArray[1]*100).toFixed(0);
+                        }
                         save();
 
                     }
@@ -242,7 +269,6 @@ function fill_select_box(){
             });
 
             load();
-
 
             // Add to List button
             $('#add_button').click(function(){
@@ -283,7 +309,7 @@ function fill_select_box(){
 
                         //console.log(fileName);
                         var recipeServe = document.getElementById('serve_number').value;
-                        var newItem ='<div class="recipeDiv" data-id='+fileName+' style="display: inline-block">' + '<a style="color: black;" href='+fileName+'><p class="recipe_div">' +recipeName+ '</p>' + '<span style="overflow: visible;margin-right: 3px;vertical-align: middle;" class="glyphicon glyphicon-list my-tooltip" title='+recipeServe+'&nbsp;Serve></span></a>'+
+                        var newItem ='<div class="recipeDiv" data-id='+fileName+' style="display: inline-block">' + '<a style="color: black;font-weight:300; !important;" href='+fileName+'><p class="recipe_div">' +recipeName+ '</p>' + '<span style="overflow: visible;margin-right: 3px;vertical-align: middle;" class="glyphicon glyphicon-list my-tooltip" title='+recipeServe+'&nbsp;Serve></span></a>'+
                             '<button id="remove_button" style="display: inline-block;vertical-align: middle;" class="btn btn-danger btn-xs delete" style="position: absolute;"><span class="glyphicon glyphicon-remove"></button>' + '</div>';
                         $('#recipe_list').append(newItem); // add to recipe list div
 
@@ -292,7 +318,12 @@ function fill_select_box(){
                         pbFat += parseFloat(fat_percent);
                         pbProtein += parseFloat(protein_percent);
 
-                        var recipeValues = [cal_percent,carb_percent,fat_percent,protein_percent,user_cal,user_carb,user_fat,user_protein];
+                        recipeEnergy += parseFloat(recipeNutrient[0]);
+                        recipeCarbs += parseFloat(recipeNutrient[1]);
+                        recipeFat += parseFloat(recipeNutrient[2]);
+                        recipeProtein += parseFloat(recipeNutrient[3]);
+
+                        var recipeValues = [recipeNutrient[0],recipeNutrient[1],recipeNutrient[2],recipeNutrient[3]];
                         recipeDict[fileName] = recipeValues;
                         //localStorage.setItem("recipeDict",JSON.stringify(recipeDict)); //moved to save(); save it to recipeDict where all the recipe names exist; {"Vegan-":["4","4","18","10"]}
                         var updateValue = document.getElementById('recipe_list').innerHTML;
@@ -308,22 +339,37 @@ function fill_select_box(){
                 if (confirmation) {
                     var temp = $(this).closest("div[data-id]").attr('data-id');
                     console.log(temp);
-                    var tempP1 = recipeDict[temp][0];
-                    var tempP2 = recipeDict[temp][1];
-                    var tempP3 = recipeDict[temp][2];
-                    var tempP4 = recipeDict[temp][3];
-                    var userCal = recipeDict[temp][4];
-                    var userCarb = recipeDict[temp][5];
-                    var userFat= recipeDict[temp][6];
-                    var userProtein= recipeDict[temp][7];
+                    var requiredCarb = localStorage.getItem('barCarbBmr').match(/[0-9.]+/g);
+                    var requiredFat = localStorage.getItem('barFatBmr').match(/[0-9.]+/g);
+                    var requiredProtein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g);
+                    var tempP1 = Number(recipeDict[temp][0]/bmr*100).toFixed(0); //energy %
+                    var tempP2 = Number(recipeDict[temp][1]/requiredCarb*100).toFixed(0); //carbs %
+                    var tempP3 = Number(recipeDict[temp][2]/requiredFat*100).toFixed(0); //fat %
+                    var tempP4 = Number(recipeDict[temp][3]/requiredProtein*100).toFixed(0); //protein %
+                    console.log(tempP1);
+                    var itemCal = recipeDict[temp][0];
+                    var itemCarb = recipeDict[temp][1];
+                    var itemFat= recipeDict[temp][2];
+                    var itemProtein= recipeDict[temp][3];
+
                     pbEnergy -= parseFloat(tempP1);
-                    pb1.setValue(pbEnergy);
+                    pb1.setValue(tempP1);
                     pbCarbs -= parseFloat(tempP2);
-                    pb2.setValue(pbCarbs);
+                    pb2.setValue(tempP2);
                     pbFat -= parseFloat(tempP3);
-                    pb3.setValue(pbFat);
+                    pb3.setValue(tempP3);
                     pbProtein -= parseFloat(tempP4);
-                    pb4.setValue(pbProtein);
+                    pb4.setValue(tempP4);
+
+                    recipeEnergy -= parseFloat(itemCal);
+                    recipeCarbs -= parseFloat(itemCarb);
+                    recipeFat -= parseFloat(itemFat);
+                    recipeProtein -= parseFloat(itemProtein);
+
+                    $('#bar_calories').html(recipeEnergy + "&nbsp;kcal");
+                    $('#bar_carb').html(recipeCarbs + "&nbsp;g");
+                    $('#bar_fat').html(recipeFat + "&nbsp;g");
+                    $('#bar_protein').html(recipeProtein + "&nbsp;g");
 
                     delete recipeDict[temp];
                     console.log(recipeDict)

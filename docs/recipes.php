@@ -213,16 +213,20 @@ function fill_select_box(){
                     if (newValue < 0) {
                         newValue = 0;
                     }
-                    if (newValue > 100) {
-                        newValue = 100;
-                    }
+
                     this.value=newValue;
                     this.update();
                 }
                 update () {
                     const percentage = this.value + "%";
-                    this.fillElem.style.width = percentage;
-                    this.valueElem.textContent = percentage;
+                    if (this.value > 100) {
+                        this.fillElem.style.width = "100%";
+                        this.valueElem.textContent = percentage;
+                    } else {
+                        this.fillElem.style.width = percentage;
+                        this.valueElem.textContent = percentage;
+                    }
+
                 }
             }
 
@@ -232,113 +236,8 @@ function fill_select_box(){
             const pb4 = new ProgressBar(document.querySelector('.progress-bar-protein'), 0);
 
 
-            $(document).on('click', '.add', function(){
-                var tab_id = $('.tab-content .active').attr('id');
-                if (tab_id==="breakfast_tab") {
-                    tab_id = "first_table";
-                } else if (tab_id ==="lunch_tab") {
-                    tab_id = "lunch_table";
-                } else if (tab_id === "dinner_tab") {
-                    tab_id = "dinner_table"
-                }
-                count++;
-                var html = '';
-
-                html += '<tr>';
-                html += '<td><select name="item_category[]" class="form-control item_category selectpicker" id="item_category'+count+'" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select Food Type</option><?php echo fill_select_box(); ?></select></td>';
-                html += '<td><select name="item_sub_category[]" class="form-control item_sub_category selectpicker" data-sub_category_id="'+count+'" id="item_sub_category'+count+'" required><option value="" selected disabled>Select Food</option></select></td>';
-                html += '<td><input name="item_weight" class="form-control item_weight selectpicker" data-sub_category_id="'+count+'" placeholder="Enter" type="number" min="0.01" step="0.01" id="item_weight'+count+'" required></td>';
-                html += '<td><select name="unit" id="unit'+count+'" class="form-control input_unit selectpicker" data-sub_category_id="'+count+'" required><option value="" selected disabled>Select g/kg</option>\n' +
-                    '                        <option value="g">g</option>\n' +
-                    '                        <option value="kg">kg</option></select></td>';
-                html += '<td><output class="item_emissions" id="item_emissions'+count+'"></output></td>'
-                html += '<td><output class="item_calories" id="item_calories'+count+'"></output></td>'
-                html += '<td><button type="button" name="remove" class="align-center btn btn-danger btn-xs remove"><span class="glyphicon glyphicon-minus"></span></button></td>';
-                $('#'+tab_id).append(html);
-                $('.selectpicker').selectpicker('refresh');
-                console.log(tab_id);
-
-            });
-
-
-            $(document).on('click','.remove', function(){
-                $(this).closest('tr').remove();
-                if ( $("#item_table tr").length < 2) {
-
-                    $('#total_result').css("display","none");
-                }
-            });
-
-            $(document).on('change','.item_category', function(){
-                var food_group = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                $.ajax({
-                    url:"action_group.php",
-                    //send data to server with POST method
-                    method:"POST",
-                    data:{food_group: food_group},
-                    success:function(data){
-                        var html = '<option data-tokens = "" selected disabled>Select Food</option>';
-                        html += data;
-                        $('#item_sub_category'+sub_category_id).html(html);
-                        $('#item_weight'+sub_category_id).val("");
-                        $('#unit'+sub_category_id)[0].selectedIndex = 0;
-                        $('#item_emissions'+sub_category_id).html("");
-                        $('#item_calories'+sub_category_id).html("");
-                        $('.selectpicker').selectpicker('refresh');
-                    }
-
-                })
-            });
-            //validation
-            $('#insert_form').on('submit',function(event){
-                event.preventDefault();
-            });
-
             $('#bmr_calculator_form').on('submit',function(event){
                 event.preventDefault();
-            });
-
-            $(document).on('change', '.item_sub_category', function(){
-                var food_name = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                //if unit is chosen
-                if (($('#unit'+sub_category_id).val() != "") && ($('#item_weight'+sub_category_id).val() != "")) {
-                    var finals = [];
-                    var unit = $('#unit'+sub_category_id).val();
-                    var weight = $('#item_weight'+sub_category_id).val();
-                    finals = addIngredient(food_name, unit, weight);
-                    $('#item_emissions'+sub_category_id).html(finals[0]);
-                    $('#item_calories'+sub_category_id).html(finals[1]);
-                };
-            });
-
-            $(document).on('change', '.item_weight', function(){
-                var weight = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                var food_name = $('#item_sub_category'+sub_category_id).val();
-                //if unit is chosen
-                if (($('#unit'+sub_category_id).val() != "") && ($('#item_sub_category'+sub_category_id).val() != "")) {
-                    var finals = [];
-                    var unit = $('#unit'+sub_category_id).val();
-                    finals = addIngredient(food_name, unit, weight);
-                    $('#item_emissions'+sub_category_id).html(finals[0]);
-                    $('#item_calories'+sub_category_id).html(finals[1]);
-                };
-            });
-
-            $(document).on('change', '.input_unit', function(){
-                var unit = $(this).val();
-                var sub_category_id = $(this).data('sub_category_id');
-                var food_name = $('#item_sub_category'+sub_category_id).val();
-                //if weight is entered
-                if ($('#item_weight'+sub_category_id).val() != "" && ($('#item_sub_category'+sub_category_id).val() != "")) {
-                    var finals = [];
-                    var weight = $('#item_weight'+sub_category_id).val();
-                    finals = addIngredient(food_name, unit, weight);
-                    $('#item_emissions'+sub_category_id).html(finals[0]);
-                    $('#item_calories'+sub_category_id).html(finals[1]);
-                };
             });
 
             $(function(){
@@ -361,98 +260,6 @@ function fill_select_box(){
                 $("#return_button").click(function(){
                     $('#total_result2').css("display","none");
                     $('#bmr_calculator_form').css("display","block");
-                });
-            });
-
-            // validate the current tab before moving on to the next tab
-            $('#myTab a').on('click', function(e) {
-                e.preventDefault();
-                if ($('#insert_form')[0].checkValidity()) {
-                    $(this).tab('show');
-                } else {
-                    alert('Please complete your meal plan');
-                    return false;
-                }
-            });
-
-            // calculate footprint button validation
-            $(function(){
-                $("#calculate_button").click(function(){
-                    var temp = document.getElementById("bmr_calculator_form");
-                    if (temp.style.display === "block") {
-                        alert('Please save your profile first');
-                    } else if(!$('#insert_form')[0].checkValidity()) {
-                        // if form is not valid
-                        alert('Please complete your meal plan');
-                    } else {
-
-                        $('#total_result').css("display","block");
-                        $('html,body').animate(
-                            {
-                                scrollTop:$('#total_result').offset().top
-                            },
-                            'slow'
-                        )
-                        //get the total gas emissions by each class
-                        var sum = 0;
-                        var cal = 0;
-
-                        $('.item_emissions').each(function () {
-                            var text = $(this).text().match(/[0-9.]+/g);  // extract float from string
-                            sum += parseFloat(text);
-                        });
-                        $('#carbon_footprint').html(Number(sum/1000*365).toFixed(2) + " TONS");//annual
-                        $('#tree_num').html(Number(sum/1000*365/0.07).toFixed(0)); //annual tree
-                        $('#tree_num2').html(Number(sum/1000*365/0.07).toFixed(0));
-
-                        $('.item_calories').each(function () {
-                            var text = $(this).text().match(/[0-9.]+/g);  // extract float from string
-                            cal += parseFloat(text);
-                        });
-                        $('#total_calories').html(Number(cal).toFixed(2) + " kcal");
-                        $('#bar_calories').html(Number(cal).toFixed(2) + " kcal");
-                        var percent = Number(Number(cal).toFixed(2) / bmr * 100).toFixed(0);
-                        pb1.setValue(percent);
-
-                        var nutrientDict = {};
-                        //get the nutrient value
-                        $('.item_weight').each(function () {
-                            var sub_category_id = $(this).data('sub_category_id');
-                            var weight = $(this).val();
-                            var food_name = $('#item_sub_category' + sub_category_id).val();
-                            var metric = $('#unit' + sub_category_id).val();
-                            if (metric == "kg") {
-                                weight *= 1000; // change from kg to g by multiplying 1000
-                            }
-                            // check dictionary if food exists
-                            if (food_name in nutrientDict) {
-                                var existingAmount = parseFloat(nutrientDict[food_name]);
-                                weight = existingAmount + weight;
-                                nutrientDict[food_name] = Number(weight).toFixed(2); // round up to two decimal places
-                            } else {
-                                nutrientDict[food_name] = Number(weight).toFixed(2);
-                            }
-
-                        });
-
-                        var totalNutrient = checkNutrientData(nutrientDict);
-                        $('#bar_carb').html(totalNutrient[0] + "&nbsp;g");
-                        var percent = Number(totalNutrient[0] / (nutriArray[6]) * 100).toFixed(0);
-                        console.log("totalNutrient Carb" + totalNutrient[0], "nutriArray6" + nutriArray[6]);
-                        pb2.setValue(percent);
-
-                        $('#bar_fat').html(totalNutrient[1] + "&nbsp;g");
-                        var percent = Number(totalNutrient[1] / (nutriArray[0]) * 100).toFixed(0);
-                        console.log("totalNutrient Fat" + totalNutrient[1], "nutriArray0" + nutriArray[0]);
-                        pb3.setValue(percent);
-
-                        $('#bar_protein').html(totalNutrient[2] + "&nbsp;g");
-                        var percent = Number(totalNutrient[2] / (nutriArray[1]) * 100).toFixed(0);
-                        pb4.setValue(percent);
-
-                        show_footprint(sum/1000); //tons
-
-                    };
                 });
             });
         });

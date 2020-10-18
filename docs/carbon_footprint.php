@@ -459,13 +459,16 @@
                 </div><br><br><br><br><br><br>
                     <div class="align-center" id="what_next"><!--row-->
                         <div row="12u">
-                        <a style="font-size: 14pt;" href="meal_plan.php">
-                            Let's create your own recipes
+                            <p style="margin:0;">Use our Footprint Calculator to find out how many trees are required<br>to offset your meal's carbon footprint.</p>
+                        <a style="font-size: 14pt;display: inline-block" href="meal_plan.php">
+                            Click here to create your own recipes
                         </a>
-                        </div><br>
+                        </div><br><br>
                         <div row="12u">
+                            <p style="margin:0;">Show your care for the environment and communities across the World<br>by offsetting your footprint with our carbon deficient meals.
+                                </p>
                         <a style="font-size: 14pt;" href="recipes.php">
-                            Let's find out our low carbon footprint recipes
+                            Click here to check out our recipes
                         </a>
                         </div>
                     </div>
