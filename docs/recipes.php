@@ -724,43 +724,51 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
+        <a href="Roasted-Veg-And-Chickpeas-With-A-Parsley-Crumb.php">
             <div class="recipe_gallery dinner" data-worth="3">
                 <li class="recipe_li" >
-                    <img id="broad_bean" src="images/recipe/Roasted Veg And Chickpeas With A Parsley Crumb.jpg" class="image recipe_img">
+                    <img id="roasted_veg" src="images/recipe/Roasted Veg And Chickpeas With A Parsley Crumb.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Roasted Veg And Chickpeas With A Parsley Crumb</a>
+                    <a href="Roasted-Veg-And-Chickpeas-With-A-Parsley-Crumb.php" class="recipe_a">Roasted Veg And Chickpeas With A Parsley Crumb</a>
                 </li>
             </div>
-
+        </a>
+        <a href="Herby-Pea-Pilaf.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
                 <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Herby Pea Pilaf.jpg" class="image recipe_img">
+                    <img id="herby_pea" src="images/recipe/Herby Pea Pilaf.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Herby Pea Pilaf</a>
+                    <a href="Herby-Pea-Pilaf.php" class="recipe_a">Herby Pea Pilaf</a>
                 </li>
             </div>
+        </a>
+        <a href="Onion-Bhajis-(Plain-Flour-Recipe).php">
             <div class="recipe_gallery breakfast" data-worth="1">
                 <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Onion Bhajis (Plain Flour Recipe).jpg" class="image recipe_img">
+                    <img id="onion_bhajis" src="images/recipe/Onion Bhajis (Plain Flour Recipe).jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Onion Bhajis (Plain Flour Recipe)</a>
+                    <a href="Onion-Bhajis-(Plain-Flour-Recipe).php" class="recipe_a">Onion Bhajis (Plain Flour Recipe)</a>
                 </li>
             </div>
+        </a>
+        <a href="Spiced-Couscous-Salad-With-Crispy-Spring-Onions.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
                 <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Spiced Couscous Salad With Crispy Spring Onions.jpg" class="image recipe_img">
+                    <img id="spiced_couscous" src="images/recipe/Spiced Couscous Salad With Crispy Spring Onions.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Spiced Couscous Salad With Crispy Spring Onions</a>
+                    <a href="Spiced-Couscous-Salad-With-Crispy-Spring-Onions.php" class="recipe_a">Spiced Couscous Salad With Crispy Spring Onions</a>
                 </li>
             </div>
-
+        </a>
+        <a href="Smoked-Tofu-Kedgeree.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="1.5">
                 <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Smoked Tofu Kedgeree.jpg" class="image recipe_img">
+                    <img id="smoked_tofu" src="images/recipe/Smoked Tofu Kedgeree.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Smoked Tofu Kedgeree</a>
+                    <a href="Smoked-Tofu-Kedgeree.php" class="recipe_a">Smoked Tofu Kedgeree</a>
                 </li>
             </div>
+        </a>
     </ul>
 </div>
 
