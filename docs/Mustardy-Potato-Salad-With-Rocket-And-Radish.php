@@ -681,7 +681,7 @@ foreach ($recipeQuery as $row) {
             }
             // get rid of the brackets []
             instructions = instructions.replace(/[\[\]']+/g,'');
-            array = instructions.split(",");
+            array = instructions.split(";");
             // Split string with commas to new line
             //instructions = instructions.split(",");
 
