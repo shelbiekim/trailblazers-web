@@ -968,6 +968,15 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
+        <a href="Summer-Minestrone.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1.5">
+                <li class="recipe_li">
+                    <img id="summer" src="images/recipe/Summer Minestrone.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
+                    <a href="Summer-Minestrone.php" class="recipe_a">Summer Minestrone</a>
+                </li>
+            </div>
+        </a>
     </ul>
 </div>
 
