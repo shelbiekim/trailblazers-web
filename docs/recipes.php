@@ -702,24 +702,28 @@ foreach ($recommendQuery as $row) {
                 <li class="recipe_li">
                     <img id="broad_bean" src="images/recipe/Broad Bean And Basil Risotto.jpg" class="image recipe_img" >
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Broad Bean And Basil Risotto</a>
+                    <a href="Broad-Bean-And-Basil-Risotto.php" class="recipe_a">Broad Bean And Basil Risotto</a>
                 </li>
             </div>
         </a>
+        <a href="Spicy-Courgette-Fritters.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="0.5">
                 <li class="recipe_li" >
-                    <img id="broad_bean" src="images/recipe/Spicy Courgette Fritters.jpg" class="image recipe_img">
+                    <img id="spicy_courgette" src="images/recipe/Spicy Courgette Fritters.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/half_tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Spicy Courgette Fritters</a>
+                    <a href="Spicy-Courgette-Fritters.php" class="recipe_a">Spicy Courgette Fritters</a>
                 </li>
             </div>
+        </a>
+        <a href="Creamed-Aubergine-Wheat-With-Fried-Sugar-Snap-Peas.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
                 <li class="recipe_li">
-                    <img id="broad_bean" src="images/recipe/Creamed Aubergine Wheat With Fried Sugar Snap Peas.jpg" class="image recipe_img">
+                    <img id="creamed_aubergine" src="images/recipe/Creamed Aubergine Wheat With Fried Sugar Snap Peas.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
-                    <a class="recipe_a">Creamed Aubergine Wheat With Fried Sugar Snap Peas</a>
+                    <a href="Creamed-Aubergine-Wheat-With-Fried-Sugar-Snap-Peas.php" class="recipe_a">Creamed Aubergine Wheat With Fried Sugar Snap Peas</a>
                 </li>
             </div>
+        </a>
             <div class="recipe_gallery dinner" data-worth="3">
                 <li class="recipe_li" >
                     <img id="broad_bean" src="images/recipe/Roasted Veg And Chickpeas With A Parsley Crumb.jpg" class="image recipe_img">
