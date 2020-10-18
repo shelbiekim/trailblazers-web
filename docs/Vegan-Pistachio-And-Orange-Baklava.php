@@ -297,7 +297,7 @@ foreach ($recipeQuery as $row) {
                         recipeEnergy = Number(parseFloat(recipeEnergy) + parseFloat(recipeNutrient[0])).toFixed(2);
                         recipeCarbs = Number(parseFloat(recipeCarbs) + parseFloat(recipeNutrient[1])).toFixed(2);
                         recipeFat = Number(parseFloat(recipeFat) + parseFloat(recipeNutrient[2])).toFixed(2);
-                        recipeProtein = Number(parseFloat(recipeCarbs) + parseFloat(recipeNutrient[3])).toFixed(2);
+                        recipeProtein = Number(parseFloat(recipeProtein) + parseFloat(recipeNutrient[3])).toFixed(2);
 
                         var recipeValues = [recipeNutrient[0],recipeNutrient[1],recipeNutrient[2],recipeNutrient[3]];
                         recipeDict[fileName] = recipeValues;
