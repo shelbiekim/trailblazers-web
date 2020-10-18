@@ -769,6 +769,96 @@ foreach ($recommendQuery as $row) {
                 </li>
             </div>
         </a>
+        <a href="Quick-Mushroom-And-Lentil-Ragu.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="quick_mushroom" src="images/recipe/Quick Mushroom And Lentil Ragu.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Quick-Mushroom-And-Lentil-Ragu.php" class="recipe_a">Quick Mushroom And Lentil Ragu</a>
+                </li>
+            </div>
+        </a>
+        <a href="Caribbean-Spiced-Spinach-Dhal.php">
+            <div class="recipe_gallery dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="caribbean_spiced" src="images/recipe/Caribbean Spiced Spinach Dhal.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Caribbean-Spiced-Spinach-Dhal.php" class="recipe_a">Caribbean Spiced Spinach Dhal</a>
+                </li>
+            </div>
+        </a>
+        <a href="The-Best-Vegan-Kentucky-Fried-Cauliflower.php">
+            <div class="recipe_gallery breakfast lunch" data-worth="3">
+                <li class="recipe_li">
+                    <img id="the_best_vegan" src="images/recipe/The Best Vegan Kentucky Fried Cauliflower.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="The-Best-Vegan-Kentucky-Fried-Cauliflower.php" class="recipe_a">The Best Vegan Kentucky Fried Cauliflower</a>
+                </li>
+            </div>
+        </a>
+        <a href="Apple-And-Rhubarb-Turnovers.php">
+            <div class="recipe_gallery breakfast" data-worth="2">
+                <li class="recipe_li">
+                    <img id="apple_and" src="images/recipe/Apple And Rhubarb Turnovers.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Apple-And-Rhubarb-Turnovers.php" class="recipe_a">Apple And Rhubarb Turnovers</a>
+                </li>
+            </div>
+        </a>
+        <a href="Mustardy-Potato-Salad-With-Rocket-And-Radish.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="mustardy_potato" src="images/recipe/Mustardy Potato Salad With Rocket And Radish.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Mustardy-Potato-Salad-With-Rocket-And-Radish.php" class="recipe_a">Mustardy Potato Salad With Rocket And Radish</a>
+                </li>
+            </div>
+        </a>
+        <a href="The-Best-Red-Cabbage-Ragu.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="the_best_red" src="images/recipe/The Best Red Cabbage Ragu.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="The-Best-Red-Cabbage-Ragu.php" class="recipe_a">The Best Red Cabbage Ragu</a>
+                </li>
+            </div>
+        </a>
+        <a href="Scrambled-Tofu-And-Tempeh-Bacon-Breakfast-Muffin.php">
+            <div class="recipe_gallery breakfast" data-worth="2">
+                <li class="recipe_li">
+                    <img id="scrambled_tofu" src="images/recipe/Scrambled Tofu And Tempeh Bacon Breakfast Muffin.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Scrambled-Tofu-And-Tempeh-Bacon-Breakfast-Muffin.php" class="recipe_a">Scrambled Tofu And Tempeh Bacon Breakfast Muffin</a>
+                </li>
+            </div>
+        </a>
+        <a href="20-Minute-Vegan-Banana-Cake.php">
+            <div class="recipe_gallery breakfast" data-worth="1.5">
+                <li class="recipe_li">
+                    <img id="20_minute" src="images/recipe/20 Minute Vegan Banana Cake.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
+                    <a href="20-Minute-Vegan-Banana-Cake.php" class="recipe_a">20 Minute Vegan Banana Cake</a>
+                </li>
+            </div>
+        </a>
+        <a href="One-Pot-Pasta-With-A-Chickpea-And-Tomato-Sauce.php">
+            <div class="recipe_gallery breakfast lunch" data-worth="3.5">
+                <li class="recipe_li">
+                    <img id="one_pot" src="images/recipe/One Pot Pasta With A Chickpea And Tomato Sauce.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
+                    <a href="One-Pot-Pasta-With-A-Chickpea-And-Tomato-Sauce.php" class="recipe_a">One Pot Pasta With A Chickpea And Tomato Sauce</a>
+                </li>
+            </div>
+        </a>
+        <a href="Quick-Mediterranean-Spiced-Rice.php">
+            <div class="recipe_gallery breakfast lunch dinner" data-worth="1.5">
+                <li class="recipe_li">
+                    <img id="quick_mediterranean" src="images/recipe/Quick Mediterranean Spiced Rice.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
+                    <a href="Quick-Mediterranean-Spiced-Rice.php" class="recipe_a">Quick Mediterranean Spiced Rice</a>
+                </li>
+            </div>
+        </a>
     </ul>
 </div>
 
