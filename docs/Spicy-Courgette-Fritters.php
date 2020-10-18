@@ -112,6 +112,7 @@ foreach ($recipeQuery as $row) {
             const pb3 = new ProgressBar(document.querySelector('.progress-bar-fat'), 0);
             const pb4 = new ProgressBar(document.querySelector('.progress-bar-protein'), 0);
 
+
             //use localStorage - openDiv(), save(), load() - for sidebar profile
             function openDiv() {
                 var profile = document.getElementById("total_result2");
@@ -197,6 +198,7 @@ foreach ($recipeQuery as $row) {
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const navBar = document.getElementById('navBar');
             hamburgerBtn.addEventListener('click', () => {
+                //console.log("Button clicked");
                 navBar.classList.toggle('open');
             });
 
@@ -222,7 +224,6 @@ foreach ($recipeQuery as $row) {
                             pbProtein = Number(recipeProtein/nutriArray[1]*100).toFixed(0);
                         }
                         save();
-
                     }
                 });
             });
@@ -234,11 +235,11 @@ foreach ($recipeQuery as $row) {
                 });
             });
 
-            findRecipe("The Crispiest Vegan Fish And Chips");
-            findEmission("The Crispiest Vegan Fish And Chips");
-            findNutrition("The Crispiest Vegan Fish And Chips");
-            findIngredients("The Crispiest Vegan Fish And Chips");
-            findInstructions("The Crispiest Vegan Fish And Chips");
+            findRecipe("Spicy Courgette Fritters");
+            findEmission("Spicy Courgette Fritters");
+            findNutrition("Spicy Courgette Fritters");
+            findIngredients("Spicy Courgette Fritters");
+            findInstructions("Spicy Courgette Fritters");
 
             $(function(){
                 $("#print_button").click(function(){
@@ -722,7 +723,7 @@ foreach ($recipeQuery as $row) {
 <div class="breadcrumb container">
     <a href="index.html">Home</a>&nbsp; >&nbsp;
     <a href="recipes.php">Recipes</a>&nbsp; >&nbsp;
-    <span>The Crispiest Vegan Fish And Chips</span>
+    <span>Spicy Courgette Fritters</span>
 </div>
 <!-- Banner -->
 <div class="container">
@@ -828,7 +829,7 @@ foreach ($recipeQuery as $row) {
 <div class="container align-center recipe-container" style="margin-top: 30px;">
     <div class="row">
         <div class="5u" style="margin-top: 10px;">
-            <img id="the_crispiest" src="images/recipe/The Crispiest Vegan Fish And Chips.jpg" class="image recipe_img_main">
+            <img id="spicy_courgette" src="images/recipe/Spicy Courgette Fritters.jpg" class="image recipe_img_main">
             <div class="align-left" style="margin-top: 5px;">
                 <button id="add_button" style="text-decoration: none;vertical-align: top;" class="btn btn-primary btn-sm">
                     <span class="	glyphicon glyphicon-list"></span> Add to List
@@ -844,8 +845,8 @@ foreach ($recipeQuery as $row) {
             </div>
         </div>
         <div class="7u align-left" style="margin-top: 10px;">
-            <h3 id="recipe_name">The Crispiest Vegan Fish And Chips</h3>
-            <img class="tree_icons" src="images/tree_icon.png" height="30"/><img src="images/half_tree_icon.png" height="30"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
+            <h3 id="recipe_name">Spicy Courgette Fritters</h3>
+            <img src="images/half_tree_icon.png" height="30"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
             <hr class="minor" />
             <p class="recipe_heading">Serves&nbsp;&nbsp;</p><p id="serves"></p><br>
             <p class="recipe_heading">Prep Time&nbsp;&nbsp;</p><p id="prep_time"></p><br>
