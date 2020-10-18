@@ -468,8 +468,9 @@ function fill_select_box(){
 
                             show_footprint(sum/1000); //tons
 
-                            var recipeServe = "My Recipe";
-                            var newItem ='<div class="recipeDiv" data-id='+fileName+' style="display: inline-block">' + '<a style="color: black;font-weight:300; !important;" href='+fileName+'><p class="recipe_div">' +recipeName+ '</p>' + '<span style="overflow: visible;margin-right: 3px;vertical-align: middle;" class="glyphicon glyphicon-list my-tooltip" title='+recipeServe+'&nbsp;Serve></span></a>'+
+                            var recipeServe = document.getElementById('tree_num2').innerHTML;
+                            recipeServe = recipeServe + "&nbsp;trees";
+                            var newItem ='<div class="recipeDiv" data-id='+fileName+' style="display: inline-block">' + '<a style="color: black;font-weight:300; !important;" href='+fileName+'><p class="recipe_div">' +recipeName+ '</p>' + '<span style="overflow: visible;margin-right: 3px;vertical-align: middle;" class="glyphicon glyphicon-list my-tooltip" title='+recipeServe+'></span></a>'+
                                 '<button id="remove_button" style="display: inline-block;vertical-align: middle;" class="btn btn-danger btn-xs delete" style="position: absolute;"><span class="glyphicon glyphicon-remove"></button>' + '</div>';
                             $('#recipe_list').append(newItem); // add to recipe list div
 
