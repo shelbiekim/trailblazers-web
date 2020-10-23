@@ -171,9 +171,6 @@
                         }
                     } // inner for loop
                 } // end of for loop of food_arr
-                console.log(breakfast);
-                console.log(lunch);
-                console.log(dinner);
                 if (chartExist===true) {myChart.destroy();}
                 showfood();
             }
@@ -442,7 +439,7 @@
                     <div class="6u align-center" id="bar_chart_icon">
                         <br><br><br>
                         <img src="images/bar_chart_icon.png" width="150px"/></a><br><br>
-                        <p>Click on FIND OUT YOUR FOOTPRINT button<br>to see your footprint</p>
+                        <p style="font-weight: bold;">Click on the FIND OUT YOUR FOOTPRINT button<br>to see your footprint</p>
                     </div>
                     <div class="6u">
                         <canvas id="myChart" width="60" height="40"></canvas>
@@ -450,26 +447,28 @@
                             <img src="images/foot_icon.png" width="40"/></a><p style="display: inline-block">&nbsp;Your daily carbon footprint is &nbsp;</p><p id="result_petrol" style="display: inline-block; font-weight:bold;"></p><br>
                             <img src="images/car_icon.png" width="50"/></a><p style="display: inline-block">&nbsp;This is the equivalent of driving a medium petrol car&nbsp;</p><p id="result_car" style="display: inline-block; font-weight:bold;"></p><br>
                             <img src="images/ideal_amount.png" width="50"/></a><p style="display: inline-block">&nbsp;The ideal daily carbon footprint is &nbsp;</p><p style="display: inline-block; font-weight:bold;">1.1kg</p><br>
-                            <div class="align-center">
+                            <div class="align-center" style="font-weight: bold;">
                             <button id="down_button" class="btn btn-warning btn-sm">
-                                <span class="glyphicon glyphicon-menu-down"></span></button>&nbsp;&nbsp;Click to find out the next step
+                                <span class="glyphicon glyphicon-menu-down"></span></button>&nbsp;&nbsp;Let's build your recipes!
                             </div>
                         </div>
                     </div>
                 </div><br><br><br><br><br><br>
-                    <div class="align-center" id="what_next"><!--row-->
-                        <div row="12u">
-                            <p style="margin:0;">Use our Footprint Calculator to find out how many trees are required<br>to offset your meal's carbon footprint.</p>
-                        <a style="font-size: 14pt;display: inline-block" href="meal_plan.php">
-                            Click here to create your own recipes
-                        </a>
-                        </div><br><br>
-                        <div row="12u">
-                            <p style="margin:0;">Show your care for the environment and communities across the World<br>by offsetting your footprint with our carbon deficient meals.
-                                </p>
-                        <a style="font-size: 14pt;" href="recipes.php">
-                            Click here to check out our recipes
-                        </a>
+                    <div class="align-left" id="what_next"><!--row-->
+                        <div class="row" style="padding: 0 5em 2em;">
+                            <div class="6u">
+                                <a style="font-size: 1.25em;color: #FD823E;display: inline-block" href="meal_plan.php">
+                                    Do you want to create recipes?
+                                </a>
+                                <p style="margin:0;">Use our Footprint Calculator to find out how many trees are required to offset your meal's carbon footprint.</p>
+                                <br>
+                            </div>
+                            <div class="6u">
+                                <a style="font-size: 1.25em;color: #FD823E;" href="recipes.php">
+                                    Do you want to see our recipes?
+                                </a>
+                                <p style="margin:0;">Show your care for the environment and communities across the World by offsetting your footprint with our carbon deficient meals.</p>
+                            </div>
                         </div>
                     </div>
                 </div><br><br><br> 	<!-- 1st Container -->
