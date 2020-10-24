@@ -1028,10 +1028,24 @@ function fill_select_box(){
     </div> <!--container-->
 
     <div class="container">
+        <div class="row align-center meal_steps">
+            <div style="align-items: center;text-align: center;width: 230px;height: 150px;">
+                <img id="stepOne" src="images/step1.png" class="image" width="90px">
+                <p style="line-height: 1em">STEP 1.<br>Save your profile</p>
+            </div>
+            <div style="align-items: center;text-align: center;width: 230px;height: 150px;">
+                <img id="stepTwo" src="images/step2.png" class="image" width="90px">
+                <p style="line-height: 1em">STEP 2.<br>Add food per meal type</p>
+            </div>
+            <div style="align-items: center;text-align: center;width: 230px;height: 150px;">
+                <img id="stepThree" src="images/step3.png" class="image" width="90px">
+                <p style="line-height: 1em">STEP 3.<br>Check your annual carbon footprint</p>
+            </div>
+        </div><br>
         <div>
             <p style="font-weight: 500;text-transform: uppercase;color:#3B3D4B;">STEP 2. Build your meal plan by clicking <button class="btn btn-success btn-xs add" disabled>
                     <span class="glyphicon glyphicon-plus"></span>
-                </button> button for each meal tab</p><br>
+                </button> button for each meal tab</p>
         </div>
         <h4 class="align-center">YOUR MEAL PLAN</h4>
             <ul class="nav nav-tabs" id="myTab">
