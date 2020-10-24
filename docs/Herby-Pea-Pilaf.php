@@ -878,7 +878,7 @@ foreach ($recipeQuery as $row) {
         <!-- new change ends- alignment and popup box-->
         <div class="7u align-left" style="margin-top: 10px;">
             <h3 id="recipe_name">Herby Pea Pilaf</h3>
-            <img class="tree_icons" src="images/tree_icon.png" height="30"/><img class="tree_icons" src="images/tree_icon.png" height="30"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
+            <img class="tree_icons" src="images/tree_icon.png" height="30"/><img class="tree_icons" src="images/half_tree_icon.png" height="30"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
             <hr class="minor" />
             <p class="recipe_heading">Serves&nbsp;&nbsp;</p><p id="serves"></p><br>
             <p class="recipe_heading">Prep Time&nbsp;&nbsp;</p><p id="prep_time"></p><br>
