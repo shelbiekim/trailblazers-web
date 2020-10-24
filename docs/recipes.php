@@ -80,6 +80,16 @@ foreach ($recommendQuery as $row) {
         }
 
         $(document).ready(function(){
+            // scroll to top
+            const toTop = document.querySelector(".to-top");
+            window.addEventListener("scroll",() => {
+                if(window.pageYOffset > 100) {
+                    toTop.classList.add("active");
+                } else {
+                    toTop.classList.remove("active");
+                }
+            })
+
             //filtering button for ALL, BREAFKAST, LUNCH, DINNER
             $('.recipe_type').click(function(){
                 const value = $(this).attr('data-filter');
@@ -547,6 +557,10 @@ foreach ($recommendQuery as $row) {
         <a href="index.html">Home</a>&nbsp; >&nbsp;
         <span>Recipes</span>
     </div>
+    <!--scroll to top-->
+    <a href="#" class="to-top">
+        <button id="to-top" class="btn"><span class="glyphicon glyphicon-chevron-up"></span></button>
+    </a>
     <!-- Banner -->
     <div class="container">
         <div id="hamburgerBox"></div>
