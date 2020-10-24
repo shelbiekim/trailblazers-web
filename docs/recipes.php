@@ -1052,11 +1052,74 @@ foreach ($recommendQuery as $row) {
             </div>
         </a>
         <a href="Spinach-And-Red-Pepper-Thai-Curry.php">
-            <div class="recipe_gallery lunch dinner" data-worth="1.5">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
                 <li class="recipe_li">
                     <img id="spinach" src="images/recipe/Spinach And Red Pepper Thai Curry.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Spinach-And-Red-Pepper-Thai-Curry.php" class="recipe_a">Spinach And Red Pepper Thai Curry</a>
+                </li>
+            </div>
+        </a>
+        <a href="Balsamic-Roasted-Fennel-With-A-Bulgur-And-Herb-Salad.php">
+            <div class="recipe_gallery lunch dinner" data-worth="3">
+                <li class="recipe_li">
+                    <img id="balsamic" src="images/recipe/Balsamic Roasted Fennel With A Bulgur And Herb Salad.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Balsamic-Roasted-Fennel-With-A-Bulgur-And-Herb-Salad.php" class="recipe_a">Balsamic Roasted Fennel With A Bulgur And Herb Salad</a>
+                </li>
+            </div>
+        </a>
+        <a href="Heritage-Tomato-And-Couscous-Salad-With-Toasted-Thyme-Breadcrumbs.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="heritage" src="images/recipe/Heritage Tomato And Couscous Salad With Toasted Thyme Breadcrumbs.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Heritage-Tomato-And-Couscous-Salad-With-Toasted-Thyme-Breadcrumbs.php" class="recipe_a">Heritage Tomato And Couscous Salad With Toasted Thyme Breadcrumbs</a>
+                </li>
+            </div>
+        </a>
+        <a href="Cashew-And-Wild-Garlic-Alfredo-With-Rigatoni.php">
+            <div class="recipe_gallery breakfast lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="cashew" src="images/recipe/Cashew And Wild Garlic Alfredo With Rigatoni.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Cashew-And-Wild-Garlic-Alfredo-With-Rigatoni.php" class="recipe_a">Cashew And Wild Garlic Alfredo With Rigatoni</a>
+                </li>
+            </div>
+        </a>
+        <a href="Kale-And-Fresh-Mint-Soup.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="kale" src="images/recipe/Kale And Fresh Mint Soup.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Kale-And-Fresh-Mint-Soup.php" class="recipe_a">Kale And Fresh Mint Soup</a>
+                </li>
+            </div>
+        </a>
+        <a href="Spiced-Turnip-And-Chickpea-Couscous.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1">
+                <li class="recipe_li">
+                    <img id="spiced" src="images/recipe/Spiced Turnip And Chickpea Couscous.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Spiced-Turnip-And-Chickpea-Couscous.php" class="recipe_a">Spiced Turnip And Chickpea Couscous</a>
+                </li>
+            </div>
+        </a>
+        <a href="Gigli-With-Salted-Purple-Sprouting-Broccoli.php">
+            <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="gigli" src="images/recipe/Gigli With Salted Purple Sprouting Broccoli.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Gigli-With-Salted-Purple-Sprouting-Broccoli.php" class="recipe_a">Gigli With Salted Purple Sprouting Broccoli</a>
+                </li>
+            </div>
+        </a>
+        <a href="Homemade-Gnocchi.php">
+            <div class="recipe_gallery breakfast" data-worth="0.5">
+                <li class="recipe_li">
+                    <img id="homemade" src="images/recipe/Homemade Gnocchi.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/half_tree_icon.png" height="20"/><br>
+                    <a href="Homemade-Gnocchi.php" class="recipe_a">Homemade Gnocchi</a>
                 </li>
             </div>
         </a>
