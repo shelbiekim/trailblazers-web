@@ -143,7 +143,6 @@ foreach ($recipeQuery as $row) {
                     recipeProtein = parseFloat(localStorage.getItem('recipeProtein'));
                     bmr = localStorage.getItem('bmr');
                     nutriArray = JSON.parse(localStorage.getItem('nutriArray'));
-                    //console.log(nutriArray)
                     recipeDict = JSON.parse(localStorage.getItem('recipeDict'));
                     $('#recipe_list').append(localStorage.getItem('recipeList'));
                 }
@@ -199,7 +198,6 @@ foreach ($recipeQuery as $row) {
             const hamburgerBtn = document.getElementById('hamburgerBtn');
             const navBar = document.getElementById('navBar');
             hamburgerBtn.addEventListener('click', () => {
-                //console.log("Button clicked");
                 navBar.classList.toggle('open');
             });
 
@@ -252,22 +250,41 @@ foreach ($recipeQuery as $row) {
                 });
             });
 
+            // new change starts - save profile popup box
+            // save profile popup remove
+            $(function(){
+                $("#save_profile_ok").click(function(){
+                    $("#save_profile_popup").css({
+                        "display": "none", "pointer-events":"none"
+                    });
+                });
+            });
+
+            // recipe exists popup remove
+            $(function(){
+                $("#recipe_exists_ok").click(function(){
+                    $("#recipe_exists_popup").css({
+                        "display": "none", "pointer-events":"none"
+                    });
+                });
+            });
+
             // Add to List button
             $('#add_button').click(function(){
                 if(document.getElementById("bmr_calculator_form").style.display === "block"){
-                    var text = "Please save your profile in STEP 1 first";
-                    alert(text);
+                    $("#save_profile_popup").css({
+                        "display": "block", "pointer-events":"auto"
+                    });
                 } else {
                     var recipeName = document.getElementById('recipe_name').innerHTML;
                     var fileName = location.href.split("/").slice(-1);
                     //if already exists
                     if (fileName in recipeDict) {
-                        alert("Recipe already exists in your list");
+                        $("#recipe_exists_popup").css({
+                            "display": "block", "pointer-events":"auto"
+                        }); // new change ends - save profile popup box
                     } else {
                         var recipeNutrient = getRecipeNutrient(); // calories, carbs, fat, protein
-                        //console.log(recipeNutrient);
-
-                        /* NEW START */
                         recipeEnergy = Number(parseFloat(recipeEnergy) + parseFloat(recipeNutrient[0])).toFixed(2);
                         recipeCarbs = Number(parseFloat(recipeCarbs) + parseFloat(recipeNutrient[1])).toFixed(2);
                         recipeFat = Number(parseFloat(recipeFat) + parseFloat(recipeNutrient[2])).toFixed(2);
@@ -293,10 +310,6 @@ foreach ($recipeQuery as $row) {
                         var user_protein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g); // extract float from string
                         var protein_percent = Number(recipeNutrient[3] / (user_protein) * 100).toFixed(0);
                         pb4.setValue(protein_percent);
-                        //console.log(document.getElementById('recipe_name').innerHTML)
-                        /* NEW END */
-
-                        //console.log(fileName);
                         var recipeServe = document.getElementById('serve_number').value;
                         var newItem ='<div class="recipeDiv" data-id='+fileName+' style="display: inline-block">' + '<a style="color: black;font-weight:300; !important;" href='+fileName+'><p class="recipe_div">' +recipeName+ '</p>' + '<span style="overflow: visible;margin-right: 3px;vertical-align: middle;" class="glyphicon glyphicon-list my-tooltip" title='+recipeServe+'&nbsp;Serve></span></a>'+
                             '<button id="remove_button" style="display: inline-block;vertical-align: middle;" class="btn btn-danger btn-xs delete" style="position: absolute;"><span class="glyphicon glyphicon-remove"></button>' + '</div>';
@@ -317,56 +330,51 @@ foreach ($recipeQuery as $row) {
                     }
                 }
             })
-
+            // delete from recipe list on the sidebar
             $("#recipe_list").on("click", '.delete', function() {
-                var confirmation = confirm('Are you sure you want to delete this meal?');
-                if (confirmation) {
-                    var temp = $(this).closest("div[data-id]").attr('data-id');
-                    console.log(temp);
-                    var requiredCarb = localStorage.getItem('barCarbBmr').match(/[0-9.]+/g);
-                    var requiredFat = localStorage.getItem('barFatBmr').match(/[0-9.]+/g);
-                    var requiredProtein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g);
-                    var tempP1 = Number(recipeDict[temp][0]/bmr*100).toFixed(0); //energy %
-                    var tempP2 = Number(recipeDict[temp][1]/requiredCarb*100).toFixed(0); //carbs %
-                    var tempP3 = Number(recipeDict[temp][2]/requiredFat*100).toFixed(0); //fat %
-                    var tempP4 = Number(recipeDict[temp][3]/requiredProtein*100).toFixed(0); //protein %
-                    console.log(tempP1);
-                    var itemCal = recipeDict[temp][0];
-                    var itemCarb = recipeDict[temp][1];
-                    var itemFat= recipeDict[temp][2];
-                    var itemProtein= recipeDict[temp][3];
+                var temp = $(this).closest("div[data-id]").attr('data-id');
+                var requiredCarb = localStorage.getItem('barCarbBmr').match(/[0-9.]+/g);
+                var requiredFat = localStorage.getItem('barFatBmr').match(/[0-9.]+/g);
+                var requiredProtein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g);
+                var tempP1 = Number(recipeDict[temp][0]/bmr*100).toFixed(0); //energy %
+                var tempP2 = Number(recipeDict[temp][1]/requiredCarb*100).toFixed(0); //carbs %
+                var tempP3 = Number(recipeDict[temp][2]/requiredFat*100).toFixed(0); //fat %
+                var tempP4 = Number(recipeDict[temp][3]/requiredProtein*100).toFixed(0); //protein %
+                var itemCal = recipeDict[temp][0];
+                var itemCarb = recipeDict[temp][1];
+                var itemFat= recipeDict[temp][2];
+                var itemProtein= recipeDict[temp][3];
 
-                    pbEnergy -= parseFloat(tempP1);
-                    pb1.setValue(tempP1);
-                    pbCarbs -= parseFloat(tempP2);
-                    pb2.setValue(tempP2);
-                    pbFat -= parseFloat(tempP3);
-                    pb3.setValue(tempP3);
-                    pbProtein -= parseFloat(tempP4);
-                    pb4.setValue(tempP4);
+                pbEnergy = pbEnergy - parseFloat(tempP1); // 35 - 34
+                pb1.setValue(tempP1);
+                pbCarbs -= parseFloat(tempP2);
+                pb2.setValue(tempP2);
+                pbFat -= parseFloat(tempP3);
+                pb3.setValue(tempP3);
+                pbProtein -= parseFloat(tempP4);
+                pb4.setValue(tempP4);
 
-                    recipeEnergy -= itemCal
-                    recipeEnergy = Number(recipeEnergy).toFixed(2);
-                    recipeCarbs -= itemCarb;
-                    recipeCarbs = Number(recipeCarbs).toFixed(2);
-                    recipeFat -= itemFat;
-                    recipeFat = Number(recipeFat).toFixed(2);
-                    recipeProtein -= itemProtein;
-                    recipeProtein = Number(recipeProtein).toFixed(2);
+                recipeEnergy -= itemCal
+                recipeEnergy = Number(recipeEnergy).toFixed(2);
+                recipeCarbs -= itemCarb;
+                recipeCarbs = Number(recipeCarbs).toFixed(2);
+                recipeFat -= itemFat;
+                recipeFat = Number(recipeFat).toFixed(2);
+                recipeProtein -= itemProtein;
+                recipeProtein = Number(recipeProtein).toFixed(2);
 
-                    $('#bar_calories').html(recipeEnergy + "&nbsp;kcal");
-                    $('#bar_carb').html(recipeCarbs + "&nbsp;g");
-                    $('#bar_fat').html(recipeFat + "&nbsp;g");
-                    $('#bar_protein').html(recipeProtein + "&nbsp;g");
+                $('#bar_calories').html(recipeEnergy + "&nbsp;kcal");
+                $('#bar_carb').html(recipeCarbs + "&nbsp;g");
+                $('#bar_fat').html(recipeFat + "&nbsp;g");
+                $('#bar_protein').html(recipeProtein + "&nbsp;g");
 
-                    delete recipeDict[temp];
-                    console.log(recipeDict)
+                delete recipeDict[temp];
 
-                    $(this).closest('.recipeDiv').remove();
-                    var updateValue = document.getElementById('recipe_list').innerHTML;
-                    localStorage.setItem("recipeList",updateValue); //update the recipe list div
-                    save();
-                }
+                $(this).closest('.recipeDiv').remove();
+                var updateValue = document.getElementById('recipe_list').innerHTML;
+                localStorage.setItem("recipeList",updateValue); //update the recipe list div
+                save();
+
             });
         });
     </script>
@@ -684,9 +692,14 @@ foreach ($recipeQuery as $row) {
             }
             // get rid of the brackets []
             instructions = instructions.replace(/[\[\]']+/g,'');
+            // split string with semicolon
             array = instructions.split(";");
-            // Split string with commas to new line
-            //instructions = instructions.split(",");
+            // remove comma in front of the line
+            for(var i=0; i<array.length;i++){
+                if(array[i][0] === ",") {
+                    array[i] = array[i].substring(1);
+                }
+            }
 
             for(var i=0; i<array.length;i++){
                 pre= i + 1 + ".";
@@ -826,31 +839,45 @@ foreach ($recipeQuery as $row) {
                 <div class="progress-bar-value"></div>
                 <div class="progress-bar-fill"></div>
             </div>
-            <br>
+            <hr style="margin-top: 1em;" class="minor" />
+            <p style="display: inline-block;font-weight: 500; margin-bottom:3px;color: #000000;">YOUR LIST</p>
             <div id="recipe_list">
             </div>
         </div>
     </nav>
 </div>
 
-<div class="container align-center recipe-container" style="margin-top: 30px;">
+<div class="container recipe-container">
     <div class="row">
         <div class="5u" style="margin-top: 10px;">
             <img id="vegan_banana" src="images/recipe/Vegan Banana Pancakes With A Smashed Blueberry Sauce.jpg" class="image recipe_img_main">
-            <div class="align-left" style="margin-top: 5px;">
-                <button id="add_button" style="text-decoration: none;vertical-align: top;" class="btn btn-primary btn-sm">
-                    <span class="	glyphicon glyphicon-list"></span> Add to List
-                </button>
+            <!-- copy from here -->
+            <div style="margin-top: 5px; float: left;">
                 <input style="width: 40px; height: 30px;vertical-align: top;" class="selectpicker" type="number" value="1" min="1" step="1" id="serve_number"
                        onkeypress="return (event.charCode == 8 || event.charCode == 0) ? null : event.charCode >= 48 && event.charCode <= 57" required>
                 <p style="display: inline-block;font-size: 10pt;text-transform: none;">Serve</p>
+                <button id="add_button" style="text-decoration: none;vertical-align: top;" class="btn btn-primary btn-sm">
+                    <span class="	glyphicon glyphicon-list"></span> Add to List
+                </button>&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip'
+                                     title="YOUR LIST is available on the left sidebar"></span>
             </div>
-            <div class="align-left" style="margin-top: 5px;">
-                <button id="print_button" style="text-decoration: none" class="btn btn-warning btn-sm">
+            <div style="margin-top: 5px; float:right;">
+                <button id="print_button" style="text-decoration: none;" class="btn btn-warning btn-sm">
                     <span class="glyphicon glyphicon-print"></span> Print
                 </button>
+            </div><br>
+            <div class="popup_box" id="save_profile_popup">
+                <i class='glyphicon glyphicon-exclamation-sign'></i>
+                <h4>Please save your profile first</h4><br>
+                <button class="button small" id="save_profile_ok" class="popup_ok">OK</button>
             </div>
-        </div>
+            <div class="popup_box" id="recipe_exists_popup">
+                <i class='glyphicon glyphicon-exclamation-sign'></i>
+                <h4>Recipe already exists in YOUR LIST<br>on the left sidebar.</h4>
+                <button class="button small" id="recipe_exists_ok" class="popup_ok">OK</button>
+            </div>
+        </div><!-- copy until here -->
+        <!-- new change ends- alignment and popup box-->
         <div class="7u align-left" style="margin-top: 10px;">
             <h3 id="recipe_name">Vegan Banana Pancakes With A Smashed Blueberry Sauce</h3>
             <img class="tree_icons" src="images/tree_icon.png" height="30"/>&nbsp;&nbsp;<span class='glyphicon glyphicon-info-sign my-tooltip' title="required to offset footprint per one serve"></span>
