@@ -65,10 +65,13 @@ foreach ($recommendQuery as $row) {
             ul = document.getElementById('recipe_wrapper');
             li = ul.getElementsByTagName('li');
 
+            var hasRecipe = false;
+
             for(i=0; i<li.length;i++){
                 a= li[i].getElementsByTagName('a')[0];
                 if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     li[i].style.display="";
+                    hasRecipe = true;
                 }
                 else{
                     li[i].style.display='none';
@@ -187,7 +190,6 @@ foreach ($recommendQuery as $row) {
                     recipeProtein = parseFloat(localStorage.getItem('recipeProtein'));
                     bmr = localStorage.getItem('bmr');
                     nutriArray = JSON.parse(localStorage.getItem('nutriArray'));
-                    //console.log(nutriArray)
                     recipeDict = JSON.parse(localStorage.getItem('recipeDict'));
                     $('#recipe_list').append(localStorage.getItem('recipeList'));
                 }
@@ -281,54 +283,48 @@ foreach ($recommendQuery as $row) {
             });
 
             $("#recipe_list").on("click", '.delete', function() {
-                var confirmation = confirm('Are you sure you want to delete this meal?');
-                if (confirmation) {
-                    var temp = $(this).closest("div[data-id]").attr('data-id');
-                    console.log(temp);
-                    var requiredCarb = localStorage.getItem('barCarbBmr').match(/[0-9.]+/g);
-                    var requiredFat = localStorage.getItem('barFatBmr').match(/[0-9.]+/g);
-                    var requiredProtein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g);
-                    var tempP1 = Number(recipeDict[temp][0]/bmr*100).toFixed(0); //energy %
-                    var tempP2 = Number(recipeDict[temp][1]/requiredCarb*100).toFixed(0); //carbs %
-                    var tempP3 = Number(recipeDict[temp][2]/requiredFat*100).toFixed(0); //fat %
-                    var tempP4 = Number(recipeDict[temp][3]/requiredProtein*100).toFixed(0); //protein %
-                    console.log(tempP1);
-                    var itemCal = recipeDict[temp][0];
-                    var itemCarb = recipeDict[temp][1];
-                    var itemFat= recipeDict[temp][2];
-                    var itemProtein= recipeDict[temp][3];
+                var temp = $(this).closest("div[data-id]").attr('data-id');
+                var requiredCarb = localStorage.getItem('barCarbBmr').match(/[0-9.]+/g);
+                var requiredFat = localStorage.getItem('barFatBmr').match(/[0-9.]+/g);
+                var requiredProtein = localStorage.getItem('barProteinBmr').match(/[0-9.]+/g);
+                var tempP1 = Number(recipeDict[temp][0]/bmr*100).toFixed(0); //energy %
+                var tempP2 = Number(recipeDict[temp][1]/requiredCarb*100).toFixed(0); //carbs %
+                var tempP3 = Number(recipeDict[temp][2]/requiredFat*100).toFixed(0); //fat %
+                var tempP4 = Number(recipeDict[temp][3]/requiredProtein*100).toFixed(0); //protein %
+                var itemCal = recipeDict[temp][0];
+                var itemCarb = recipeDict[temp][1];
+                var itemFat= recipeDict[temp][2];
+                var itemProtein= recipeDict[temp][3];
 
-                    pbEnergy -= parseFloat(tempP1);
-                    pb1.setValue(tempP1);
-                    pbCarbs -= parseFloat(tempP2);
-                    pb2.setValue(tempP2);
-                    pbFat -= parseFloat(tempP3);
-                    pb3.setValue(tempP3);
-                    pbProtein -= parseFloat(tempP4);
-                    pb4.setValue(tempP4);
+                pbEnergy -= parseFloat(tempP1);
+                pb1.setValue(tempP1);
+                pbCarbs -= parseFloat(tempP2);
+                pb2.setValue(tempP2);
+                pbFat -= parseFloat(tempP3);
+                pb3.setValue(tempP3);
+                pbProtein -= parseFloat(tempP4);
+                pb4.setValue(tempP4);
 
-                    recipeEnergy -= itemCal
-                    recipeEnergy = Number(recipeEnergy).toFixed(2);
-                    recipeCarbs -= itemCarb;
-                    recipeCarbs = Number(recipeCarbs).toFixed(2);
-                    recipeFat -= itemFat;
-                    recipeFat = Number(recipeFat).toFixed(2);
-                    recipeProtein -= itemProtein;
-                    recipeProtein = Number(recipeProtein).toFixed(2);
+                recipeEnergy -= itemCal
+                recipeEnergy = Number(recipeEnergy).toFixed(2);
+                recipeCarbs -= itemCarb;
+                recipeCarbs = Number(recipeCarbs).toFixed(2);
+                recipeFat -= itemFat;
+                recipeFat = Number(recipeFat).toFixed(2);
+                recipeProtein -= itemProtein;
+                recipeProtein = Number(recipeProtein).toFixed(2);
 
-                    $('#bar_calories').html(recipeEnergy + "&nbsp;kcal");
-                    $('#bar_carb').html(recipeCarbs + "&nbsp;g");
-                    $('#bar_fat').html(recipeFat + "&nbsp;g");
-                    $('#bar_protein').html(recipeProtein + "&nbsp;g");
+                $('#bar_calories').html(recipeEnergy + "&nbsp;kcal");
+                $('#bar_carb').html(recipeCarbs + "&nbsp;g");
+                $('#bar_fat').html(recipeFat + "&nbsp;g");
+                $('#bar_protein').html(recipeProtein + "&nbsp;g");
 
-                    delete recipeDict[temp];
-                    console.log(recipeDict)
+                delete recipeDict[temp];
 
-                    $(this).closest('.recipeDiv').remove();
-                    var updateValue = document.getElementById('recipe_list').innerHTML;
-                    localStorage.setItem("recipeList",updateValue); //update the recipe list div
-                    save();
-                }
+                $(this).closest('.recipeDiv').remove();
+                var updateValue = document.getElementById('recipe_list').innerHTML;
+                localStorage.setItem("recipeList",updateValue); //update the recipe list div
+                save();
             });
 
         });
@@ -363,7 +359,6 @@ foreach ($recommendQuery as $row) {
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) + 5;
                 bmr = bmr * activity;
                 bmr = Number(bmr).toFixed(2);
-                console.log(bmr);
             } else if (document.getElementById('female').checked) {
                 gender = "Female";
                 bmr = (10 * weight) + (6.25 * height) - (5 * age) - 161;
@@ -390,7 +385,6 @@ foreach ($recommendQuery as $row) {
                     return x.gender == "male";
                 });
                 userAge = document.getElementById('age').value;
-                //console.log(userAge);
                 maleArray = checkAge(userAge,tempArray);
                 nutriArray = checkNutrient(maleArray, bmr);
             } else if (document.getElementById('female').checked) {
@@ -448,7 +442,6 @@ foreach ($recommendQuery as $row) {
                     return x.age_range == ">71";
                 });
             }
-            //console.log(genderArray);
             return genderArray;
         }
 
@@ -656,7 +649,8 @@ foreach ($recommendQuery as $row) {
                     <div class="progress-bar-value"></div>
                     <div class="progress-bar-fill"></div>
                 </div>
-                <br>
+                <hr style="margin-top: 1em;" class="minor" />
+                <p style="display: inline-block;font-weight: 500; margin-bottom:3px;color: #000000;">YOUR LIST</p>
                 <div id="recipe_list">
                 </div>
             </div>
@@ -674,7 +668,7 @@ foreach ($recommendQuery as $row) {
         <li class="recipe_type" data-filter="lunch">LUNCH</li>
         <li class="recipe_type" data-filter="dinner">DINNER</li>
     </ul>
-    <button class="button small" id="sort-tree">Sort by Tree</button>
+    <button class="button small" style="background: #FFAF11;color: #000000;" id="sort-tree">Sort by Carbon Footprint <img src="images/tree_icon.png" height="20"/></button>
 </div>
 
 <div class="container align-center">
@@ -692,8 +686,7 @@ foreach ($recommendQuery as $row) {
             <div class="recipe_gallery lunch" data-worth="1.5">
                 <li class="recipe_li">
                     <img id="the_crispiest" src="images/recipe/The Crispiest Vegan Fish And Chips.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/>
-                    <img src="images/half_tree_icon.png" height="20"/><br>
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="The-Crispiest-Vegan-Fish-And-Chips.php" class="recipe_a">The Crispiest Vegan Fish And Chips</a>
                 </li>
             </div>
