@@ -1727,12 +1727,20 @@
 			flex-basis: 100%;
 			justify-content: center;
 		}
+
+		.not-found {
+			margin-bottom: 30px;
+		}
 	}
 
 	@media only screen and (max-width: 1200px) and (min-width: 768px){
 		.recipe_gallery {
 			flex-basis: 50%;
 			justify-content: center;
+		}
+
+		.not-found {
+			margin-bottom: 50px;
 		}
 	}
 
@@ -1843,6 +1851,11 @@
 		bottom: 32px;
 		pointer-events: auto;
 		opacity: 1;
+	}
+
+	.not-found {
+		margin-top: 50px;
+		margin-bottom: 170px;
 	}
 
 
