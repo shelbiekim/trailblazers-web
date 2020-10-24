@@ -59,23 +59,28 @@ foreach ($recommendQuery as $row) {
     <script type="text/javascript">
         // searchFucntion() is called when type in Search box
         function searchFunction() {
-            var input, filter, ul, li, a, i;
+            var match, input, filter, ul, li, a, i;
+            match = false;
             input = document.getElementById('myinput');
             filter = input.value.toUpperCase();
             ul = document.getElementById('recipe_wrapper');
             li = ul.getElementsByTagName('li');
 
-            var hasRecipe = false;
-
             for(i=0; i<li.length;i++){
                 a= li[i].getElementsByTagName('a')[0];
                 if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
+                    match = true;
                     li[i].style.display="";
-                    hasRecipe = true;
                 }
                 else{
                     li[i].style.display='none';
                 }
+            }
+            // show Recipe not available conditionally
+            if (match === false) {
+                document.querySelector('.not-found').style.display='block';
+            } else {
+                document.querySelector('.not-found').style.display='none';
             }
         }
 
@@ -683,6 +688,7 @@ foreach ($recommendQuery as $row) {
         <li class="recipe_type" data-filter="dinner">DINNER</li>
     </ul>
     <button class="button small" style="background: #FFAF11;color: #000000;" id="sort-tree">Sort by Carbon Footprint <img src="images/tree_icon.png" height="20"/></button>
+    <div class="not-found" style="display: none;">Recipe not available</div>
 </div>
 
 <div class="container align-center">
