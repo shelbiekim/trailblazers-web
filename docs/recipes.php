@@ -728,10 +728,10 @@ foreach ($recommendQuery as $row) {
             </div>
         </a>
         <a href="Herby-Pea-Pilaf.php">
-            <div class="recipe_gallery lunch dinner" data-worth="2">
+            <div class="recipe_gallery lunch dinner" data-worth="1.5">
                 <li class="recipe_li">
                     <img id="herby_pea" src="images/recipe/Herby Pea Pilaf.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Herby-Pea-Pilaf.php" class="recipe_a">Herby Pea Pilaf</a>
                 </li>
             </div>
@@ -836,10 +836,10 @@ foreach ($recommendQuery as $row) {
             </div>
         </a>
         <a href="One-Pot-Pasta-With-A-Chickpea-And-Tomato-Sauce.php">
-            <div class="recipe_gallery breakfast lunch" data-worth="3.5">
+            <div class="recipe_gallery breakfast lunch" data-worth="3">
                 <li class="recipe_li">
                     <img id="one_pot" src="images/recipe/One Pot Pasta With A Chickpea And Tomato Sauce.jpg" class="image recipe_img">
-                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="One-Pot-Pasta-With-A-Chickpea-And-Tomato-Sauce.php" class="recipe_a">One Pot Pasta With A Chickpea And Tomato Sauce</a>
                 </li>
             </div>
@@ -967,6 +967,96 @@ foreach ($recommendQuery as $row) {
                     <img id="summer" src="images/recipe/Summer Minestrone.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Summer-Minestrone.php" class="recipe_a">Summer Minestrone</a>
+                </li>
+            </div>
+        </a>
+        <a href="Roasted-Red-Pepper-And-Tomato-Bread-Soup.php">
+            <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="roasted_red" src="images/recipe/Roasted Red Pepper And Tomato Bread Soup.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Roasted-Red-Pepper-And-Tomato-Bread-Soup.php" class="recipe_a">Roasted Red Pepper And Tomato Bread Soup</a>
+                </li>
+            </div>
+        </a>
+        <a href="Buckwheat-And-Peach-Salad-With-French-Beans-And-Balsamic-Glaze.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="buckwheat" src="images/recipe/Buckwheat And Peach Salad With French Beans And Balsamic Glaze.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Buckwheat-And-Peach-Salad-With-French-Beans-And-Balsamic-Glaze.php" class="recipe_a">Buckwheat And Peach Salad With French Beans And Balsamic Glaze</a>
+                </li>
+            </div>
+        </a>
+        <a href="Braised-Courgettes-With-Haricot-Beans-And-Pistou.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="braised" src="images/recipe/Braised Courgettes With Haricot Beans And Pistou.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Braised-Courgettes-With-Haricot-Beans-And-Pistou.php" class="recipe_a">Braised Courgettes With Haricot Beans And Pistou</a>
+                </li>
+            </div>
+        </a>
+        <a href="Tomato-Galette-With-Garlic-Whipped-Tahini-And-Fried-Olives.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="tomato" src="images/recipe/Tomato Galette With Garlic Whipped Tahini And Fried Olives.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Tomato-Galette-With-Garlic-Whipped-Tahini-And-Fried-Olives.php" class="recipe_a">Tomato Galette With Garlic Whipped Tahini And Fried Olives</a>
+                </li>
+            </div>
+        </a>
+        <a href="Fresh-Tomato-And-White-Bean-Summer-Stew-With-Fried-Aubergine.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="fresh_tomato" src="images/recipe/Fresh Tomato And White Bean Summer Stew With Fried Aubergine.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Fresh-Tomato-And-White-Bean-Summer-Stew-With-Fried-Aubergine.php" class="recipe_a">Fresh Tomato And White Bean Summer Stew With Fried Aubergine</a>
+                </li>
+            </div>
+        </a>
+        <a href="Chillied-Rice-With-Zaatar-Roast-Chickpeas-And-Flat-Beans.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2.5">
+                <li class="recipe_li">
+                    <img id="chillied" src="images/recipe/Chillied Rice With Zaatar Roast Chickpeas And Flat Beans.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
+                    <a href="Chillied-Rice-With-Zaatar-Roast-Chickpeas-And-Flat-Beans.php" class="recipe_a">Chillied Rice With Zaatar Roast Chickpeas And Flat Beans</a>
+                </li>
+            </div>
+        </a>
+        <a href="Sticky-Chinese-Five-Spice-Vegetable-Stir-Fry.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="sticky" src="images/recipe/Sticky Chinese Five Spice Vegetable Stir Fry.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Sticky-Chinese-Five-Spice-Vegetable-Stir-Fry.php" class="recipe_a">Sticky Chinese Five Spice Vegetable Stir Fry</a>
+                </li>
+            </div>
+        </a>
+        <a href="Spelt-And-Courgette-Summer-Soup.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="spelt" src="images/recipe/Spelt And Courgette Summer Soup.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Spelt-And-Courgette-Summer-Soup.php" class="recipe_a">Spelt And Courgette Summer Soup</a>
+                </li>
+            </div>
+        </a>
+        <a href="Moroccan-Spiced-Tomato-Lentils-With-Grilled-Courgettes.php">
+            <div class="recipe_gallery lunch dinner" data-worth="2">
+                <li class="recipe_li">
+                    <img id="moroccan" src="images/recipe/Moroccan Spiced Tomato Lentils With Grilled Courgettes.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Moroccan-Spiced-Tomato-Lentils-With-Grilled-Courgettes.php" class="recipe_a">Moroccan Spiced Tomato Lentils With Grilled Courgettes</a>
+                </li>
+            </div>
+        </a>
+        <a href="Spinach-And-Red-Pepper-Thai-Curry.php">
+            <div class="recipe_gallery lunch dinner" data-worth="1.5">
+                <li class="recipe_li">
+                    <img id="spinach" src="images/recipe/Spinach And Red Pepper Thai Curry.jpg" class="image recipe_img">
+                    <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
+                    <a href="Spinach-And-Red-Pepper-Thai-Curry.php" class="recipe_a">Spinach And Red Pepper Thai Curry</a>
                 </li>
             </div>
         </a>
