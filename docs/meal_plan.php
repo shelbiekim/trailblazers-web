@@ -209,6 +209,15 @@ function fill_select_box(){
                 style: 'btn-default',
                 size: false,
             });
+
+            //print function
+            $(function(){
+                $("#print_button").click(function(){
+
+                    window.print();
+                });
+            });
+
             // hamburger button for the sidebar
             $('[data-toggle="tooltip"]').tooltip();
             const hamburgerBtn = document.getElementById('hamburgerBtn');
@@ -1048,6 +1057,11 @@ function fill_select_box(){
                 </button> button for each meal tab</p>
         </div>
         <h4 class="align-center">YOUR MEAL PLAN</h4>
+            <div style="margin-bottom: 7px;float:right;">
+                <button id="print_button" style="text-decoration: none;" class="btn btn-warning btn-sm">
+                    <span class="glyphicon glyphicon-print"></span> Print
+                </button>
+            </div>
             <ul class="nav nav-tabs" id="myTab">
                 <li class="active"><a data-toggle="tab" href="#breakfast_tab" style="text-decoration:none;color: #3B3D4B;">&nbsp;BREAKFAST&nbsp;</a></li>
                 <li><a data-toggle="tab" href="#lunch_tab" style="text-decoration:none;color: #3B3D4B;">&nbsp;LUNCH&nbsp;</a></li>
