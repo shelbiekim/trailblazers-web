@@ -1129,6 +1129,11 @@ function fill_select_box(){
                             </table>
                         </div>
                 </div> <!--dinner-->
+                    <div class="disclaimer">
+                        <p style="display:inline-block;border-bottom: 2px solid #FFAF11;font-weight: 500;text-transform:uppercase;color: #3B3D4B;"><i class='glyphicon glyphicon-exclamation-sign'></i>
+                        &nbsp;Disclaimer: details of your meal plan are not stored due to privacy issues
+                        </p>
+                    </div>
                     <p style="font-weight: 500;text-transform:uppercase;color: #3B3D4B;">STEP 3. Click on the CALCULATE FOOTPRINT button to find out your carbon footprint</p>
                     <input type="submit" name="submit" class="button special"  id="calculate_button" value="CALCULATE FOOTPRINT" />
                     <!--popup boxes-->
@@ -1155,8 +1160,8 @@ function fill_select_box(){
             <div class="12u align-center">
                 <div class="result" id="total_result" style="display:none; padding-top: 60px;" >
                     <br>
-                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #FFAF11; color:#000000;"> &nbsp;YOUR FOOTPRINT IS&nbsp;</h3>
-                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #FFAF11; color:#000000;" id="carbon_footprint"></span></h3><br>
+                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #117791; color:#000000;"> &nbsp;YOUR FOOTPRINT IS&nbsp;</h3>
+                    <h3><span style="text-decoration: none; display: inline; border-bottom: 2px solid #117791; color:#000000;" id="carbon_footprint"></span></h3><br>
                     <div id="tree_image" class="tree_image" style="display:none; text-align: center;">
                         <img id="img_tree" style="display: none; text-align: center" src="images/trees.png" class="image" width="500">
                         <h3 style="display: inline-block">It takes&nbsp;</h3><h3 style="display: inline-block; font-weight:bold;" id="tree_num"></h3>

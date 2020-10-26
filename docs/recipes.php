@@ -57,10 +57,13 @@ foreach ($recommendQuery as $row) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <script type="text/javascript">
-        // searchFucntion() is called when type in Search box
+        var value = "all";
+        // searchFunction() is called when type in Search box
         function searchFunction() {
-            var match, input, filter, ul, li, a, i;
+            var match, categoryMatch,visible,input, filter, ul, li, a, i;
             match = false;
+            categoryMatch = true;
+            visible = 0;
             input = document.getElementById('myinput');
             filter = input.value.toUpperCase();
             ul = document.getElementById('recipe_wrapper');
@@ -71,16 +74,44 @@ foreach ($recommendQuery as $row) {
                 if(a.innerHTML.toUpperCase().indexOf(filter) > -1) {
                     match = true;
                     li[i].style.display="";
+                    visible++; // available when clicked on ALL
+                    if (li[i].hasAttribute("class")){
+                        if(!li[i].matches('.'+value)) { // not available for this specific category
+                            //console.log("contains "+value);
+                            categoryMatch = false;
+                        } else { categoryMatch = true;}
+                    }
                 }
                 else{
+                    match = false;
                     li[i].style.display='none';
+                    //categoryMatch = true;
+                    //categoryMatch = false;
                 }
             }
+
+            //var show = $('.recipe_gallery').not('.hidden').filter('.'+value).size();
+            //var hide = $('.recipe_gallery').find('.hidden').filter('.'+value).size();
+            //console.log("show :" +show+" hide :"+hide);
+            //console.log("visible:"+visible+ "li length:"+li.length)
+            //console.log("match : " + match + " categoryMatch: " + categoryMatch)
+
             // show Recipe not available conditionally
-            if (match === false) {
+            if (visible === 0){ // recipe does not exist in our list
                 document.querySelector('.not-found').style.display='block';
+                document.querySelector('.not-found-category').style.display='none';
+            } else if (value !== "all" && visible > 0 && match === false && categoryMatch === false) {
+                document.querySelector('.not-found').style.display='none';
+                document.querySelector('.not-found-category').style.display='block';
+            } else if (value !== "all" && match === false && categoryMatch === false) {
+                document.querySelector('.not-found').style.display='block';
+                document.querySelector('.not-found-category').style.display='none';
+            } else if (match === false && categoryMatch === true) {
+                document.querySelector('.not-found').style.display='none';
+                document.querySelector('.not-found-category').style.display='none';
             } else {
                 document.querySelector('.not-found').style.display='none';
+                document.querySelector('.not-found-category').style.display='none';
             }
         }
 
@@ -95,20 +126,23 @@ foreach ($recommendQuery as $row) {
                 }
             })
 
-            //filtering button for ALL, BREAFKAST, LUNCH, DINNER
+            //filtering button for ALL, BREAKFAST, LUNCH, DINNER
             $('.recipe_type').click(function(){
-                const value = $(this).attr('data-filter');
+                value = $(this).attr('data-filter');
                 if (value == 'all') {
                     $('.recipe_gallery').show('1000');
                 } else {
                     $('.recipe_gallery').not('.'+value).hide('1000');
                     $('.recipe_gallery').filter('.'+value).show('1000');
                 }
+                searchFunction();
             })
+
             //add active class on selected item
             $('.recipe_type').click(function(){
                 $(this).addClass('active').siblings().removeClass('active')
             })
+
             var isSorted = false;
             // sort by tree
             $('#sort-tree').click(function(){
@@ -689,13 +723,14 @@ foreach ($recommendQuery as $row) {
     </ul>
     <button class="button small" style="background: #FFAF11;color: #000000;" id="sort-tree">Sort by Carbon Footprint <img src="images/tree_icon.png" height="20"/></button>
     <div class="not-found" style="display: none;">Recipe not available</div>
+    <div class="not-found-category" style="display: none;">Recipe not available under the selected category</div>
 </div>
 
 <div class="container align-center">
     <ul id="recipe_wrapper" class="align-center recipe_wrapper" style="vertical-align: top;text-align: left">
         <a href="Vegan-Pistachio-And-Orange-Baklava.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="vegan_pistacio" src="images/recipe/Vegan Pistachio And Orange Baklava.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Vegan-Pistachio-And-Orange-Baklava.php" class="recipe_a">Vegan Pistachio And Orange Baklava</a>
@@ -704,7 +739,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="The-Crispiest-Vegan-Fish-And-Chips.php">
             <div class="recipe_gallery lunch" data-worth="1.5">
-                <li class="recipe_li">
+                <li class="recipe_li lunch">
                     <img id="the_crispiest" src="images/recipe/The Crispiest Vegan Fish And Chips.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="The-Crispiest-Vegan-Fish-And-Chips.php" class="recipe_a">The Crispiest Vegan Fish And Chips</a>
@@ -713,7 +748,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Broad-Bean-And-Basil-Risotto.php">
             <div class="recipe_gallery lunch dinner" data-worth="3">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="broad_bean" src="images/recipe/Broad Bean And Basil Risotto.jpg" class="image recipe_img" >
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Broad-Bean-And-Basil-Risotto.php" class="recipe_a">Broad Bean And Basil Risotto</a>
@@ -722,7 +757,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Spicy-Courgette-Fritters.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="0.5">
-                <li class="recipe_li" >
+                <li class="recipe_li breakfast lunch dinner" >
                     <img id="spicy_courgette" src="images/recipe/Spicy Courgette Fritters.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Spicy-Courgette-Fritters.php" class="recipe_a">Spicy Courgette Fritters</a>
@@ -731,7 +766,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Creamed-Aubergine-Wheat-With-Fried-Sugar-Snap-Peas.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="creamed_aubergine" src="images/recipe/Creamed Aubergine Wheat With Fried Sugar Snap Peas.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Creamed-Aubergine-Wheat-With-Fried-Sugar-Snap-Peas.php" class="recipe_a">Creamed Aubergine Wheat With Fried Sugar Snap Peas</a>
@@ -740,7 +775,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Roasted-Veg-And-Chickpeas-With-A-Parsley-Crumb.php">
             <div class="recipe_gallery dinner" data-worth="3">
-                <li class="recipe_li" >
+                <li class="recipe_li dinner" >
                     <img id="roasted_veg" src="images/recipe/Roasted Veg And Chickpeas With A Parsley Crumb.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Roasted-Veg-And-Chickpeas-With-A-Parsley-Crumb.php" class="recipe_a">Roasted Veg And Chickpeas With A Parsley Crumb</a>
@@ -749,7 +784,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Herby-Pea-Pilaf.php">
             <div class="recipe_gallery lunch dinner" data-worth="1.5">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="herby_pea" src="images/recipe/Herby Pea Pilaf.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Herby-Pea-Pilaf.php" class="recipe_a">Herby Pea Pilaf</a>
@@ -758,7 +793,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Onion-Bhajis-(Plain-Flour-Recipe).php">
             <div class="recipe_gallery breakfast" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="onion_bhajis" src="images/recipe/Onion Bhajis (Plain Flour Recipe).jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Onion-Bhajis-(Plain-Flour-Recipe).php" class="recipe_a">Onion Bhajis (Plain Flour Recipe)</a>
@@ -767,7 +802,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Spiced-Couscous-Salad-With-Crispy-Spring-Onions.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="spiced_couscous" src="images/recipe/Spiced Couscous Salad With Crispy Spring Onions.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Spiced-Couscous-Salad-With-Crispy-Spring-Onions.php" class="recipe_a">Spiced Couscous Salad With Crispy Spring Onions</a>
@@ -776,7 +811,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Smoked-Tofu-Kedgeree.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="1.5">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="smoked_tofu" src="images/recipe/Smoked Tofu Kedgeree.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Smoked-Tofu-Kedgeree.php" class="recipe_a">Smoked Tofu Kedgeree</a>
@@ -785,7 +820,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Quick-Mushroom-And-Lentil-Ragu.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="quick_mushroom" src="images/recipe/Quick Mushroom And Lentil Ragu.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Quick-Mushroom-And-Lentil-Ragu.php" class="recipe_a">Quick Mushroom And Lentil Ragu</a>
@@ -794,7 +829,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Caribbean-Spiced-Spinach-Dhal.php">
             <div class="recipe_gallery dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li dinner">
                     <img id="caribbean_spiced" src="images/recipe/Caribbean Spiced Spinach Dhal.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Caribbean-Spiced-Spinach-Dhal.php" class="recipe_a">Caribbean Spiced Spinach Dhal</a>
@@ -803,7 +838,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="The-Best-Vegan-Kentucky-Fried-Cauliflower.php">
             <div class="recipe_gallery breakfast lunch" data-worth="3">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch">
                     <img id="the_best_vegan" src="images/recipe/The Best Vegan Kentucky Fried Cauliflower.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="The-Best-Vegan-Kentucky-Fried-Cauliflower.php" class="recipe_a">The Best Vegan Kentucky Fried Cauliflower</a>
@@ -812,7 +847,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Apple-And-Rhubarb-Turnovers.php">
             <div class="recipe_gallery breakfast" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="apple_and" src="images/recipe/Apple And Rhubarb Turnovers.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Apple-And-Rhubarb-Turnovers.php" class="recipe_a">Apple And Rhubarb Turnovers</a>
@@ -821,7 +856,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Mustardy-Potato-Salad-With-Rocket-And-Radish.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="mustardy_potato" src="images/recipe/Mustardy Potato Salad With Rocket And Radish.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Mustardy-Potato-Salad-With-Rocket-And-Radish.php" class="recipe_a">Mustardy Potato Salad With Rocket And Radish</a>
@@ -830,7 +865,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="The-Best-Red-Cabbage-Ragu.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="the_best_red" src="images/recipe/The Best Red Cabbage Ragu.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="The-Best-Red-Cabbage-Ragu.php" class="recipe_a">The Best Red Cabbage Ragu</a>
@@ -839,7 +874,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Scrambled-Tofu-And-Tempeh-Bacon-Breakfast-Muffin.php">
             <div class="recipe_gallery breakfast" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="scrambled_tofu" src="images/recipe/Scrambled Tofu And Tempeh Bacon Breakfast Muffin.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Scrambled-Tofu-And-Tempeh-Bacon-Breakfast-Muffin.php" class="recipe_a">Scrambled Tofu And Tempeh Bacon Breakfast Muffin</a>
@@ -848,7 +883,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="20-Minute-Vegan-Banana-Cake.php">
             <div class="recipe_gallery breakfast" data-worth="1.5">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="20_minute" src="images/recipe/20 Minute Vegan Banana Cake.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="20-Minute-Vegan-Banana-Cake.php" class="recipe_a">20 Minute Vegan Banana Cake</a>
@@ -857,7 +892,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="One-Pot-Pasta-With-A-Chickpea-And-Tomato-Sauce.php">
             <div class="recipe_gallery breakfast lunch" data-worth="3">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch">
                     <img id="one_pot" src="images/recipe/One Pot Pasta With A Chickpea And Tomato Sauce.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="One-Pot-Pasta-With-A-Chickpea-And-Tomato-Sauce.php" class="recipe_a">One Pot Pasta With A Chickpea And Tomato Sauce</a>
@@ -866,7 +901,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Quick-Mediterranean-Spiced-Rice.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="1.5">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="quick_mediterranean" src="images/recipe/Quick Mediterranean Spiced Rice.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Quick-Mediterranean-Spiced-Rice.php" class="recipe_a">Quick Mediterranean Spiced Rice</a>
@@ -875,7 +910,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Simple-Vegan-Pesto.php">
             <div class="recipe_gallery breakfast" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="simple_vegan" src="images/recipe/Simple Vegan Pesto.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Simple-Vegan-Pesto.php" class="recipe_a">Simple Vegan Pesto</a>
@@ -884,7 +919,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Blood-Orange-And-Hemp-Seed-Quinoa-Tabbouleh.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="blood_orange" src="images/recipe/Blood Orange And Hemp Seed Quinoa Tabbouleh.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Blood-Orange-And-Hemp-Seed-Quinoa-Tabbouleh.php" class="recipe_a">Blood Orange And Hemp Seed Quinoa Tabbouleh</a>
@@ -893,7 +928,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Molasses-Baked-Beans.php">
             <div class="recipe_gallery breakfast" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="molasses" src="images/recipe/Molasses Baked Beans.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Molasses-Baked-Beans.php" class="recipe_a">Molasses Baked Beans</a>
@@ -902,7 +937,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Stovetop-Popcorn-With-A-Baked-Orange-Glaze.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="stovetop" src="images/recipe/Stovetop Popcorn With A Baked Orange Glaze.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Stovetop-Popcorn-With-A-Baked-Orange-Glaze.php" class="recipe_a">Stovetop Popcorn With A Baked Orange Glaze</a>
@@ -911,7 +946,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Spinach-And-Kale-Saag-With-Spiced-Roast-Potatoes-And-Cauliflower.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="spinach" src="images/recipe/Spinach And Kale Saag With Spiced Roast Potatoes And Cauliflower.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Spinach-And-Kale-Saag-With-Spiced-Roast-Potatoes-And-Cauliflower.php" class="recipe_a">Spinach And Kale Saag With Spiced Roast Potatoes And Cauliflower</a>
@@ -920,7 +955,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Vegan-Rice-Pudding-With-Caramelized-Blood-Oranges-And-Pistachios.php">
             <div class="recipe_gallery breakfast" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="vegan_rice" src="images/recipe/Vegan Rice Pudding With Caramelized Blood Oranges And Pistachios.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Vegan-Rice-Pudding-With-Caramelized-Blood-Oranges-And-Pistachios.php" class="recipe_a">Vegan Rice Pudding With Caramelized Blood Oranges And Pistachios</a>
@@ -929,7 +964,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Peanut-Glazed-Swede-With-Green-Cabbage-And-Chilli-Noodles.php">
             <div class="recipe_gallery lunch dinner" data-worth="0.5">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="peanut" src="images/recipe/Peanut Glazed Swede With Green Cabbage And Chilli Noodles.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Peanut-Glazed-Swede-With-Green-Cabbage-And-Chilli-Noodles.php" class="recipe_a">Peanut Glazed Swede With Green Cabbage And Chilli Noodles</a>
@@ -938,7 +973,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Baked-Black-Kale-Falafels.php">
             <div class="recipe_gallery breakfast" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="baked_black_kale" src="images/recipe/Baked Black Kale Falafels.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Baked-Black-Kale-Falafels.php" class="recipe_a">Baked Black Kale Falafels</a>
@@ -947,7 +982,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Vegan-Banana-Pancakes-With-A-Smashed-Blueberry-Sauce.php">
             <div class="recipe_gallery breakfast lunch" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch">
                     <img id="vegan_banana" src="images/recipe/Vegan Banana Pancakes With A Smashed Blueberry Sauce.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Vegan-Banana-Pancakes-With-A-Smashed-Blueberry-Sauce.php" class="recipe_a">Vegan Banana Pancakes With A Smashed Blueberry Sauce</a>
@@ -956,7 +991,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="white_wine" src="images/recipe/White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="White-Wine-And-Mushroom-Cashew-Rigatoni-With-Steamed-Spring-Greens.php" class="recipe_a">White Wine And Mushroom Cashew Rigatoni With Steamed Spring Greens</a>
@@ -965,7 +1000,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Speedy-Vegan-Chocolate-Mug-Cake.php">
             <div class="recipe_gallery breakfast lunch" data-worth="4">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch">
                     <img id="speedy_vegan" src="images/recipe/Speedy Vegan Chocolate Mug Cake.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Speedy-Vegan-Chocolate-Mug-Cake.php" class="recipe_a">Speedy Vegan Chocolate Mug Cake</a>
@@ -974,7 +1009,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Sweet-Potato-Rosti-With-Smokey-Black-Beans-And-Blackened-Spring-Onion-Corn-And-Tomato-Salsa.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="sweet_potato" src="images/recipe/Sweet Potato Rosti With Smokey Black Beans And Blackened Spring Onion, Corn And Tomato Salsa.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Sweet-Potato-Rosti-With-Smokey-Black-Beans-And-Blackened-Spring-Onion-Corn-And-Tomato-Salsa.php" class="recipe_a">Sweet Potato Rosti With Smokey Black Beans And Blackened Spring Onion, Corn And Tomato Salsa</a>
@@ -983,7 +1018,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Summer-Minestrone.php">
             <div class="recipe_gallery lunch dinner" data-worth="1.5">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="summer" src="images/recipe/Summer Minestrone.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Summer-Minestrone.php" class="recipe_a">Summer Minestrone</a>
@@ -992,7 +1027,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Roasted-Red-Pepper-And-Tomato-Bread-Soup.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="roasted_red" src="images/recipe/Roasted Red Pepper And Tomato Bread Soup.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Roasted-Red-Pepper-And-Tomato-Bread-Soup.php" class="recipe_a">Roasted Red Pepper And Tomato Bread Soup</a>
@@ -1001,7 +1036,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Buckwheat-And-Peach-Salad-With-French-Beans-And-Balsamic-Glaze.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="buckwheat" src="images/recipe/Buckwheat And Peach Salad With French Beans And Balsamic Glaze.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Buckwheat-And-Peach-Salad-With-French-Beans-And-Balsamic-Glaze.php" class="recipe_a">Buckwheat And Peach Salad With French Beans And Balsamic Glaze</a>
@@ -1010,7 +1045,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Braised-Courgettes-With-Haricot-Beans-And-Pistou.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="braised" src="images/recipe/Braised Courgettes With Haricot Beans And Pistou.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Braised-Courgettes-With-Haricot-Beans-And-Pistou.php" class="recipe_a">Braised Courgettes With Haricot Beans And Pistou</a>
@@ -1019,7 +1054,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Tomato-Galette-With-Garlic-Whipped-Tahini-And-Fried-Olives.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="tomato" src="images/recipe/Tomato Galette With Garlic Whipped Tahini And Fried Olives.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Tomato-Galette-With-Garlic-Whipped-Tahini-And-Fried-Olives.php" class="recipe_a">Tomato Galette With Garlic Whipped Tahini And Fried Olives</a>
@@ -1028,7 +1063,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Fresh-Tomato-And-White-Bean-Summer-Stew-With-Fried-Aubergine.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="fresh_tomato" src="images/recipe/Fresh Tomato And White Bean Summer Stew With Fried Aubergine.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Fresh-Tomato-And-White-Bean-Summer-Stew-With-Fried-Aubergine.php" class="recipe_a">Fresh Tomato And White Bean Summer Stew With Fried Aubergine</a>
@@ -1037,7 +1072,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Chillied-Rice-With-Zaatar-Roast-Chickpeas-And-Flat-Beans.php">
             <div class="recipe_gallery lunch dinner" data-worth="2.5">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="chillied" src="images/recipe/Chillied Rice With Zaatar Roast Chickpeas And Flat Beans.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Chillied-Rice-With-Zaatar-Roast-Chickpeas-And-Flat-Beans.php" class="recipe_a">Chillied Rice With Zaatar Roast Chickpeas And Flat Beans</a>
@@ -1046,7 +1081,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Sticky-Chinese-Five-Spice-Vegetable-Stir-Fry.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="sticky" src="images/recipe/Sticky Chinese Five Spice Vegetable Stir Fry.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Sticky-Chinese-Five-Spice-Vegetable-Stir-Fry.php" class="recipe_a">Sticky Chinese Five Spice Vegetable Stir Fry</a>
@@ -1055,7 +1090,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Spelt-And-Courgette-Summer-Soup.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="spelt" src="images/recipe/Spelt And Courgette Summer Soup.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Spelt-And-Courgette-Summer-Soup.php" class="recipe_a">Spelt And Courgette Summer Soup</a>
@@ -1064,7 +1099,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Moroccan-Spiced-Tomato-Lentils-With-Grilled-Courgettes.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="moroccan" src="images/recipe/Moroccan Spiced Tomato Lentils With Grilled Courgettes.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Moroccan-Spiced-Tomato-Lentils-With-Grilled-Courgettes.php" class="recipe_a">Moroccan Spiced Tomato Lentils With Grilled Courgettes</a>
@@ -1073,7 +1108,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Spinach-And-Red-Pepper-Thai-Curry.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="spinach" src="images/recipe/Spinach And Red Pepper Thai Curry.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Spinach-And-Red-Pepper-Thai-Curry.php" class="recipe_a">Spinach And Red Pepper Thai Curry</a>
@@ -1082,7 +1117,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Balsamic-Roasted-Fennel-With-A-Bulgur-And-Herb-Salad.php">
             <div class="recipe_gallery lunch dinner" data-worth="3">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="balsamic" src="images/recipe/Balsamic Roasted Fennel With A Bulgur And Herb Salad.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Balsamic-Roasted-Fennel-With-A-Bulgur-And-Herb-Salad.php" class="recipe_a">Balsamic Roasted Fennel With A Bulgur And Herb Salad</a>
@@ -1091,7 +1126,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Heritage-Tomato-And-Couscous-Salad-With-Toasted-Thyme-Breadcrumbs.php">
             <div class="recipe_gallery lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="heritage" src="images/recipe/Heritage Tomato And Couscous Salad With Toasted Thyme Breadcrumbs.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Heritage-Tomato-And-Couscous-Salad-With-Toasted-Thyme-Breadcrumbs.php" class="recipe_a">Heritage Tomato And Couscous Salad With Toasted Thyme Breadcrumbs</a>
@@ -1100,7 +1135,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Cashew-And-Wild-Garlic-Alfredo-With-Rigatoni.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="cashew" src="images/recipe/Cashew And Wild Garlic Alfredo With Rigatoni.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Cashew-And-Wild-Garlic-Alfredo-With-Rigatoni.php" class="recipe_a">Cashew And Wild Garlic Alfredo With Rigatoni</a>
@@ -1109,7 +1144,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Kale-And-Fresh-Mint-Soup.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="kale" src="images/recipe/Kale And Fresh Mint Soup.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Kale-And-Fresh-Mint-Soup.php" class="recipe_a">Kale And Fresh Mint Soup</a>
@@ -1118,7 +1153,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Spiced-Turnip-And-Chickpea-Couscous.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
-                <li class="recipe_li">
+                <li class="recipe_li lunch dinner">
                     <img id="spiced" src="images/recipe/Spiced Turnip And Chickpea Couscous.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Spiced-Turnip-And-Chickpea-Couscous.php" class="recipe_a">Spiced Turnip And Chickpea Couscous</a>
@@ -1127,7 +1162,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Gigli-With-Salted-Purple-Sprouting-Broccoli.php">
             <div class="recipe_gallery breakfast lunch dinner" data-worth="2">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast lunch dinner">
                     <img id="gigli" src="images/recipe/Gigli With Salted Purple Sprouting Broccoli.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/tree_icon.png" height="20"/><img src="images/tree_icon.png" height="20"/><br>
                     <a href="Gigli-With-Salted-Purple-Sprouting-Broccoli.php" class="recipe_a">Gigli With Salted Purple Sprouting Broccoli</a>
@@ -1136,7 +1171,7 @@ foreach ($recommendQuery as $row) {
         </a>
         <a href="Homemade-Gnocchi.php">
             <div class="recipe_gallery breakfast" data-worth="0.5">
-                <li class="recipe_li">
+                <li class="recipe_li breakfast">
                     <img id="homemade" src="images/recipe/Homemade Gnocchi.jpg" class="image recipe_img">
                     <p class="recipe_tree" style="display: inline-block;margin: 0;">Tree&nbsp;</p><img src="images/half_tree_icon.png" height="20"/><br>
                     <a href="Homemade-Gnocchi.php" class="recipe_a">Homemade Gnocchi</a>

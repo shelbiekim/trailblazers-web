@@ -356,7 +356,7 @@
                                 ?>
                             </select>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name2">
-                                <option data-tokens="" disabled selected>Select Dairy</option>
+                                <option data-tokens="">Select Dairy</option>
                                 <?php
                                 foreach($dairyArr as $row) {
                                     $food_name = $row['food_name'];
@@ -365,7 +365,7 @@
                                 ?>
                             </select>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name3">
-                                <option data-tokens="" disabled selected>Select Other</option>
+                                <option data-tokens="">Select Other</option>
                                 <?php
                                 foreach($breakfastArr as $row) {
                                     $food_name = $row['food_name'];
@@ -376,7 +376,7 @@
                             <br><br>
                             <h4 class="selectMenu" style="color: #000000;">LUNCH</h4>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name4">
-                                <option data-tokens="" disabled selected>Select Vegetables</option>
+                                <option data-tokens="">Select Vegetables</option>
                                 <?php
                                 foreach($vegeArr as $row) {
                                     $food_name = $row['food_name'];
@@ -385,7 +385,7 @@
                                 ?>
                             </select>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name5">
-                                <option data-tokens="" disabled selected>Select Meats</option>
+                                <option data-tokens="">Select Meats</option>
                                 <?php
                                 foreach($meatArr as $row) {
                                     $food_name = $row['food_name'];
@@ -394,7 +394,7 @@
                                 ?>
                             </select>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name6">
-                                <option data-tokens="" disabled selected>Select Other</option>
+                                <option data-tokens="">Select Other</option>
                                 <?php
                                 foreach($otherArr as $row) {
                                     $food_name = $row['food_name'];
@@ -405,7 +405,7 @@
                             <br><br>
                             <h4 class="selectMenu" style="color: #000000;">DINNER</h4>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name7">
-                                <option data-tokens="" disabled selected>Select Vegetables</option>
+                                <option data-tokens="">Select Vegetables</option>
                                 <?php
                                 foreach($vegeArr as $row) {
                                     $food_name = $row['food_name'];
@@ -414,7 +414,7 @@
                                 ?>
                             </select>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name8">
-                                <option data-tokens=""  disabled selected>Select Meats</option>
+                                <option data-tokens="">Select Meats</option>
                                 <?php
                                 foreach($meatArr as $row) {
                                     $food_name = $row['food_name'];
@@ -423,7 +423,7 @@
                                 ?>
                             </select>
                             <select class="selectpicker" data-show-subtext="true" data-live-search="true" id="food_name9">
-                                <option data-tokens=""  disabled selected>Select Other</option>
+                                <option data-tokens="">Select Other</option>
                                 <?php
                                 foreach($otherArr as $row) {
                                     $food_name = $row['food_name'];
@@ -439,7 +439,7 @@
                     <div class="6u align-center" id="bar_chart_icon">
                         <br><br><br>
                         <img src="images/bar_chart_icon.png" width="150px"/></a><br><br>
-                        <p style="font-weight: bold;">Click on the FIND OUT YOUR FOOTPRINT button<br>to see your footprint</p>
+                        <p>Click on the <span style="font-weight: bold;">FIND OUT YOUR FOOTPRINT</span>&nbsp;button<br>to see your footprint</p>
                     </div>
                     <div class="6u">
                         <canvas id="myChart" width="60" height="40"></canvas>
