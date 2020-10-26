@@ -1583,6 +1583,9 @@
 		font-family: "Roboto", Helvetica, sans-serif;
 		font-size: 12pt;
 		font-weight: 300;
+		height: auto;
+		max-height: 200px;
+		overflow-x: hidden;
 	}
 
 	.search-bar {
@@ -1818,6 +1821,11 @@
 		justify-content: space-between;
 	}
 
+	.disclaimer i.glyphicon-exclamation-sign {
+		color: #FFAF11;
+		display: inline-block;
+	}
+
 	.popup_box i.glyphicon-exclamation-sign{
 		font-size:30px;
 		color: #FFAF11;
@@ -1866,6 +1874,11 @@
 		margin-bottom: 170px;
 	}
 
+	.not-found-category {
+		margin-top: 50px;
+		margin-bottom: 170px;
+	}
+
 	@media print {
 		.tab-content > .tab-pane {
 			display: block !important;
@@ -1877,5 +1890,6 @@
 	.table-responsive {
 		overflow: inherit;
 	}
+
 
 
