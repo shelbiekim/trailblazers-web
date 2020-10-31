@@ -3,18 +3,21 @@
     define("DB_user","root");
     define("DB_password","toor33"); //toor33
     define("DB_name","phpmyadmin");
+    // connect to the database using credentials defined above
     function db_connect(){
         $connection = mysqli_connect(DB_server,DB_user,DB_password,DB_name);
         return $connection;
     };
     $db = db_connect();
+
+    // get distinct fruit names to be displayed in the select box
     $distinctFruits= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Fruits' ORDER BY food_name ASC";
     $fruitsQuery = mysqli_query($db,$distinctFruits);
     $fruitsArr = array();
     foreach ($fruitsQuery as $row) {
         $fruitsArr[] = $row;
     }
-
+    // get distinct dairy and eggs names to be displayed in the select box
     $distinctDairy= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Dairy and Eggs' ORDER BY food_name ASC";
     $dairyQuery = mysqli_query($db,$distinctDairy);
     $dairyArr = array();
@@ -22,6 +25,7 @@
         $dairyArr[] = $row;
     }
 
+    // get distinct food names to be displayed in the select box
     $breakfastOther = $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group != 'Fruits' && food_group != 'Dairy and Eggs' ORDER BY food_name ASC";
     $breakfastQuery = mysqli_query($db,$breakfastOther);
     $breakfastArr = array();
@@ -29,6 +33,7 @@
         $breakfastArr[] = $row;
     }
 
+    // get distinct vegetables names to be displayed in the select box
     $distinctVeges= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Vegetables' ORDER BY food_name ASC";
     $vegeQuery = mysqli_query($db,$distinctVeges);
     $vegeArr = array();
@@ -36,6 +41,7 @@
         $vegeArr[] = $row;
     }
 
+    // get distinct meats names to be displayed in the select box
     $distinctMeat= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group = 'Meats' ORDER BY food_name ASC";
     $meatQuery = mysqli_query($db,$distinctMeat);
     $meatArr = array();
@@ -43,6 +49,7 @@
         $meatArr[] = $row;
     }
 
+    // get distinct food names to be displayed in the select box
     $distinctOther= $sql="SELECT DISTINCT(food_name) FROM combined_data_removed WHERE food_group != 'Vegetables' && food_group != 'Meats' ORDER BY food_name ASC";
     $otherQuery = mysqli_query($db,$distinctOther);
     $otherArr = array();
@@ -50,9 +57,7 @@
         $otherArr[] = $row;
     }
 
-
-
-//query to get data from the table "combined_data"
+    //query to get data from the table "combined_data"
     $totalSet = "SELECT * FROM combined_data_removed ORDER BY food_group ASC";
     //execute query
     $totalQuery = mysqli_query($db, $totalSet);
@@ -62,7 +67,6 @@
     foreach ($totalQuery as $row) {
         $totalArr[] = $row;
     }
-
     //free memory associated with result
     $totalQuery -> close();
     //close connection
@@ -96,13 +100,14 @@
 
         <script type ="text/javascript">
             $(document).ready(function(){
+                // define style, size, and width of selectpicker
                 $('.selectpicker').selectpicker({
                     style: 'btn-default',
                     size: false,
                     width: 'fit'
                 });
             });
-
+            // animate function added to the #down_button when clicked
             $(function(){
                 $("#down_button").click(function(){
                     $('html,body').animate(
@@ -124,7 +129,7 @@
             var dinner = {};
             var myChart;
             var chartExist = false;
-
+            // validate input and fetch data value based on user input
             function validateInput(){
                 var food_arr = [];
 
@@ -175,7 +180,7 @@
                 showfood();
             }
 
-
+            // show the bar chart based on user input
             function showfood(){
                 var chart_x1=["Breakfast","Lunch","Dinner"];
                 var breakfastName=[];
