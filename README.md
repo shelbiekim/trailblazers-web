@@ -38,14 +38,40 @@ Please refer to the Getting Started section in the Maintenance Document.
   * JavaScript Libraries used: html5shiv.js, jquery.min.js, skel.min.js, skel-layers.min.js, init.js, jquery.quiz-min.js
 
 ## Main Functions
+* __carbon_footprint.php__
+  * validateInput(): validate user input and fetch data value based on the selected food item
+  * showFood(): display a bar chart based on selected food items
+* __meal_plan.php__
+  * openDiv(), save(), load(): use localStorage for sidebar user profile
+  * addIngredient(): calculate and return greenhouse gas emissions and calories based on user input
+  * checkNutrientData(): fetch values of nutrients and return them
+  * show_footprint(): display the tree image with dynamic calculation of how many tree are required to offset user's carbon footprint
+  * calculate_calories(): calculate bmr and required calories based on user profile
+  * calculate_nutrient(): calculate daily nutrient recommendation based on user profile
+* __recipes.php__
+  * openDiv(), save(), load(): use localStorage for sidebar user profile
+  * searchFunction(): search and dislay based on user input on the search bar
+  * calculate_calories(): calculate bmr and required calories based on user profile
+  * calculate_nutrient(): calculate daily nutrient recommendation based on user profile
+* __50 recipes php files__
+  * openDiv(), save(), load(): use localStorage for sidebar user profile
+  * calculate_calories(): calculate bmr and required calories based on user profile
+  * calculate_nutrient(): calculate daily nutrient recommendation based on user profile
+  * converTime(): convert time related to cooking and display time in the correct format
+  * findRecipe(): fetch values of serving size and time related to cooking and display them in the correct format
+  * findEmission(): fetch the amount of carbon emissions of the recipe and display them in the correct format
+  * findNutrition(): fetch values of calories, carbohydrates, fat, and protein of the recipe and display them in the correct format
+  * getRecipeNutrient(): calculate nutrient amount based on the serving size the user enters
+  * findIngredients(): fetch required ingredients of the recipe and display them in the correct format
+  * findInstructions(): fetch instructions of the recipe and display them in the correct format
 
 ## Features
-List of features and respective page
-* Find out your present carbon footprint - What’s Your Footprint?
-* Determine your daily energy requirements through our BMR Calculator - Step 1 on Meal Planning
-* Build your personalised meal plans by using our Footprint Calculator feature to find out how many trees are required to offset your meal's carbon footprint - Step 2 on Meal Planning tab
-* Discover healthy, vegetarian, carbon-deficient recipes - Recipes tab
-* Allows users to test their knowledge around the topic “Carbon footprints” - Facts tab
+List of pages and respective features
+* __What’s Your Footprint?__ - Find out your present carbon footprint 
+* __Meal Planning (Step 1)__ - Determine your daily energy requirements through our BMR Calculator 
+* __Meal Planning (Step 2)__ - Build your personalised meal plans by using our Footprint Calculator feature to find out how many trees are required to offset your meal's carbon footprint
+* __Recipes__ - Discover healthy, vegetarian, carbon-deficient recipes 
+* __Facts__ - Allows users to test their knowledge around the topic “Carbon footprints” 
 
 ## Status
 Project is finished.
