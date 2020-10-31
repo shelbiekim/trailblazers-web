@@ -25,11 +25,16 @@ Url: [greendiets.tk](#https://greendiets.tk/)
 Please refer to the Getting Started section in the Maintenance Document.
 
 ## Description 
-* index.html: this is the Home page where the end users will land on.
-* carbon_footprint.php
-* meal_plan.php
+* index.html: this is the Home page where the end users will land on after entering "greendiets.tk" in the Internet Browser. Here, users can take different actions to browse our features. 
+  * JavaScript Libraries used: html5shiv.js, jquery.min.js, skel.min.js, skel-layers.min.js, init.js
+* carbon_footprint.php: this is the What's Your Footprint page where users can find out their current carbon footprint by entering what they normally have for a day. 
+  * JavaScript Libraries used: html5shiv.js, jquery.min.js, bootstrap.min.js, bootstrap-select.min.js, skel.min.js, skel-layers.min.js, init.js, Chart.min.js
+* meal_plan.php: this is the Meal Planning page where users can build their own recipes adding food.
+  * JavaScript Libraries used: html5shiv.js, jquery.min.js, bootstrap.min.js, bootstrap-select.min.js, skel.min.js, skel-layers.min.js, init.js, savy.min.js, bootstrapValidator.min.js
 * recipes.php
-* facts.html
+  * JavaScript Libraries used: html5shiv.js, jquery.min.js, bootstrap.min.js, bootstrap-select.min.js, skel.min.js, skel-layers.min.js, init.js, savy.min.js, bootstrapValidator.min.js
+* facts.html: this is the Facts page where users can get to know more about carbon footprint and test their knowledge with the quiz. 
+  * JavaScript Libraries used: html5shiv.js, jquery.min.js, skel.min.js, skel-layers.min.js, init.js, jquery.quiz-min.js
 
 ## Main Functions
 
