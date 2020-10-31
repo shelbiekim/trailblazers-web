@@ -3,26 +3,27 @@ define("DB_server","localhost");
 define("DB_user","root");
 define("DB_password","toor33"); //toor33
 define("DB_name","phpmyadmin");
+// connect to the database using credentials defined above
 function db_connect(){
     $connection = mysqli_connect(DB_server,DB_user,DB_password,DB_name);
     return $connection;
 };
 $db = db_connect();
-
+// get calories data from combined_data table
 $calorieData = "SELECT * FROM combined_data WHERE nutrient='Energy_kcal' ORDER BY food_name ASC";
 $calorieQuery = mysqli_query($db,$calorieData);
 $calorieArray = array();
 foreach ($calorieQuery as $row) {
     $calorieArray[] = $row;
 }
-
+// get nutrient data from combined_data table
 $nutrientData = "SELECT * FROM combined_data WHERE nutrient!='Energy_kcal' and nutrient!= 'sum_emission' ORDER BY food_name ASC";
 $nutrientQuery = mysqli_query($db,$nutrientData);
 $nutrientArray = array();
 foreach ($nutrientQuery as $row) {
     $nutrientArray[] = $row;
 }
-
+// get daily nutrient requirements from nutrient_recommender table
 $recommendData = "SELECT * FROM nutrient_recommender WHERE type='Normal' ORDER BY gender ASC";
 $recommendQuery = mysqli_query($db,$recommendData);
 $recommendArray = array();
@@ -57,7 +58,9 @@ foreach ($recommendQuery as $row) {
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery.bootstrapvalidator/0.5.3/js/bootstrapValidator.min.js"></script>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-select@1.13.14/dist/css/bootstrap-select.min.css">
     <script type="text/javascript">
-        // searchFucntion() is called when type in Search box
+        // the number of recipes available is 50
+        var globalValue = 50;
+        // searchFunction() is called when type in Search box
         function searchFunction() {
             var match, input, filter, ul, li, a, i;
             match = false;
@@ -76,15 +79,29 @@ foreach ($recommendQuery as $row) {
                     li[i].style.display='none';
                 }
             }
-            // show Recipe not available conditionally
+
+            /* show Recipe not available conditionally */
             if (match === false) {
                 document.querySelector('.not-found').style.display='block';
             } else {
                 document.querySelector('.not-found').style.display='none';
             }
+            globalValue = $('.recipe_main_container ul li:visible').length;
+            /*
+            $(function(){
+                recipe_visible_function = function(){}
+                if(globalValue < 1) {
+                    document.querySelector('.not-found').style.display='block';
+                } else {
+                    document.querySelector('.not-found').style.display='none';
+                }
+            });*/
+            console.log("searchfunction: " + globalValue);
+
         }
 
         $(document).ready(function(){
+
             // scroll to top
             const toTop = document.querySelector(".to-top");
             window.addEventListener("scroll",() => {
@@ -95,8 +112,9 @@ foreach ($recommendQuery as $row) {
                 }
             })
 
-            //filtering button for ALL, BREAFKAST, LUNCH, DINNER
+            // filtering button for ALL, BREAFKAST, LUNCH, DINNER
             $('.recipe_type').click(function(){
+                searchFunction();
                 const value = $(this).attr('data-filter');
                 if (value == 'all') {
                     $('.recipe_gallery').show('1000');
@@ -105,8 +123,16 @@ foreach ($recommendQuery as $row) {
                     $('.recipe_gallery').filter('.'+value).show('1000');
                 }
 
+                if($('.recipe_wrapper li:visible').length < 1) {
+                    document.querySelector('.not-found').style.display='block';
+                } else {
+                    document.querySelector('.not-found').style.display='none';
+                }
+
+                console.log("recipe_type: " + $('.recipe_main_container ul li:visible').length);
             })
-            //add active class on selected item
+
+            // add active class on selected item
             $('.recipe_type').click(function(){
                 $(this).addClass('active').siblings().removeClass('active')
             })
@@ -360,7 +386,7 @@ foreach ($recommendQuery as $row) {
         var selectedRow = null;
         var imgExists = false;
         var imgName = "";
-
+        // calculate bmr and required calories based on user profile
         function calculate_calories() {
             var gender = "";
             var height = parseFloat(document.getElementById("height").value);
@@ -388,7 +414,7 @@ foreach ($recommendQuery as $row) {
             document.getElementById("bar_bmr").innerHTML = bmr + "&nbsp;kcal";
             return bmr;
         }
-
+        // calculate daily nutrient recommendation based on user profile
         function calculate_nutrient(bmr_value) {
             var tempArray;
             var maleArray;
@@ -692,7 +718,7 @@ foreach ($recommendQuery as $row) {
     <div class="not-found" style="display: none;">Recipe not available</div>
 </div>
 
-<div class="container align-center">
+<div class="container align-center recipe_main_container">
     <ul id="recipe_wrapper" class="align-center recipe_wrapper" style="vertical-align: top;text-align: left">
         <a href="Vegan-Pistachio-And-Orange-Baklava.php">
             <div class="recipe_gallery lunch dinner" data-worth="1">
