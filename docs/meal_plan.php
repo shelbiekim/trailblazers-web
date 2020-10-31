@@ -3,42 +3,44 @@ define("DB_server","localhost");
 define("DB_user","root");
 define("DB_password","toor33"); //toor33
 define("DB_name","phpmyadmin");
+// connect to the database using credentials defined above
 function db_connect(){
     $connection = mysqli_connect(DB_server,DB_user,DB_password,DB_name);
     return $connection;
 };
 $db = db_connect();
+// get data from combined_data table containing the amount of total carbon emissions
 $emissionData = "SELECT * FROM combined_data WHERE nutrient='sum_emission' ORDER BY food_name ASC";
 $emissionQuery = mysqli_query($db,$emissionData);
 $emissionArray = array();
 foreach ($emissionQuery as $row) {
     $emissionArray[] = $row;
 }
-
+// get data from combined_data table containing the amount of calories
 $calorieData = "SELECT * FROM combined_data WHERE nutrient='Energy_kcal' ORDER BY food_name ASC";
 $calorieQuery = mysqli_query($db,$calorieData);
 $calorieArray = array();
 foreach ($calorieQuery as $row) {
     $calorieArray[] = $row;
 }
-
+// get data from combined_data table containing the amount of nutrients
 $nutrientData = "SELECT * FROM combined_data WHERE nutrient!='Energy_kcal' and nutrient!= 'sum_emission' ORDER BY food_name ASC";
 $nutrientQuery = mysqli_query($db,$nutrientData);
 $nutrientArray = array();
 foreach ($nutrientQuery as $row) {
     $nutrientArray[] = $row;
 }
-
+// get data from nutrient_recommender table containing the daily recommendations
 $recommendData = "SELECT * FROM nutrient_recommender WHERE type='Normal' ORDER BY gender ASC";
 $recommendQuery = mysqli_query($db,$recommendData);
 $recommendArray = array();
 foreach ($recommendQuery as $row) {
     $recommendArray[] = $row;
 }
-
+// get distinct food groups from combined_data table
 $sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
 $result=mysqli_query($db,$sql);
-
+// fill in select box in the meal plan
 function fill_select_box(){
     $db = db_connect();
     $sql="SELECT DISTINCT(food_group) FROM combined_data ORDER BY food_group ASC";
@@ -91,7 +93,7 @@ function fill_select_box(){
             var pbFat = 0;
             var pbProtein = 0;
 
-            // initialise pb first
+            // initialise pb (progress bar) first
             class ProgressBar {
                 constructor(element, initialValue=0) {
                     this.valueElem = element.querySelector('.progress-bar-value');
@@ -119,13 +121,13 @@ function fill_select_box(){
 
                 }
             }
-
+            // initial value of the progress bar is set to 0
             const pb1 = new ProgressBar(document.querySelector('.progress-bar-energy'), 0);
             const pb2 = new ProgressBar(document.querySelector('.progress-bar-carb'), 0);
             const pb3 = new ProgressBar(document.querySelector('.progress-bar-fat'), 0);
             const pb4 = new ProgressBar(document.querySelector('.progress-bar-protein'), 0);
 
-            //use localStorage - openDiv(), save(), load() - for sidebar profile
+            // use localStorage - openDiv(), save(), load() - for sidebar profile
             function openDiv() {
                 var profile = document.getElementById("total_result2");
                 var stepOne = document.getElementById("bmr_calculator_form")
@@ -198,13 +200,12 @@ function fill_select_box(){
                     openDiv();
                 }
             }
-
             load();
             // auto save function to keep the value after reloading the page
             $(function(){
                 $('.auto_save').savy('load');
             });
-
+            // define style, size of the selectpicker
             $('.selectpicker').selectpicker({
                 style: 'btn-default',
                 size: false,
@@ -595,7 +596,7 @@ function fill_select_box(){
         var imgExists = false;
         var imgName = "";
 
-        // function add() or save() calls addIngredient()
+        // add food based on user input
         function addIngredient(foodName, unitChosen, weight) {
             var ingredient = foodName;
             var unit = unitChosen;
@@ -639,7 +640,7 @@ function fill_select_box(){
             }
             return [finalValue, finalCalorie];
         }
-
+        // check nutrient data based on user input
         function checkNutrientData(nutrientDict){
             var carbDict = {};
             var fatDict = {};
@@ -692,18 +693,18 @@ function fill_select_box(){
 
             return totalNutrient;
         }
-
+        // show tree image
         function show_footprint(totalGas){
             //in tonnes
             document.getElementById("tree_image").style.display="block";
             document.getElementById("img_tree").style.display="block";
             imgExists = true;
         }
-
+        // hide based on the id
         function onSelected(id){
             document.getElementById(id).style.visibility ="hidden";
         }
-
+        // check if row exists
         function checkRow () {
             if (rowExists)
             {
@@ -718,7 +719,7 @@ function fill_select_box(){
                 imgExists = false;
             }
         }
-
+        // calculate calories required based on user profile
         function calculate_calories() {
             var gender = "";
             var height = parseFloat(document.getElementById("height").value);
@@ -746,7 +747,7 @@ function fill_select_box(){
             document.getElementById("bar_bmr").innerHTML = bmr + "&nbsp;kcal";
             return bmr;
         }
-
+        // calculate nutrient based on bmr value
         function calculate_nutrient(bmr_value) {
             var tempArray;
             var maleArray;
@@ -779,7 +780,7 @@ function fill_select_box(){
             document.getElementById("bar_protein_bmr").innerHTML = nutriArray[1] + "&nbsp;g";
             return nutriArray;
         }
-
+        // check age and reset gender array
         function checkAge(userAge, userArray){
             var genderArray = userArray;
 
@@ -818,7 +819,7 @@ function fill_select_box(){
             }
             return genderArray;
         }
-
+        // check nutrient based on user array and bmr value
         function checkNutrient(userArray, bmr_value){
             var nutriArray = []; // Fats, Proteins, Vitamin A, Vitamin C, Vitamin E, Calcium, Carbohydrates,
             var nutriCarbo;
